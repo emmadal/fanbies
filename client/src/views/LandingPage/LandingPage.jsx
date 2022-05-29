@@ -199,59 +199,21 @@ class LandingPage extends React.Component {
                 <h3 className="h3 dark-color">Official Charity Partners</h3>
               </GridItem>
               <GridItem
-                      xs={12}
-                      sm={12}
-                      md={12}
-                      className="content-center"
-                    >
-                      <img
-                        src={urbanlawyers}
-                        style={{
-                          width: "200px",
-                          height: "140px",
-                          position: "relative",
-                          alignItems: "center"
-                        }}
-                        alt="Fanbies Partner Urban Lawyer"
-                      />
-                    </GridItem>
-            </GridContainer>
-            <GridContainer className="undraw-bg undraw-bg-fan">
-              <GridItem className="content-center" xs={12} sm={12} md={12}>
-                <h3 className="h3 dark-color">Available on mobile app</h3>
-              </GridItem>
-              <GridItem className="content-center" xs={12} sm={12} md={12}>
-                <Button
-                  size="lg"
-                  color="primary"
-                  simple
-                  className="font-size-lg"
-                  onClick={() =>
-                    window.open(
-                      "https://play.google.com/store/apps/details?id=com.fanbiesadmin.app",
-                      "_blank"
-                    )
-                  }
-                >
-                  <i className="fab fa-google-play" />
-                  Google Play
-                </Button>
-
-                <Button
-                  size="lg"
-                  color="primary"
-                  simple
-                  className="font-size-lg"
-                  onClick={() =>
-                    window.open(
-                      "https://apps.apple.com/gb/app/fanbies/id1145891462",
-                      "_blank"
-                    )
-                  }
-                >
-                  <i className="fab fa-apple" />
-                  Apple Store
-                </Button>
+                xs={12}
+                sm={12}
+                md={12}
+                className="content-center m-b-lg"
+              >
+                <img
+                  src={urbanlawyers}
+                  style={{
+                    width: "200px",
+                    height: "140px",
+                    position: "relative",
+                    alignItems: "center"
+                  }}
+                  alt="Fanbies Partner Urban Lawyer"
+                />
               </GridItem>
             </GridContainer>
           </div>

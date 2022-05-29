@@ -10,6 +10,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 // core components
 import Button from "components/CustomButtons/Button.jsx";
+import CustomDropdown from "components/CustomDropdown/CustomDropdown.jsx";
 
 import headerLinksStyle from "assets/jss/material-kit-react/components/headerLinksStyle.jsx";
 
@@ -79,42 +80,48 @@ function HeaderLinks({ ...props }) {
         </Tooltip>
       </ListItem> */}
       <ListItem className={classes.listItem}>
-        <Button
-          href="/join"
-          color="transparent"
-          className="top-0"
-        >
-          <i className="material-icons">
-            group_add
-          </i> Join as Influencer
-        </Button>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <Button
-          href="/recommend"
-          color="transparent"
-          className="top-0"
-        >
-          <i className="material-icons">
-            mood
-          </i> Recommend an Influencer
-        </Button>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <Button
-          href="/f/1"
-          color="transparent"
-          className="top-0"
-        >
-          <i className="material-icons">
-            search
-          </i>Search For Influencers
-        </Button>
+        <CustomDropdown
+          buttonText="For Influencer"
+          dropdownHeader="Fanbies Influencer"
+          buttonProps={{
+            className: classes.navLink,
+            color: "transparent"
+          }}
+          dropdownList={[
+            <Button
+              href="/join"
+              color="transparent"
+              className="top-0 p-a-sm m-a-none"
+            >
+            <i className="material-icons">
+              group_add
+            </i> Join as Influencer
+          </Button>,
+            <Button
+              href="/recommend"
+              color="transparent"
+              className="top-0 p-a-sm m-a-none"
+            >
+              <i className="material-icons">
+                mood
+              </i> Recommend an Influencer
+            </Button>,
+            <Button
+              href="/f/1"
+              color="transparent"
+              className="top-0 p-a-sm m-a-none"
+            >
+              <i className="material-icons">
+                search
+              </i>Search For Influencers
+            </Button>
+          ]}
+        />
       </ListItem>
         {
           username.length !== 0 ? (
           <React.Fragment>
-            {
+            {/* { Direct message to other users
               usertype === '2' && 
                 <ListItem className={`${classes.listItem}`}>
                   <Button
@@ -127,7 +134,7 @@ function HeaderLinks({ ...props }) {
                     </i>
                   </Button>
                 </ListItem>
-              }
+              } */}
               <ListItem className={`${classes.listItem}`}>         
                 <Link
                   className="top-15 pos-rel"
@@ -139,7 +146,7 @@ function HeaderLinks({ ...props }) {
                     alt={`${username}`}
                     className={`header-profile-pic`}
                   /> 
-                <span className="font-size-md font-bold info-color text-ellipsis d-inline-block width-50">
+                <span className="m-h-md font-size-md font-bold info-color d-inline-block">
                   Hi, {uname}</span>
                 </Link>
               </ListItem>
