@@ -28,11 +28,11 @@ function Footer({ ...props }) {
           <List className={classes.list}>
             <ListItem className={classes.inlineBlock}>
               <a
-                href="http://www.soulsapp.com"
+                // href="http://www.soulsapp.com"
                 className={classes.block}
                 target="_blank"
               >
-                Soulsapp
+                Fanbies
               </a>
             </ListItem>
           </List>
@@ -41,11 +41,11 @@ function Footer({ ...props }) {
           &copy; {1900 + new Date().getYear()} , made with{" "}
           <Favorite className={classes.icon} /> by{" "}
           <a
-            href="http://www.soulsapp.com"
+            // href="http://www.soulsapp.com"
             className={aClasses}
             target="_blank"
           >
-            Soulsapp
+            Fanbies
           </a>{" Connect with us on our socials "}{" "}
           <a
             color="transparent"

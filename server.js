@@ -117,6 +117,11 @@ const firetoken = require('./routes/firetoken');
 const uploadfeedsdata = require('./routes/uploadfeedsdata');
 const deletes3Obj = require('./routes/deletes3data');
 const getuserfeeds = require('./routes/getuserfeedbyid')
+// My Links
+const createlink = require('./routes/addnewlink');
+const deletelinkbyid = require('./routes/deletelinkbyid');
+const owneredlinks = require('./routes/getlinksbyusername');
+const updatelink = require('./routes/updateuserlink');
 
 //App APi
 const updateusershoutrate = require('./routes/updateusershoutrate')
@@ -215,6 +220,13 @@ app.use('/okiki/api/validatevideocallreservetoken', validatevideocallreservetoke
 app.use('/okiki/api/uploadfeed', uploadfeedsdata)
 app.use('/okiki/api/deletefeedbyid', deletes3Obj)
 app.use('/okiki/api/getuserfeeds', getuserfeeds)
+
+// Add new Link 
+app.use('/okiki/api/createuserlink', createlink)
+app.use('/okiki/api/deletelink', deletelinkbyid)
+app.use('/okiki/api/owneredlinks', owneredlinks)
+app.use('/okiki/api/updatelink', updatelink)
+
 //App Api
 app.use('/okiki/api/updaterate', updateusershoutrate)
 //

@@ -57,7 +57,7 @@ class TermsandCondition extends React.Component {
                     </p>
                     <h4 className="font-bold">Terms of Service</h4>
                     <p>
-                      You may only use the website for legitimate and proper purposes. This agreement must be read in conjunction with the Privacy Policy. You can view the Privacy Policy here. The site is owned and operated by SoulsApp Ltd the owners of Fanbies platform, and Soulsapp Ltd may revise this agreement from time to time.
+                      You may only use the website for legitimate and proper purposes. This agreement must be read in conjunction with the Privacy Policy. You can view the Privacy Policy here. The site is owned and operated by Fanbies the owners of Fanbies platform, and Fanbies may revise this agreement from time to time.
                     </p>
                     <h4 className="font-bold">Use of the Platform Internationally</h4>
                     <p>
