@@ -1,33 +1,33 @@
 export default function renderDateStamp(stamp) {
-    // Convert timestamp to milliseconds
-    var months_arr = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
-    ];
+  // Convert timestamp to milliseconds
+  var months_arr = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ];
 
-    var date = new Date(stamp * 1000);
+  var date = new Date(stamp * 1000);
 
-    // Year
-    var year = date.getFullYear();
+  // Year
+  var year = date.getFullYear();
 
-    // Month
-    var month = months_arr[date.getMonth()];
+  // Month
+  var month = months_arr[date.getMonth()];
 
-    // Day
-    var day = date.getDate();
+  // Day
+  var day = date.getDate();
 
-    // Display date time in MM-dd-yyyy h:m:s format
-    const convdataTime = `${month}-${day}-${year}`;
+  // Display date time in MM-dd-yyyy h:m:s format
+  const convdataTime = `${month}-${day}-${year}`;
 
-    return convdataTime;
-  };
+  return convdataTime;
+}

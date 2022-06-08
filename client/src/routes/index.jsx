@@ -31,6 +31,9 @@ import VideoFulfillment from "views/RequestPage/StartVideocall.jsx";
 import Articles from "views/Articles/index.jsx";
 import ArticleWhyOffer1vs1Call from "views/Articles/WhyOffer1vs1.jsx";
 
+//New Page
+import SettingsPage from "views/ProfilePage/SettingsPage.jsx";
+
 var indexRoutes = [
   { path: "/f", name: "SearchPage", component: SearchPage },
   { path: "/join", name: "Join", component: Join },
@@ -112,6 +115,11 @@ var indexRoutes = [
     path: "/article/WhyOffer1vs1Call",
     name: "OfferCallArticle",
     component: ArticleWhyOffer1vs1Call
+  },
+  {
+    path: "/settings",
+    name: "Settings",
+    component: SettingsPage
   },
   { path: "/dashboard", name: "LandingPage", component: LandingPage },
   { path: "/user/:username", name: "ProfilePage", component: ProfilePage },

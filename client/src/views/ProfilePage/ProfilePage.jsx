@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import FormData from "form-data";
 import _ from "lodash";
@@ -11,21 +11,16 @@ import configApi from "../../services/config.json";
 import AddPhotoAlternate from "@material-ui/icons/AddPhotoAlternate";
 import VideoLibrary from "@material-ui/icons/VideoLibrary";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
-import InsertPhoto from "@material-ui/icons/InsertPhoto"
-import PhoneInTalk from "@material-ui/icons/PhoneInTalk";
 import Camera from "@material-ui/icons/Camera";
 import PlayCircleOutline from "@material-ui/icons/PlayCircleOutline";
+import PhoneInTalk from "@material-ui/icons/PhoneInTalk";
 import FullScreen from "@material-ui/icons/Fullscreen";
 import Subscriptions from "@material-ui/icons/Subscriptions";
-import DashboardOutlined from "@material-ui/icons/DashboardOutlined";
 import Slide from "@material-ui/core/Slide";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import IconButton from "@material-ui/core/IconButton";
 import Close from "@material-ui/icons/Close";
-import Card from "components/Card/Card.jsx";
-import CardBody from "components/Card/CardBody.jsx";
-import CardFooter from "components/Card/CardFooter.jsx";
 import Header from "components/Header/Header.jsx";
 import Footer from "components/Footer/Footer.jsx";
 import Button from "components/CustomButtons/Button.jsx";
@@ -35,13 +30,21 @@ import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import NavPills from "components/NavPills/NavPills.jsx";
 import Parallax from "components/Parallax/Parallax.jsx";
 import Badge from "components/Badge/Badge.jsx";
+
 import Icon from "@material-ui/core/Icon";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Danger from "components/Typography/Danger.jsx";
 import Success from "components/Typography/Success.jsx";
 
-import renderDateStamp from "../../utils/dateStamp";
+//NEW UI
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+//import renderDateStamp from "../../utils/dateStamp";
 
 import profilePageStyle from "assets/jss/material-kit-react/views/profilePage.jsx";
 
@@ -129,21 +132,15 @@ class ProfilePage extends React.Component {
       [state]: true
     });
   }
+
   handleClickOpen(item, modaltype) {
-    // console.log("modal", modal);
-    // console.log("modaltype", modaltype);
-    
-    // console.log("dropArr", this.state.dropArr);
-    // var x = [];
-    // x[modal] = true;
-    // this.setState(modal);
     this.setState({ modaltype, modal: true, selectedFeedAction: item });
   }
-  
+
   handleClose(modal) {
     var x = [];
     x[modal] = false;
-    this.setState({ modaltype: ""});
+    this.setState({ modaltype: "" });
     this.setState(x);
     this.handleRemoveFeed();
   }
@@ -164,9 +161,9 @@ class ProfilePage extends React.Component {
 
   handleChange = ({ currentTarget: input }) => {
     const formState = { ...this.state };
-    if(input.name === "post_title" && input.value.length >= 140) {
-      input.value = input.value.slice(0,140);
-    };
+    if (input.name === "post_title" && input.value.length >= 140) {
+      input.value = input.value.slice(0, 140);
+    }
     formState[input.name] = input.value;
     this.setState(formState);
   };
@@ -185,7 +182,7 @@ class ProfilePage extends React.Component {
     });
   }
 
-    getUserDetails() {
+  getUserDetails() {
     if (localStorage.getItem("token") !== null) {
       return axios.post(configApi.getprofile, {
         username: this.props.match.params.username,
@@ -216,8 +213,7 @@ class ProfilePage extends React.Component {
       jtoken: localStorage.getItem("token"),
       username: this.props.match.params.username
     });
-  }
-  
+  };
 
   loadprofile() {
     axios
@@ -239,7 +235,7 @@ class ProfilePage extends React.Component {
           this.props.history.replace("/dashboard");
           return;
         }
-        
+
         this.setState({
           rand_: userDetailRes.response[0].rand_,
           name: userDetailRes.response[0].name,
@@ -436,7 +432,7 @@ class ProfilePage extends React.Component {
       <Button
         color="rose"
         className="font-bold"
-        onClick={() => this.handleClickOpen("modal","notify")}
+        onClick={() => this.handleClickOpen("modal", "notify")}
         round
       >
         {text}
@@ -444,21 +440,12 @@ class ProfilePage extends React.Component {
     );
   }
 
-  renderShoutOut(username, name, slots, rate, picture, callrate) {
+  renderShoutOut(username, name, rate, picture, callrate) {
     const { profession } = this.state;
     return (
       <div className="m-v-md">
-        {profession && (
-          <p>
-            <Badge className="p-v-md">
-              <span className="font-bold">
-                Proceeds in support of {profession}
-              </span>
-            </Badge>
-          </p>
-        )}
         <div className="link-items">
-          {callrate !== 0 && (
+          {/* {callrate !== 0 && (
             <Button
               color="primary"
               className="m-b-md link__btns"
@@ -468,68 +455,50 @@ class ProfilePage extends React.Component {
               round
               size="lg"
             >
-              {/* <i className="fas fa-phone-volume font-size-xl rotate-45" /> */}
               Book video call
             </Button>
-          )}
-          
-          <Button
-            color="primary"
-            className="m-b-md link__btns"
-            onClick={() =>
-              this.handleRequest(username, name, rate, picture, "message")
-            }
-            round
-            size="lg"
-          >
-            {/* <i className="fas fa-video font-size-xl" /> */}
-            Book for video message
-          </Button>
+          )} */}
+          <Accordion className="accordion-button m-b-lg">
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon className="font-white" />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+              className="m-b-md link__btns primary-color"
+            >
+              <Typography>Book video message</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography className="font-size-sm m-a-lg">
+                Booking for video shoutout from {name}
+              </Typography>
+              {profession && (
+                <Typography className="m-a-lg badge">
+                  <Badge>
+                    <span className="font-bold">
+                      Proceeds in support of {profession}
+                    </span>
+                  </Badge>
+                </Typography>
+              )}
+              <Button
+                color="primary"
+                className="m-b-md"
+                onClick={() =>
+                  this.handleRequest(username, name, rate, picture, "message")
+                }
+                round
+              >
+                Proceed
+              </Button>
+            </AccordionDetails>
+          </Accordion>
         </div>
-        <p>
-          {" "}
-          {name} is available for <b>{slots}</b> more fan video request
-        </p>
       </div>
     );
   }
 
-  // renderVideoDrop = () => {
-  //  const { dropArr, isPlayingSingle } = this.state;
-  //  const iOS = ["iPhone"].indexOf(navigator.platform) >= 0;
-  //   return (
-  //     <GridContainer justify="center">
-  //       <GridItem xs={6} sm={6} md={6}>
-  //         <div className="video-container width-100 pos-rel d-inline-block m-h-sm">
-  //           <video
-  //             className="width-100 dropVideo"
-  //             playsInline
-  //             preload="auto"
-  //             poster={dropArr[0].thumbnail}
-  //             controlsList= "nodownload"
-  //             onClick={() => this.handleVideoPlaySingle()}
-  //           >
-  //             <source src={dropArr[0].link} type="video/mp4" />
-  //             Your browser does not support the video tag.
-  //           </video>
-  //           <div
-  //             className={`video-playBtn pos-ab ${
-  //               isPlayingSingle === true ? "d-none" : "d-block"
-  //             }`}
-  //           >
-  //             <PlayCircleOutline
-  //               style={{ color: "#FFFFFF", fontSize: "3rem" }}
-  //               onClick={() => this.handleVideoPlaySingle()}
-  //             />
-  //           </div>
-  //         </div>
-  //       </GridItem>
-  //     </GridContainer>
-  //   );
-  // }
-
   autoPlayRenderVideoDrop = () => {
-   const { dropArr } = this.state;
+    const { dropArr } = this.state;
     return (
       <GridContainer justify="center">
         <GridItem xs={12} sm={12} md={12}>
@@ -539,7 +508,7 @@ class ProfilePage extends React.Component {
               playsInline
               preload="auto"
               autoPlay={true}
-              controlsList= "nodownload"
+              controlsList="nodownload"
             >
               <source src={dropArr[0].link} type="video/mp4" />
               Your browser does not support the video tag.
@@ -548,31 +517,15 @@ class ProfilePage extends React.Component {
         </GridItem>
       </GridContainer>
     );
-  }
+  };
 
   renderNavPillObj = () => {
-    const {
-      userType,
-      myProfile,
-      promoVideo,
-      userActive,
-      slots
-    } = this.state;
-    const { classes } = this.props;
+    const { userType, myProfile, promoVideo, userActive, slots } = this.state;
+
     const uname = this.props.match.params.username;
     let contentArry = [];
 
     // TODO: Render Subsciption User feeds for paid and free versions..
-    // subscription 
-    // if (slots > 0 && userActive === 3) {
-    //   const Feeds = {
-    //     tabButton: "Feeds",
-    //     tabIcon: DashboardOutlined,
-    //     tabContent: 
-    //         this.renderFeeds()
-    //   };
-    //   contentArry.push(Feeds);
-    // }
 
     if (userType >= 1 && promoVideo.length > 0) {
       const PublicGallery = {
@@ -674,178 +627,8 @@ class ProfilePage extends React.Component {
   };
 
   // TODO: Render Subsciption User feeds for paid and free versions..
-  renderFeedItem = items => {
-    const { name, myProfile } = this.state;
-    const itemlist = items.map((item, i) => {
-      return (
-        <Card key={i} className="feedItem">
-          <CardBody className="p-a-none">
-            {myProfile &&
-              <Button 
-                color="danger"
-                className="comment__btn floatRight"  
-                simple
-                onClick={() => this.handleClickOpen(item,"deletefeed")}
-                >
-                  <Icon>block</Icon>
-                  Delete
-              </Button>
-            }
-            {item.type === "video" ? (
-              <>
-                <div className={`video-playBtn-feed pos-ab d-block`}>
-                  <VideoLibrary
-                    style={{ color: "#6e6e6e", fontSize: "2rem" }}
-                  />
-                </div>
-                <div
-                  className="video-container width-100 pos-rel d-inline-block"
-                  onClick={this.handleFeedVideoPlay}
-                >
-                  <video
-                    style={{ width: "100%", position: "relative" }}
-                    preload="none"
-                    playsInline
-                    height="307"
-                    poster={item.img_link}
-                  >
-                    <source src={item.video_link} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className={`video-playBtn-feed pos-ab d-block`}>
-                    <InsertPhoto
-                      style={{ color: "#6e6e6e", fontSize: "2rem" }}
-                    />
-                  </div>
-                <img src={item.img_link} width="100%" alt={`${name} feeds `} />
-              </>
-            )}
-          </CardBody>
-          <CardFooter className="feeds__footer">
-              <div className="width-100">
-                  <p className="feed_title">{item.title}</p>
-                  <span className="floatRight pos-rel top-5 default-color">{renderDateStamp(item.date)}</span>
-              </div>
-          </CardFooter>
-        </Card>
-      )
-    });
-    return itemlist;
-  }
 
   // TODO: Render Subsciption User feeds for paid and free versions..
-  renderFeeds = () => {
-    const { feedLiked, myProfile, subFeedsArr } = this.state;
-    return(
-      <GridContainer>
-        {myProfile &&
-          <GridItem alignCenter className="feed_create-post">
-            <Button
-              color="info"
-              size="lg"
-              className="comment__btn"
-              simple
-              onClick={() => this.handleClickOpen("modal", "createfeed")}
-            >
-              <Icon>add_circle_outline</Icon>
-              Create Subscription Post
-            </Button>
-          </GridItem>
-        }
-        <GridItem>
-          {subFeedsArr.length ?
-            this.renderFeedItem(subFeedsArr) :
-            <Card>
-              <CardBody className="p-a-none linear-background">
-                <Button
-                  color="primary"
-                  className="m-b-md link__btns"
-                  onClick={e => console.log("subsribe to feeds")}
-                  round
-                  simple
-                  size="lg"
-                >
-                  Subscribe To See Fanbies Posts
-                </Button>
-              </CardBody>
-            </Card>
-          }
-          {/* <Card>
-            <CardBody className="p-a-none">
-                    <img src={require("assets/img/articles/female_vlogger.jpg")} width="100%" alt="Influener on video call with fan on fanbies" />
-            </CardBody>
-            <CardFooter className="feeds__footer">
-              <div className="width-100">
-                  <Button 
-                    color={feedLiked ? "rose" : "warning"}
-                    className="comment__btn"  
-                    simple
-                    onClick = {e => this.setState({feedLiked: !feedLiked})}
-                    >
-                      {feedLiked ? (
-                        <Icon className="font-size-lg">favorite</Icon>
-                      ) : (
-                        <Icon className="font-size-lg">favorite_border</Icon>
-                      )}
-                      11 Likes
-                  </Button>
-                  <Button
-                    className="comment__btn" 
-                    color="warning"
-                    simple
-                    >
-                      <span> 10 &nbsp; </span> Comments
-                  </Button>
-                  <span className="floatRight pos-rel top-5">1d</span>
-                  <p className="feed_title">
-                    Facebook is changing it algoright again ooo, do you guy like apple devices from cookie tracking a new privacy feature and facebook is angry about it an apple move will be bad for small businesses and Facebook is not a good guy, a new dialog a new company or ask apple not to try and this is affect decrease in conversationt 
-                  </p>
-              </div>
-              <div>
-                <ul className="comment__list">
-                  <li>
-                    <span className="comment__uname">username:</span>
-                    <span>@nkubi_official hmmm my broda @nedu_wazobiafm don teach u bad thing, na market wen big pass u be this oo. the lord is ur muscle.</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="feeds__footer--post">
-                  <CustomInput
-                    labelText="Add a comment..."
-                    id="comment"
-                    inputRootCustomClasses="m-v-sm"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                    inputProps={{
-                      type: "text",
-                      onChange: this.handleChange,
-                      name: "comment",
-                      className:"input__comment",
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Button
-                              color="primary"
-                              className="floatRight"
-                              onClick={e => console.log(e)}
-                            >
-                              Post
-                          </Button>
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-              </div>
-            </CardFooter>
-          </Card> */}
-        </GridItem>
-      </GridContainer>
-    );
-  };
 
   addActiveClass(e) {
     const clicked = e.target.id;
@@ -859,7 +642,7 @@ class ProfilePage extends React.Component {
   handleVideoFeed = () => {
     let _this = this;
     _this.handleRemoveFeed();
-    this.setState({ error: ""});
+    this.setState({ error: "" });
     let previewVideo = document.querySelector("video#preview");
     previewVideo.preload = "metadata";
 
@@ -868,7 +651,9 @@ class ProfilePage extends React.Component {
       if (previewVideo.duration > 1200) {
         previewVideo.srcObject = null;
         previewVideo.src = null;
-        return _this.setState({ uploadError: "Video duration should less than 20 mintues" });
+        return _this.setState({
+          uploadError: "Video duration should less than 20 mintues"
+        });
       }
     };
 
@@ -884,20 +669,22 @@ class ProfilePage extends React.Component {
 
   handleRemoveFeed = () => {
     this.setState({
-        error: "",
-        feedImgFile: "",
-        imagePreviewUrl: "",
-        recordedStream: null
-      });
+      error: "",
+      feedImgFile: "",
+      imagePreviewUrl: "",
+      recordedStream: null
+    });
   };
 
-   handleImageFeed = () => {
+  handleImageFeed = () => {
     this.handleRemoveFeed();
     let reader = new FileReader();
     let file = this.fileInput.current.files[0];
     let imgSize = this.fileInput.current.files[0].size / 1024 / 1024;
-    if(imgSize > 4) {
-      this.setState({ error: "Image size is large, we only accept 4MB currently"})
+    if (imgSize > 4) {
+      this.setState({
+        error: "Image size is large, we only accept 4MB currently"
+      });
       return;
     }
 
@@ -907,43 +694,43 @@ class ProfilePage extends React.Component {
         feedImgFile: file,
         imagePreviewUrl: reader.result
       });
-    }
+    };
     reader.readAsDataURL(file);
   };
 
   handleDeleteFeed = () => {
     const { selectedFeedAction } = this.state;
-    if( selectedFeedAction ){
+    if (selectedFeedAction) {
       axios
-      .post(configApi.deletefeed, {
-        jwtoken: localStorage.getItem("token"),
-        id: selectedFeedAction.id,
-        assettype: selectedFeedAction.type,
-        video_link: selectedFeedAction.video_link,
-        img_link: selectedFeedAction.img_link
-      })
-      .then(res => {
-        const feedData = res.data;
-        if (!feedData.success) return;
+        .post(configApi.deletefeed, {
+          jwtoken: localStorage.getItem("token"),
+          id: selectedFeedAction.id,
+          assettype: selectedFeedAction.type,
+          video_link: selectedFeedAction.video_link,
+          img_link: selectedFeedAction.img_link
+        })
+        .then(res => {
+          const feedData = res.data;
+          if (!feedData.success) return;
 
-        window.location.reload();
-      })
-      .catch(e => {
-        //sentry
-        console.log("😱", e);
-      });
+          window.location.reload();
+        })
+        .catch(e => {
+          //sentry
+          console.log("😱", e);
+        });
     }
-  }
+  };
 
   handleFeedSubmit = e => {
     e.preventDefault();
-    const { recordedStream, feedImgFile, caption} = this.state;
+    const { recordedStream, feedImgFile, caption } = this.state;
     if (localStorage.getItem("token") == null) return;
 
     let data = new FormData();
-    const feed_title = caption ? caption : '';
+    const feed_title = caption ? caption : "";
     let vidfile = recordedStream;
-    let postType =  vidfile !== null ? "video" : "image";
+    let postType = vidfile !== null ? "video" : "image";
     let uploadfile = vidfile !== null ? recordedStream : feedImgFile;
 
     data.append("file", uploadfile);
@@ -958,15 +745,13 @@ class ProfilePage extends React.Component {
     // remove preview with a loading screen
     let previewVideo = document.querySelector("video#preview");
     previewVideo.srcObject = null;
-    previewVideo.src = null;  
+    previewVideo.src = null;
     //User should be able to submit one recording per session.
-    
     this.setState({
       confirmationSent: true,
       confirmationMessage: "Posting feed, check back in 2 minutes..."
     });
-    
-    //WRITE API HERE...
+
     setTimeout(() => {
       const options = {
         method: "POST",
@@ -978,16 +763,16 @@ class ProfilePage extends React.Component {
       };
       axios(options).then();
     }, 6000);
-  }
+  };
 
   renderModalContent = () => {
     const { modaltype, imagePreviewUrl, recordedStream } = this.state;
     const { classes } = this.props;
-    return(
+    return (
       <React.Fragment>
-        {modaltype === "notify" && 
-        <>
-          <CustomInput
+        {modaltype === "notify" && (
+          <>
+            <CustomInput
               labelText="Your Email..."
               id="email"
               formControlProps={{
@@ -999,9 +784,7 @@ class ProfilePage extends React.Component {
                 name: "email",
                 endAdornment: (
                   <InputAdornment position="end">
-                    <Icon
-                      className={classes.inputIconsColor}
-                    >
+                    <Icon className={classes.inputIconsColor}>
                       email_outline
                     </Icon>
                   </InputAdornment>
@@ -1015,29 +798,27 @@ class ProfilePage extends React.Component {
               round
             >
               Notify Me!
-          </Button>
-        </>}
-        {modaltype === "video" && 
-        <>
-            {this.autoPlayRenderVideoDrop()}
-        </>}
-        { modaltype === "deletefeed" &&
+            </Button>
+          </>
+        )}
+        {modaltype === "video" && <>{this.autoPlayRenderVideoDrop()}</>}
+        {modaltype === "deletefeed" && (
           <div className="flex">
             <h4 className="p-a-lg">Please confirm removal of this post</h4>
-            <Button 
+            <Button
               color="danger"
-              className="comment__btn "  
+              className="comment__btn "
               simple
               size="lg"
               onClick={() => this.handleDeleteFeed()}
-              >
-                <Icon>done</Icon>
-                Yes
+            >
+              <Icon>done</Icon>
+              Yes
             </Button>
           </div>
-        }
-        {modaltype === "createfeed" && 
-        <div className="p-a-md">
+        )}
+        {modaltype === "createfeed" && (
+          <div className="p-a-md">
             <CustomInput
               labelText="Post Captions...max 140"
               id="caption"
@@ -1050,68 +831,72 @@ class ProfilePage extends React.Component {
                 name: "caption",
                 endAdornment: (
                   <InputAdornment position="end">
-                    <Icon
-                      className={classes.inputIconsColor}
-                    >
-                      create
-                    </Icon>
+                    <Icon className={classes.inputIconsColor}>create</Icon>
                   </InputAdornment>
                 )
               }}
             />
             <div className="content-center">
-                <input
-                  accept="image/jpeg, image/png"
-                  className={`${classes.input} fileInput`}
-                  id="imgfile"
-                  type="file"
-                  onChange={this.handleImageFeed}
-                  ref={this.fileInput}
+              <input
+                accept="image/jpeg, image/png"
+                className={`${classes.input} fileInput`}
+                id="imgfile"
+                type="file"
+                onChange={this.handleImageFeed}
+                ref={this.fileInput}
+              />
+              <label
+                htmlFor="imgfile"
+                className="d-block text-center clickable-icon m-h-lg"
+              >
+                Click icon to upload Image &nbsp;
+                <AddPhotoAlternate
+                  style={{
+                    color: "#000",
+                    fontSize: "4em",
+                    display: "block",
+                    margin: "0 auto"
+                  }}
                 />
-                <label
-                  htmlFor="imgfile"
-                  className="d-block text-center clickable-icon m-h-lg"
-                >
-                  Click icon to upload Image &nbsp;
-                  <AddPhotoAlternate
-                    style={{
-                      color: "#000",
-                      fontSize: "4em",
-                      display: "block",
-                      margin: "0 auto"
-                    }}
-                  />
-                </label>
-                <input
-                  accept="video/mp4"
-                  className={`${classes.input} fileInput`}
-                  id="videoInput"
-                  type="file"
-                  onChange={this.handleVideoFeed}
-                  ref={this.videoInput}
+              </label>
+              <input
+                accept="video/mp4"
+                className={`${classes.input} fileInput`}
+                id="videoInput"
+                type="file"
+                onChange={this.handleVideoFeed}
+                ref={this.videoInput}
+              />
+              <label
+                htmlFor="videoInput"
+                className="d-block text-center clickable-icon upload-video-label m-h-lg"
+              >
+                Click icon to upload MP4 Video &nbsp;
+                <VideoLibrary
+                  style={{
+                    color: "#000",
+                    fontSize: "4em",
+                    display: "block",
+                    margin: "0 auto"
+                  }}
                 />
-                <label
-                  htmlFor="videoInput"
-                  className="d-block text-center clickable-icon upload-video-label m-h-lg"
-                >
-                  Click icon to upload MP4 Video &nbsp;
-                  <VideoLibrary
-                    style={{
-                      color: "#000",
-                      fontSize: "4em",
-                      display: "block",
-                      margin: "0 auto"
-                    }}
-                  />
-                </label>
+              </label>
             </div>
-            <video id="preview" 
-                   className={recordedStream ? 'd-block' : 'd-none'} 
-                   height="200" width="250" 
-                   playsInline />
-            <img src={imagePreviewUrl} className={`${imagePreviewUrl ? 'd-block' : 'd-none' } feedImgPreview m-v-md`} />
+            <video
+              id="preview"
+              className={recordedStream ? "d-block" : "d-none"}
+              height="200"
+              width="250"
+              playsInline
+            />
+            <img
+              src={imagePreviewUrl}
+              className={`${
+                imagePreviewUrl ? "d-block" : "d-none"
+              } feedImgPreview m-v-md`}
+            />
             {imagePreviewUrl || recordedStream ? (
-            <>
+              <>
                 <IconButton
                   className={`floatLeft p-a-none m-a-sm border-solid-md secondary-color border-round`}
                   key="remove"
@@ -1121,19 +906,22 @@ class ProfilePage extends React.Component {
                   <Close />
                 </IconButton>
                 <Button
-                      disabled={imagePreviewUrl || recordedStream ? false : true}
-                      color="primary"
-                      className="floatRight"
-                      onClick={e => this.handleFeedSubmit(e)}
-                      round
-                    >
-                      Post
+                  disabled={imagePreviewUrl || recordedStream ? false : true}
+                  color="primary"
+                  className="floatRight"
+                  onClick={e => this.handleFeedSubmit(e)}
+                  round
+                >
+                  Post
                 </Button>
-            </>
-            ) : "" }
-        </div>}
+              </>
+            ) : (
+              ""
+            )}
+          </div>
+        )}
       </React.Fragment>
-    )
+    );
   };
 
   renderPromoVideo(itemArry) {
@@ -1157,7 +945,7 @@ class ProfilePage extends React.Component {
               preload="none"
               playsInline
               poster={item.thumbnail}
-              controlsList= "nodownload"
+              controlsList="nodownload"
               onClick={() => this.handleVideoPlay(i)}
             >
               <source src={item.link} type="video/mp4" />
@@ -1259,9 +1047,10 @@ class ProfilePage extends React.Component {
       callrate,
       dropArr,
       activeNavPill,
-      modal
+      modal,
+      modaltype
     } = this.state;
-    
+
     const myid = localStorage.getItem("fan_id");
     const pic = localStorage.getItem("picid");
     const { classes, ...rest } = this.props;
@@ -1342,14 +1131,18 @@ class ProfilePage extends React.Component {
                           alt={name}
                           className={`${imageClasses} profileImg-md`}
                         />
-                        {dropArr.length !== 0 &&
-                          <div className={`video-playBtn-profile pos-ab d-block`}>
+                        {dropArr.length !== 0 && (
+                          <div
+                            className={`video-playBtn-profile pos-ab d-block`}
+                          >
                             <PlayCircleOutline
                               style={{ color: "#FFFFFF", fontSize: "4rem" }}
-                              onClick={() => this.handleClickOpen("modal","video")}
+                              onClick={() =>
+                                this.handleClickOpen("modal", "video")
+                              }
                             />
                           </div>
-                        }
+                        )}
                       </div>
                       <div className={classes.name}>
                         <h3 className={`d-block ${classes.title}`}>{name}</h3>
@@ -1372,7 +1165,7 @@ class ProfilePage extends React.Component {
                         ) : (
                           ""
                         )}
-                        {myid == "1" ? (
+                        {/* {myid == "1" ? (
                           <Link
                             to={{
                               pathname: `/message`,
@@ -1391,12 +1184,8 @@ class ProfilePage extends React.Component {
                           </Link>
                         ) : (
                           ""
-                        )}
-                        <div className="m-v-md">
-                          {this.renderPrimaryTalent()}
-                          {this.renderSecondaryTalent()}
-                          {this.renderExtraTalent()}
-                        </div>
+                        )} */}
+                        <div className="m-v-md">{bio}</div>
                         <div className="m-v-md">
                           {this.renderFBIcon(fb_id)}
                           {this.renderInstaIcon(IG_id)}
@@ -1411,7 +1200,8 @@ class ProfilePage extends React.Component {
                     <Dialog
                       classes={{
                         root: classes.center,
-                        paper: classes.modal
+                        paper: `${classes.modal} ${modaltype === "video" &&
+                          "video_drop"}`
                       }}
                       open={modal}
                       TransitionComponent={Transition}
@@ -1419,12 +1209,19 @@ class ProfilePage extends React.Component {
                       onClose={() => this.handleClose("modal")}
                       aria-labelledby="modal-slide-title"
                       aria-describedby="modal-slide-description"
+                      className="adebayo"
                     >
                       <DialogContent
                         id="modal-slide-description"
                         className={`${classes.modalBody} p-a-none`}
                       >
-                        <div className={` ${error || confirmationMessage ? 'p-a-md text-center dialog-message': null }`}>
+                        <div
+                          className={` ${
+                            error || confirmationMessage
+                              ? "p-a-md text-center dialog-message"
+                              : null
+                          }`}
+                        >
                           <Danger>{error}</Danger>
                           <Success>{confirmationMessage}</Success>
                         </div>
@@ -1464,9 +1261,6 @@ class ProfilePage extends React.Component {
                           : this.renderNotify(name, userActive)}
                       </GridItem>
                     </GridContainer>
-                    <div className={classes.description}>
-                      <p>{bio}</p>
-                    </div>
                   </React.Fragment>
                 )}
                 <GridContainer justify="center">

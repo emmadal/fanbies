@@ -76,7 +76,7 @@ class LoginPage extends React.Component {
       dropIsloading: false,
       disableUploadBtn: false,
       avaiableStatusArry: ["UnAvailable", "Coming Soon", "Available"],
-      dataRate: [0,5,10,15,20,25,30,35,40,45,50],
+      dataRate: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
       fixedClasses: "dropdown show",
       dropArr: [],
       modal: false,

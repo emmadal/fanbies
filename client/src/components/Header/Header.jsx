@@ -86,10 +86,10 @@ class Header extends React.Component {
       </span>
     );
     return (
-      <AppBar className={appBarClasses}>
+      <AppBar className={`${appBarClasses} fanbies-header`}>
         <Toolbar className={classes.container}>
           {leftLinks !== undefined ? brandComponent : null}
-          <div className={classes.flex} onClick={this.goDashboard}>
+          <div className={`${classes.flex}`} onClick={this.goDashboard}>
             {leftLinks !== undefined ? (
               <Hidden smDown implementation="css">
                 {leftLinks}
