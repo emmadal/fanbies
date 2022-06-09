@@ -21,7 +21,7 @@ import typography from "assets/theme/base/typography";
 // Material Kit 2 PRO React helper functions
 import pxToRem from "assets/theme/functions/pxToRem";
 
-const { inputBorderColor, info, grey, transparent } = colors;
+const { inputBorderColor, primary, grey, transparent } = colors;
 const { borderRadius } = borders;
 const { size } = typography;
 
@@ -38,7 +38,7 @@ export default {
 
       "&.Mui-focused": {
         "& .MuiOutlinedInput-notchedOutline": {
-          borderColor: info.main,
+          borderColor: primary.main,
         },
       },
     },

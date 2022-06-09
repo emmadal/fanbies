@@ -207,7 +207,7 @@ const routes = [
         collapse: [
           {
             name: "basic",
-            route: "/authentication/sign-in/basic",
+            route: "/signin",
             component: <SignInBasicPage />,
           },
           {
