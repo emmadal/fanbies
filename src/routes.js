@@ -233,7 +233,7 @@ const routes = [
         collapse: [
           {
             name: "cover",
-            route: "/authentication/sign-up/cover",
+            route: "/sign-up",
             component: <SignUpCoverPage />,
           },
         ],
@@ -244,7 +244,7 @@ const routes = [
         collapse: [
           {
             name: "cover",
-            route: "/authentication/reset-password/cover",
+            route: "/reset-password",
             component: <ResetPasswordPage />,
           },
         ],

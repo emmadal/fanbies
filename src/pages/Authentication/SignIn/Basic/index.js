@@ -11,7 +11,6 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 import MKInput from "components/MKInput";
 import MKButton from "components/MKButton";
-import MKAlert from "components/MKAlert";
 
 // Authentication pages components
 import BasicLayout from "pages/Authentication/components/BasicLayout";
@@ -19,31 +18,36 @@ import BasicLayout from "pages/Authentication/components/BasicLayout";
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 
-// form validation
-import * as regex from "regex";
+// form validation with Formik
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 // api call
 import { loginUser } from "api";
 
 function SignInBasic() {
-  const [credential, setCredential] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
-
-  const handleChange = (e) => {
-    setCredential({ ...credential, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (ev) => {
-    ev.preventDefault();
-    const req = await loginUser(credential);
-    if (!req.success) {
-      setError("Please verify your Password or Email");
-    }
-  };
+  const validation = useFormik({
+    // enableReinitialize : use this flag when initial values needs to be changed
+    enableReinitialize: true,
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().required("Please enter a valid email"),
+    }),
+    onSubmit: async (values) => {
+      const res = await loginUser(values);
+      if (!res.success) {
+        setError("Invalid email and/or password");
+      }
+    },
+  });
 
   return (
     <BasicLayout image={bgImage}>
-      <Card>
+      <Card style={{ width: "415px" }}>
         <MKBox
           variant="gradient"
           bgColor="primary"
@@ -64,49 +68,78 @@ function SignInBasic() {
             <MKBox mb={2}>
               <MKInput
                 name="email"
-                value={credential.email}
-                onChange={handleChange}
+                value={validation.values.email || ""}
+                onChange={validation.handleChange}
                 type="email"
                 label="Email"
                 fullWidth
-                success={regex.email.test(credential.email)}
+                error={!!(validation.touched.email && validation.errors.email)}
               />
+              {validation.touched.email && validation.errors.email ? (
+                <MKTypography variant="button" color="error">
+                  {validation.errors.email}
+                </MKTypography>
+              ) : null}
             </MKBox>
             <MKBox mb={2}>
               <MKInput
                 type="password"
                 name="password"
                 label="Password"
-                value={credential.password}
-                onChange={handleChange}
+                value={validation.values.password || ""}
+                onChange={validation.handleChange}
                 fullWidth
               />
             </MKBox>
-            <MKBox mt={4} mb={1}>
+            <MKBox textAlign="center">
+              <MKTypography variant="button">
+                By clicking on sign up, you agree to{" "}
+                <MKTypography
+                  component={Link}
+                  to="/terms-conditions"
+                  variant="button"
+                  color="primary"
+                  fontWeight="medium"
+                  textGradient
+                >
+                  terms & conditions
+                </MKTypography>
+              </MKTypography>
+            </MKBox>
+
+            <MKBox textAlign="center">
+              <MKTypography variant="caption">
+                Please check spam email for registration details from the Fanbies Team
+              </MKTypography>
+            </MKBox>
+            <MKBox mt={2} mb={1}>
               <MKButton
                 variant="gradient"
-                onClick={handleSubmit}
+                onClick={(e) => {
+                  e.preventDefault();
+                  validation.handleSubmit();
+                  return false;
+                }}
                 color="primary"
                 fullWidth
-                disabled={!regex.email.test(credential.email)}
               >
                 Sign in
               </MKButton>
             </MKBox>
             {error ? (
-              <MKBox mt={4} mb={1}>
-                <MKAlert color="error" dismissible>
+              <MKBox mt={2} mb={1}>
+                <MKTypography variant="button" color="error">
                   {error}
-                </MKAlert>
+                </MKTypography>
               </MKBox>
             ) : null}
 
-            <MKBox mt={3} mb={1} textAlign="center">
+            <MKBox mb={1} textAlign="center">
               <MKTypography variant="button" color="text">
                 Don&apos;t have an account?{" "}
                 <MKTypography
                   component={Link}
-                  to="/authentication/sign-up/cover"
+                  to="/sign-up"
                   variant="button"
                   color="primary"
                   fontWeight="medium"
@@ -114,6 +147,18 @@ function SignInBasic() {
                 >
                   Sign up
                 </MKTypography>
+              </MKTypography>
+            </MKBox>
+            <MKBox mb={1} textAlign="center">
+              <MKTypography
+                component={Link}
+                to="/reset-password"
+                variant="button"
+                color="primary"
+                fontWeight="medium"
+                textGradient
+              >
+                Forget Password ?
               </MKTypography>
             </MKBox>
           </MKBox>
