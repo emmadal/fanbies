@@ -19,4 +19,17 @@ export const loginUser = (data) =>
 /*
 Register user
 */
-export const registerUser = () => "";
+export const registerUser = (data) =>
+  new Promise((resolve, reject) => {
+    const params = {
+      mode: "cors",
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      redirect: "follow",
+      body: JSON.stringify({ ...data }),
+    };
+    fetch(`${API}/registeruser`, params)
+      .then((res) => res.json())
+      .then((e) => resolve(e))
+      .catch((err) => reject(err.message));
+  });
