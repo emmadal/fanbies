@@ -1,9 +1,8 @@
 /*
- * name validation
- * accepted: letters & spaces, minimum 3 chars, maximum 15 chars
+ * username validation
+ * accepted: letters & numbers, without space
  */
-export const name = /[a-zA-Z ]{3,15}/;
-
+export const username = /^([a-zA-Z0-9\-_])*[^\s]\1*$/;
 /*
  * email validation
  */
