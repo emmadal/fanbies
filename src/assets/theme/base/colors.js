@@ -45,8 +45,8 @@ export default {
   },
 
   primary: {
-    main: "#e91e63",
-    focus: "#e91e63",
+    main: "#9c27b0",
+    focus: "#9c27b0",
   },
 
   secondary: {
@@ -98,8 +98,8 @@ export default {
 
   gradients: {
     primary: {
-      main: "#EC407A",
-      state: "#D81B60",
+      main: "#9c27b0",
+      state: "#9c27b0",
     },
 
     secondary: {

@@ -1,18 +1,3 @@
-/**
-=========================================================
-* Material Kit 2 PRO React - v2.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-kit-pro-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import { useState } from "react";
 
 // react-router-dom components
@@ -20,14 +5,6 @@ import { Link } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
-import Switch from "@mui/material/Switch";
-import Grid from "@mui/material/Grid";
-import MuiLink from "@mui/material/Link";
-
-// @mui icons
-import FacebookIcon from "@mui/icons-material/Facebook";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import GoogleIcon from "@mui/icons-material/Google";
 
 // Material Kit 2 PRO React components
 import MKBox from "components/MKBox";
@@ -41,19 +18,42 @@ import BasicLayout from "pages/Authentication/components/BasicLayout";
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 
-function SignInBasic() {
-  const [rememberMe, setRememberMe] = useState(false);
+// form validation with Formik
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
-  const handleSetRememberMe = () => setRememberMe(!rememberMe);
+// api call
+import { loginUser } from "api";
+
+function SignInBasic() {
+  const [error, setError] = useState("");
+  const validation = useFormik({
+    // enableReinitialize : use this flag when initial values needs to be changed
+    enableReinitialize: true,
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      username: Yup.string().required("Please enter a valid username"),
+    }),
+    onSubmit: async (values) => {
+      const res = await loginUser(values);
+      if (!res.success) {
+        setError("Invalid username and/or password");
+      }
+      // Redirect on user profile after signin. if success and remove error message
+    },
+  });
 
   return (
     <BasicLayout image={bgImage}>
-      <Card>
+      <Card style={{ width: "415px" }}>
         <MKBox
           variant="gradient"
-          bgColor="info"
+          bgColor="primary"
           borderRadius="lg"
-          coloredShadow="info"
+          coloredShadow="primary"
           mx={2}
           mt={-3}
           p={2}
@@ -63,62 +63,103 @@ function SignInBasic() {
           <MKTypography variant="h4" fontWeight="medium" color="white" mt={1}>
             Sign in
           </MKTypography>
-          <Grid container spacing={3} justifyContent="center" sx={{ mt: 1, mb: 2 }}>
-            <Grid item xs={2}>
-              <MKTypography component={MuiLink} href="#" variant="body1" color="white">
-                <FacebookIcon color="inherit" />
-              </MKTypography>
-            </Grid>
-            <Grid item xs={2}>
-              <MKTypography component={MuiLink} href="#" variant="body1" color="white">
-                <GitHubIcon color="inherit" />
-              </MKTypography>
-            </Grid>
-            <Grid item xs={2}>
-              <MKTypography component={MuiLink} href="#" variant="body1" color="white">
-                <GoogleIcon color="inherit" />
-              </MKTypography>
-            </Grid>
-          </Grid>
         </MKBox>
         <MKBox pt={4} pb={3} px={3}>
           <MKBox component="form" role="form">
             <MKBox mb={2}>
-              <MKInput type="email" label="Email" fullWidth />
+              <MKInput
+                name="username"
+                value={validation.values.username || ""}
+                onChange={validation.handleChange}
+                type="text"
+                label="fanbies.com/Username"
+                fullWidth
+                error={!!(validation.touched.username && validation.errors.username)}
+              />
+              {validation.touched.username && validation.errors.username ? (
+                <MKTypography variant="button" color="error">
+                  {validation.errors.username}
+                </MKTypography>
+              ) : null}
             </MKBox>
             <MKBox mb={2}>
-              <MKInput type="password" label="Password" fullWidth />
+              <MKInput
+                type="password"
+                name="password"
+                label="Password"
+                value={validation.values.password || ""}
+                onChange={validation.handleChange}
+                fullWidth
+              />
             </MKBox>
-            <MKBox display="flex" alignItems="center" ml={-1}>
-              <Switch checked={rememberMe} onChange={handleSetRememberMe} />
-              <MKTypography
-                variant="button"
-                fontWeight="regular"
-                color="text"
-                onClick={handleSetRememberMe}
-                sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
-              >
-                &nbsp;&nbsp;Remember me
+            <MKBox textAlign="center">
+              <MKTypography variant="button">
+                By clicking on sign up, you agree to{" "}
+                <MKTypography
+                  component={Link}
+                  to="/terms-conditions"
+                  variant="button"
+                  color="primary"
+                  fontWeight="medium"
+                  textGradient
+                >
+                  terms & conditions
+                </MKTypography>
               </MKTypography>
             </MKBox>
-            <MKBox mt={4} mb={1}>
-              <MKButton variant="gradient" color="info" fullWidth>
-                sign in
+
+            <MKBox textAlign="center">
+              <MKTypography variant="caption">
+                Please check spam email for registration details from the Fanbies Team
+              </MKTypography>
+            </MKBox>
+            <MKBox mt={2} mb={1}>
+              <MKButton
+                variant="gradient"
+                onClick={(e) => {
+                  e.preventDefault();
+                  validation.handleSubmit();
+                  return false;
+                }}
+                color="primary"
+                fullWidth
+              >
+                Sign in
               </MKButton>
             </MKBox>
-            <MKBox mt={3} mb={1} textAlign="center">
+            {error ? (
+              <MKBox mt={2} mb={1}>
+                <MKTypography variant="button" color="error">
+                  {error}
+                </MKTypography>
+              </MKBox>
+            ) : null}
+
+            <MKBox mb={1} textAlign="center">
               <MKTypography variant="button" color="text">
                 Don&apos;t have an account?{" "}
                 <MKTypography
                   component={Link}
-                  to="/authentication/sign-up/cover"
+                  to="/sign-up"
                   variant="button"
-                  color="info"
+                  color="primary"
                   fontWeight="medium"
                   textGradient
                 >
                   Sign up
                 </MKTypography>
+              </MKTypography>
+            </MKBox>
+            <MKBox mb={1} textAlign="center">
+              <MKTypography
+                component={Link}
+                to="/reset-password"
+                variant="button"
+                color="primary"
+                fontWeight="medium"
+                textGradient
+              >
+                Forget Password ?
               </MKTypography>
             </MKBox>
           </MKBox>

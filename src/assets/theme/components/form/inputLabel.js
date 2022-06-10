@@ -17,7 +17,7 @@ Coded by www.creative-tim.com
 import colors from "assets/theme/base/colors";
 import typography from "assets/theme/base/typography";
 
-const { text, info } = colors;
+const { text } = colors;
 const { size } = typography;
 
 export default {
@@ -28,7 +28,7 @@ export default {
       lineHeight: 0.9,
 
       "&.Mui-focused": {
-        color: info.main,
+        color: text.main,
       },
 
       "&.MuiInputLabel-shrink": {
