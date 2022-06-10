@@ -31,17 +31,18 @@ function SignInBasic() {
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
     initialValues: {
-      email: "",
+      username: "",
       password: "",
     },
     validationSchema: Yup.object({
-      email: Yup.string().required("Please enter a valid email"),
+      username: Yup.string().required("Please enter a valid username"),
     }),
     onSubmit: async (values) => {
       const res = await loginUser(values);
       if (!res.success) {
-        setError("Invalid email and/or password");
+        setError("Invalid username and/or password");
       }
+      // Redirect on user profile after signin. if success and remove error message
     },
   });
 
@@ -67,17 +68,17 @@ function SignInBasic() {
           <MKBox component="form" role="form">
             <MKBox mb={2}>
               <MKInput
-                name="email"
-                value={validation.values.email || ""}
+                name="username"
+                value={validation.values.username || ""}
                 onChange={validation.handleChange}
-                type="email"
-                label="Email"
+                type="text"
+                label="fanbies.com/Username"
                 fullWidth
-                error={!!(validation.touched.email && validation.errors.email)}
+                error={!!(validation.touched.username && validation.errors.username)}
               />
-              {validation.touched.email && validation.errors.email ? (
+              {validation.touched.username && validation.errors.username ? (
                 <MKTypography variant="button" color="error">
-                  {validation.errors.email}
+                  {validation.errors.username}
                 </MKTypography>
               ) : null}
             </MKBox>
