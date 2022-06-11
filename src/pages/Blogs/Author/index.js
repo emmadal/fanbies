@@ -20,7 +20,7 @@ import Card from "@mui/material/Card";
 import MKBox from "components/MKBox";
 
 // Material Kit 2 PRO React examples
-import DefaultNavbar from "examples/Navbars/DefaultNavbar";
+import DefaultNavbar from "molecules/Navbars/DefaultNavbar";
 
 // Author page sections
 import Profile from "pages/Blogs/Author/sections/Profile";
@@ -29,7 +29,7 @@ import Contact from "pages/Blogs/Author/sections/Contact";
 import Footer from "pages/Blogs/Author/sections/Footer";
 
 // Routes
-import routes from "routes";
+import { routes } from "routes";
 
 // Images
 import bgImage from "assets/images/city-profile.jpg";

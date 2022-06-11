@@ -23,7 +23,7 @@ import MKBadge from "components/MKBadge";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React components
-import SimpleBlogCard from "examples/Cards/BlogCards/SimpleBlogCard";
+import SimpleBlogCard from "molecules/Cards/BlogCards/SimpleBlogCard";
 
 function Places() {
   const actionProps = {

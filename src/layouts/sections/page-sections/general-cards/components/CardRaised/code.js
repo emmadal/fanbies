@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 import MKBox from "components/MKBox";
 
 // Material Kit 2 PRO React examples
-import RaisedBlogCard from "examples/Cards/BlogCards/RaisedBlogCard";
+import RaisedBlogCard from "molecules/Cards/BlogCards/RaisedBlogCard";
 
 function CardRaised() {
   const image =

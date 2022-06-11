@@ -23,7 +23,7 @@ import MKButton from "components/MKButton";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React examples
-import DefaultInfoCard from "examples/Cards/InfoCards/DefaultInfoCard";
+import DefaultInfoCard from "molecules/Cards/InfoCards/DefaultInfoCard";
 
 // Images
 import atlassian from "assets/images/logos/small-logos/logo-atlassian.svg";

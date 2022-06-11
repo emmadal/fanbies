@@ -34,7 +34,7 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React examples
-import ComplexReviewCard from "examples/Cards/ReviewCards/ComplexReviewCard";
+import ComplexReviewCard from "molecules/Cards/ReviewCards/ComplexReviewCard";
 
 // Images
 import review1 from "assets/images/examples/clem-onojegaw.jpg";

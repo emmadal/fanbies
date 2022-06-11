@@ -98,7 +98,14 @@ import Tables from "layouts/sections/elements/tables";
 import Toggles from "layouts/sections/elements/toggles";
 import Typography from "layouts/sections/elements/typography";
 
-const routes = [
+export const HeaderRoutes = [
+  {
+    name: "Signin",
+    route: "/signin",
+  },
+];
+
+export const routes = [
   {
     name: "pages",
     icon: <Icon>dashboard</Icon>,
@@ -494,5 +501,3 @@ const routes = [
     ],
   },
 ];
-
-export default routes;

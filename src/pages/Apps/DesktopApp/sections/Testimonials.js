@@ -23,7 +23,7 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React components
-import MiniReviewCard from "examples/Cards/ReviewCards/MiniReviewCard";
+import MiniReviewCard from "molecules/Cards/ReviewCards/MiniReviewCard";
 
 // Images
 import review1 from "assets/images/team-3.jpg";

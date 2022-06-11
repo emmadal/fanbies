@@ -20,8 +20,8 @@ Coded by www.creative-tim.com
 import MKBox from "components/MKBox";
 
 // Material Kit 2 PRO React examples
-import DefaultNavbar from "examples/Navbars/DefaultNavbar";
-import DefaultFooter from "examples/Footers/DefaultFooter";
+import DefaultNavbar from "molecules/Navbars/DefaultNavbar";
+import DefaultFooter from "molecules/Footers/DefaultFooter";
 
 // Pricing page sections
 import Header from "pages/Company/Pricing/sections/Header";
@@ -33,7 +33,7 @@ import Trust from "pages/Company/Pricing/sections/Trust";
 import Faq from "pages/Company/Pricing/sections/Faq";
 
 // Routes
-import routes from "routes";
+import { routes } from "routes";
 import footerRoutes from "footer.routes";
 
 function Pricing() {

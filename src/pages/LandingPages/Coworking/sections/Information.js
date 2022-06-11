@@ -22,7 +22,7 @@ import Stack from "@mui/material/Stack";
 import MKBox from "components/MKBox";
 
 // Material Kit 2 PRO React examples
-import SimpleInfoCard from "examples/Cards/InfoCards/SimpleInfoCard";
+import SimpleInfoCard from "molecules/Cards/InfoCards/SimpleInfoCard";
 
 function Information() {
   return (

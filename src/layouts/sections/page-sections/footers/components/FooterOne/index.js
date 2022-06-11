@@ -17,7 +17,7 @@ Coded by www.creative-tim.com
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React examples
-import DetailedFooter from "examples/Footers/DetailedFooter";
+import DetailedFooter from "molecules/Footers/DetailedFooter";
 
 function FooterOne() {
   const date = new Date().getFullYear();

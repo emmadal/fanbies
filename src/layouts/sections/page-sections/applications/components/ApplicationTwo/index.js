@@ -24,7 +24,7 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React examples
-import DefaultBackgroundCard from "examples/Cards/BackgroundCards/DefaultBackgroundCard";
+import DefaultBackgroundCard from "molecules/Cards/BackgroundCards/DefaultBackgroundCard";
 
 // HelpCenter page components
 import ListItem from "pages/Support/HelpCenter/components/ListItem";

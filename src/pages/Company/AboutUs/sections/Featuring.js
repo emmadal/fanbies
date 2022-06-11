@@ -21,7 +21,7 @@ import Grid from "@mui/material/Grid";
 import MKBox from "components/MKBox";
 
 // Material Kit 2 PRO React examples
-import DefaultCounterCard from "examples/Cards/CounterCards/DefaultCounterCard";
+import DefaultCounterCard from "molecules/Cards/CounterCards/DefaultCounterCard";
 
 // Images
 import coinbase from "assets/images/logos/gray-logos/logo-coinbase.svg";

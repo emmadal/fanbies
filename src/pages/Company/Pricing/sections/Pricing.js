@@ -28,7 +28,7 @@ import MKBadge from "components/MKBadge";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React examples
-import DefaultPricingCard from "examples/Cards/PricingCards/DefaultPricingCard";
+import DefaultPricingCard from "molecules/Cards/PricingCards/DefaultPricingCard";
 
 // Imags
 const bgImage =

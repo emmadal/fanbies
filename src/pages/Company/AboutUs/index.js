@@ -32,8 +32,8 @@ import MKTypography from "components/MKTypography";
 import MKButton from "components/MKButton";
 
 // Material Kit 2 PRO React examples
-import DefaultNavbar from "examples/Navbars/DefaultNavbar";
-import DefaultFooter from "examples/Footers/DefaultFooter";
+import DefaultNavbar from "molecules/Navbars/DefaultNavbar";
+import DefaultFooter from "molecules/Footers/DefaultFooter";
 
 // About Us page sections
 import Information from "pages/Company/AboutUs/sections/Information";
@@ -42,7 +42,7 @@ import Featuring from "pages/Company/AboutUs/sections/Featuring";
 import Newsletter from "pages/Company/AboutUs/sections/Newsletter";
 
 // Routes
-import routes from "routes";
+import { routes } from "routes";
 import footerRoutes from "footer.routes";
 
 // Images

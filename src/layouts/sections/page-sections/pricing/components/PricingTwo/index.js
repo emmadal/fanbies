@@ -26,7 +26,7 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React examples
-import SimplePricingCard from "examples/Cards/PricingCards/SimplePricingCard";
+import SimplePricingCard from "molecules/Cards/PricingCards/SimplePricingCard";
 
 function PricingTwo() {
   const [activeTab, setActiveTab] = useState(0);

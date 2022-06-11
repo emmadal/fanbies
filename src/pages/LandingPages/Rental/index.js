@@ -23,8 +23,8 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React examples
-import DefaultNavbar from "examples/Navbars/DefaultNavbar";
-import DefaultFooter from "examples/Footers/DefaultFooter";
+import DefaultNavbar from "molecules/Navbars/DefaultNavbar";
+import DefaultFooter from "molecules/Footers/DefaultFooter";
 
 // Rental page sections
 import Search from "pages/LandingPages/Rental/sections/Search";
@@ -34,7 +34,7 @@ import Faq from "pages/LandingPages/Rental/sections/Faq";
 import Contact from "pages/LandingPages/Rental/sections/Contact";
 
 // Routes
-import routes from "routes";
+import { routes } from "routes";
 import footerRoutes from "footer.routes";
 
 // Images

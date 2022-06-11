@@ -8,8 +8,8 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React components
-import ColoredBackgroundCard from "examples/Cards/BackgroundCards/ColoredBackgroundCard";
-import InfoBackgroundCard from "examples/Cards/BackgroundCards/InfoBackgroundCard";
+import ColoredBackgroundCard from "molecules/Cards/BackgroundCards/ColoredBackgroundCard";
+import InfoBackgroundCard from "molecules/Cards/BackgroundCards/InfoBackgroundCard";
 
 function BlogPostOne() {
   return (

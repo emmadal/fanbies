@@ -12,7 +12,7 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React examples
-import HorizontalTeamCard from "examples/Cards/TeamCards/HorizontalTeamCard";
+import HorizontalTeamCard from "molecules/Cards/TeamCards/HorizontalTeamCard";
 
 // Images
 import bgImage from "assets/images/examples/city.jpg";

@@ -103,12 +103,13 @@ DefaultNavbarDropdown.defaultProps = {
   light: false,
   href: "",
   route: "",
+  icon: "",
 };
 
 // Typechecking props for the DefaultNavbarDropdown
 DefaultNavbarDropdown.propTypes = {
   name: PropTypes.string.isRequired,
-  icon: PropTypes.node.isRequired,
+  icon: PropTypes.node,
   children: PropTypes.node,
   collapseStatus: PropTypes.bool,
   light: PropTypes.bool,

@@ -23,7 +23,7 @@ import MKBox from "components/MKBox";
 import MKPagination from "components/MKPagination";
 
 // Material Kit 2 PRO React components
-import SimpleBookingCard from "examples/Cards/BookingCards/SimpleBookingCard";
+import SimpleBookingCard from "molecules/Cards/BookingCards/SimpleBookingCard";
 
 // Images
 import product1 from "assets/images/products/product-1-min.jpg";

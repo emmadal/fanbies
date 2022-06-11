@@ -22,7 +22,7 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React examples
-import DefaultInfoCard from "examples/Cards/InfoCards/DefaultInfoCard";
+import DefaultInfoCard from "molecules/Cards/InfoCards/DefaultInfoCard";
 
 function SocialAnalytics() {
   return (

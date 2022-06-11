@@ -23,7 +23,7 @@ import MKTypography from "components/MKTypography";
 import MKBadge from "components/MKBadge";
 
 // Material Kit 2 PRO React components
-import SimpleReviewCard from "examples/Cards/ReviewCards/SimpleReviewCard";
+import SimpleReviewCard from "molecules/Cards/ReviewCards/SimpleReviewCard";
 
 // Images
 import bgPattern from "assets/images/shapes/pattern-lines.svg";

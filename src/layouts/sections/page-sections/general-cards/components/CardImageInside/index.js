@@ -20,7 +20,7 @@ import Grid from "@mui/material/Grid";
 import MKBox from "components/MKBox";
 
 // Material Kit 2 PRO React examples
-import DefaultBlogCard from "examples/Cards/BlogCards/DefaultBlogCard";
+import DefaultBlogCard from "molecules/Cards/BlogCards/DefaultBlogCard";
 
 // Images
 import image from "assets/images/annie-spratt.jpg";

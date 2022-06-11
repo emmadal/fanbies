@@ -23,11 +23,11 @@ import MKButton from "components/MKButton";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React examples
-import DefaultNavbar from "examples/Navbars/DefaultNavbar";
-import DefaultFooter from "examples/Footers/DefaultFooter";
+import DefaultNavbar from "molecules/Navbars/DefaultNavbar";
+import DefaultFooter from "molecules/Footers/DefaultFooter";
 
 // Routes
-import routes from "routes";
+import { routes } from "routes";
 import footerRoutes from "footer.routes";
 
 // Image

@@ -7,7 +7,7 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React examples
-import ColoredBackgroundCard from "examples/Cards/BackgroundCards/ColoredBackgroundCard";
+import ColoredBackgroundCard from "molecules/Cards/BackgroundCards/ColoredBackgroundCard";
 
 function ApplicationOne() {
   return (
