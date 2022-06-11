@@ -25,15 +25,15 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React examples
-import DefaultNavbar from "examples/Navbars/DefaultNavbar";
-import SimpleFooter from "examples/Footers/SimpleFooter";
-import SimpleInfoCard from "examples/Cards/InfoCards/SimpleInfoCard";
+import DefaultNavbar from "molecules/Navbars/DefaultNavbar";
+import SimpleFooter from "molecules/Footers/SimpleFooter";
+import SimpleInfoCard from "molecules/Cards/InfoCards/SimpleInfoCard";
 
 // HelpCenter page components
 import FaqCollapse from "pages/Support/Faq/components/FaqCollapse";
 
 // Routes
-import routes from "routes";
+import { routes } from "routes";
 
 function Faq() {
   const [collapse, setCollapse] = useState(false);

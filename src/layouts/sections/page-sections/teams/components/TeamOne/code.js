@@ -9,7 +9,7 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React examples
-import TransparentTeamCard from "examples/Cards/TeamCards/TransparentTeamCard";
+import TransparentTeamCard from "molecules/Cards/TeamCards/TransparentTeamCard";
 
 // Images
 import team1 from "assets/images/bruce-mars.jpg";

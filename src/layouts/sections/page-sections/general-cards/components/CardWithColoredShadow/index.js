@@ -20,7 +20,7 @@ import Grid from "@mui/material/Grid";
 import MKBox from "components/MKBox";
 
 // Material Kit 2 PRO React examples
-import TransparentBlogCard from "examples/Cards/BlogCards/TransparentBlogCard";
+import TransparentBlogCard from "molecules/Cards/BlogCards/TransparentBlogCard";
 
 // Images
 import image from "assets/images/products/product-1-min.jpg";

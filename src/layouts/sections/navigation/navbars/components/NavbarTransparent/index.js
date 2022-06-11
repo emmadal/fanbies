@@ -15,10 +15,10 @@ Coded by www.creative-tim.com
 */
 
 // Material Kit 2 PRO React examples
-import DefaultNavbar from "examples/Navbars/DefaultNavbar";
+import DefaultNavbar from "molecules/Navbars/DefaultNavbar";
 
 // Routes
-import routes from "routes";
+import { routes } from "routes";
 
 function NavbarTransparent() {
   return (

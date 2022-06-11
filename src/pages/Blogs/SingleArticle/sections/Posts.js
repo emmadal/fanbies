@@ -22,7 +22,7 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React examples
-import DefaultBlogCard from "examples/Cards/BlogCards/DefaultBlogCard";
+import DefaultBlogCard from "molecules/Cards/BlogCards/DefaultBlogCard";
 
 // Images
 import post1 from "assets/images/examples/color2.jpg";

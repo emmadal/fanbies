@@ -24,10 +24,10 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React example components
-import DefaultNavbar from "examples/Navbars/DefaultNavbar";
+import DefaultNavbar from "molecules/Navbars/DefaultNavbar";
 
 // Material Kit 2 PRO React page layout routes
-import routes from "routes";
+import { routes } from "routes";
 
 function IllustrationLayout({ header, title, description, illustration, children }) {
   return (

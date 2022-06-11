@@ -20,7 +20,7 @@ import Grid from "@mui/material/Grid";
 import MKBox from "components/MKBox";
 
 // Material Kit 2 PRO React examples
-import SimplePricingCard from "examples/Cards/PricingCards/SimplePricingCard";
+import SimplePricingCard from "molecules/Cards/PricingCards/SimplePricingCard";
 
 function CardPricing() {
   return (

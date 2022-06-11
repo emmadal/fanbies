@@ -26,7 +26,7 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React examples
-import FilledInfoCard from "examples/Cards/InfoCards/FilledInfoCard";
+import FilledInfoCard from "molecules/Cards/InfoCards/FilledInfoCard";
 
 function Header({ image, label, title, description, cards }) {
   return (

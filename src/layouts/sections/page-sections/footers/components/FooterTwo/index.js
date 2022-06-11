@@ -14,7 +14,7 @@ Coded by www.creative-tim.com
 */
 
 // Material Kit 2 PRO React examples
-import DefaultFooter from "examples/Footers/DefaultFooter";
+import DefaultFooter from "molecules/Footers/DefaultFooter";
 
 // routes
 import footerRoutes from "footer.routes";

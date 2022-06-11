@@ -24,7 +24,7 @@ import MKBadge from "components/MKBadge";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React examples
-import SimplePricingCard from "examples/Cards/PricingCards/SimplePricingCard";
+import SimplePricingCard from "molecules/Cards/PricingCards/SimplePricingCard";
 
 // Images
 import bgPattern from "assets/images/shapes/pattern-lines.svg";

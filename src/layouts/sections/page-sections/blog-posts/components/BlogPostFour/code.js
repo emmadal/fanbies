@@ -10,7 +10,7 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React examples
-import SimpleBackgroundCard from "examples/Cards/BackgroundCards/SimpleBackgroundCard";
+import SimpleBackgroundCard from "molecules/Cards/BackgroundCards/SimpleBackgroundCard";
 
 // Images
 import post1 from "assets/images/examples/blog1.jpg";

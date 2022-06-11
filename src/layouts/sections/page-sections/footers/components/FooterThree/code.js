@@ -6,7 +6,7 @@ import PinterestIcon from "@mui/icons-material/Pinterest";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
 // Material Kit 2 PRO React examples
-import CenteredFooter from "examples/Footers/CenteredFooter";
+import CenteredFooter from "molecules/Footers/CenteredFooter";
 
 function FooterThress() {
   const company = { href: "https://www.creative-tim.com/", name: "Creative Tim" };

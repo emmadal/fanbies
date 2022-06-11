@@ -1,18 +1,3 @@
-/**
-=========================================================
-* Material Kit 2 PRO React - v2.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-kit-pro-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 // react-router-dom components
 import { Link } from "react-router-dom";
 
@@ -30,18 +15,15 @@ import MKTypography from "components/MKTypography";
 function DefaultBackgroundCard({ image, label, title, description, action }) {
   return (
     <Card
-      sx={({
-        functions: { rgba, linearGradient },
-        palette: { black },
-        borders: { borderRadius },
-      }) => ({
+      sx={({ functions: { rgba, linearGradient }, palette: { black } }) => ({
         backgroundImage: `${linearGradient(
           rgba(black.main, 0.5),
           rgba(black.main, 0.5)
         )}, url(${image})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        borderRadius: borderRadius.xl,
+        height: "100%",
+        borderRadius: "0",
       })}
     >
       <MKBox textAlign="center" pt={12} pb={3} px={3}>
@@ -81,14 +63,16 @@ function DefaultBackgroundCard({ image, label, title, description, action }) {
 // Setting default values for the props of DefaultBackgroundCard
 DefaultBackgroundCard.defaultProps = {
   label: "",
+  title: "",
+  description: "",
 };
 
 // Typechecking props for the DefaultBackgroundCard
 DefaultBackgroundCard.propTypes = {
   image: PropTypes.string.isRequired,
   label: PropTypes.string,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.node.isRequired,
+  title: PropTypes.string,
+  description: PropTypes.node,
   action: PropTypes.shape({
     type: PropTypes.oneOf(["external", "internal"]).isRequired,
     route: PropTypes.string.isRequired,

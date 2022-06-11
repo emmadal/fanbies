@@ -27,7 +27,7 @@ import MKAvatar from "components/MKAvatar";
 import MKTypography from "components/MKTypography";
 
 // Material Kit 2 PRO React examples
-import Table from "examples/Tables/Table";
+import Table from "molecules/Tables/Table";
 
 // Images
 import team2 from "assets/images/team-2.jpg";

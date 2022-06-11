@@ -21,7 +21,7 @@ import Grid from "@mui/material/Grid";
 import MKBox from "components/MKBox";
 
 // Mataerial Kit 2 PRO React examples
-import Breadcrumbs from "examples/Breadcrumbs";
+import Breadcrumbs from "molecules/Breadcrumbs";
 
 // Sections components
 import BaseLayout from "layouts/sections/components/BaseLayout";

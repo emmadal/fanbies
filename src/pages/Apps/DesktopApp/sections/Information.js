@@ -21,7 +21,7 @@ import Grid from "@mui/material/Grid";
 import MKBox from "components/MKBox";
 
 // Material Kit 2 PRO React examples
-import DefaultInfoCard from "examples/Cards/InfoCards/DefaultInfoCard";
+import DefaultInfoCard from "molecules/Cards/InfoCards/DefaultInfoCard";
 
 function Information() {
   return (
