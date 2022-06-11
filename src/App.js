@@ -10,7 +10,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 // Material Kit 2 PRO React themes
 import theme from "assets/theme";
 import indexRoutes from "pageRoutes";
-import "./App.css";
 
 // Routes
 // import LandingPage from "views/landing-page";
@@ -27,8 +26,7 @@ export default function App() {
   }, [pathname]);
 
   const getAllRoutes = (r) =>
-    // eslint-disable-next-line react/no-array-index-key
-    r.map((prop, key) => <Route exact path={prop.route} key={key} element={prop.component} />);
+    r.map((prop) => <Route exact path={prop.route} key={prop.name} element={prop.component} />);
 
   return (
     <ThemeProvider theme={theme}>
