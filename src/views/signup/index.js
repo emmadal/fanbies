@@ -18,7 +18,7 @@ import MKButton from "components/MKButton";
 import IllustrationLayout from "pages/Authentication/components/IllustrationLayout";
 
 // Images
-import bgImage from "assets/images/fanbies/join.svg";
+import bgImage from "assets/images/fanbies/love.svg";
 
 // Form validation
 import * as Yup from "yup";
@@ -78,13 +78,15 @@ function SignUp() {
   });
   return (
     <>
-      <DefaultNavbar routes={[]} sticky transparent light />
-      <IllustrationLayout illustration={bgImage}>
-        <MKTypography variant="h3" fontWeight="medium" color="black" mb={3}>
-          Create your free account
-        </MKTypography>
+      <DefaultNavbar routes={[]} sticky />
+      <IllustrationLayout
+        illustration={bgImage}
+        position="-300px 0"
+        title="Create your fanbies account"
+        description="Free forever. No payment needed."
+      >
         <Card>
-          <MKBox p={3}>
+          <MKBox p={2}>
             <MKBox component="form" role="form">
               <MKBox mb={2}>
                 <MKInput
@@ -173,13 +175,13 @@ function SignUp() {
                   By clicking on sign up, you agree to{" "}
                   <MKTypography
                     component={Link}
-                    to="/terms-conditions"
+                    to="/terms"
                     variant="button"
                     color="primary"
                     fontWeight="medium"
                     textGradient
                   >
-                    terms & conditions
+                    terms &amp; conditions
                   </MKTypography>
                 </MKTypography>
               </MKBox>

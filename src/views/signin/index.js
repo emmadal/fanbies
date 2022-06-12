@@ -49,7 +49,13 @@ function SignIn() {
 
   return (
     <>
-      <DefaultNavbar routes={[]} sticky transparent light />
+      <DefaultNavbar
+        routes={[]}
+        sticky
+        transparent
+        light
+        action={{ type: "internal", route: "/signup", label: "Sign Up Free", color: "primary" }}
+      />
       <BasicLayout image={bgImage}>
         <MKTypography variant="h2" fontWeight="medium" color="white" mb={3}>
           Log in to your Fanbies
@@ -88,13 +94,13 @@ function SignIn() {
                   By clicking on sign up, you agree to{" "}
                   <MKTypography
                     component={Link}
-                    to="/terms-conditions"
+                    to="/terms"
                     variant="button"
                     color="primary"
                     fontWeight="medium"
                     textGradient
                   >
-                    terms & conditions
+                    terms &amp; conditions
                   </MKTypography>
                 </MKTypography>
               </MKBox>
