@@ -23,7 +23,7 @@ import Grid from "@mui/material/Grid";
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
-function IllustrationLayout({ header, title, description, illustration, children }) {
+function IllustrationLayout({ header, title, description, illustration, position, children }) {
   return (
     <MKBox width="100%" height="100%" bgColor="white">
       <Grid container>
@@ -37,17 +37,17 @@ function IllustrationLayout({ header, title, description, illustration, children
             sx={{
               backgroundImage: `url(${illustration})`,
               backgroundSize: "cover",
-              backgroundPosition: "right",
+              backgroundPosition: `${position}`,
             }}
           />
         </Grid>
         <Grid item xs={11} sm={8} md={6} lg={5} xl={4} sx={{ mx: "auto" }}>
           <MKBox display="flex" flexDirection="column" justifyContent="center" height="100vh">
-            <MKBox p={3} textAlign="center">
+            <MKBox p={2} m={2} textAlign="center">
               {!header ? (
                 <>
                   <MKBox mb={1} textAlign="center">
-                    <MKTypography variant="h4" fontWeight="bold">
+                    <MKTypography variant="h3" fontWeight="bold">
                       {title}
                     </MKTypography>
                   </MKBox>
@@ -73,6 +73,7 @@ IllustrationLayout.defaultProps = {
   title: "",
   description: "",
   illustration: "",
+  position: "0 0",
 };
 
 // Typechecking props for the IllustrationLayout
@@ -82,6 +83,7 @@ IllustrationLayout.propTypes = {
   description: PropTypes.string,
   children: PropTypes.node.isRequired,
   illustration: PropTypes.string,
+  position: PropTypes.string,
 };
 
 export default IllustrationLayout;

@@ -101,7 +101,7 @@ import Typography from "layouts/sections/elements/typography";
 
 export const HeaderRoutes = [
   {
-    name: "Signin",
+    name: "Log in",
     route: "/signin",
   },
 ];
