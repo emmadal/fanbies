@@ -3,4 +3,13 @@ html,
 #root {
   height: 100%; 
 }
- 
+
+.fanbies_placeholder div {
+  margin-right: 1px;
+}
+
+.fanbies_placeholder div p,
+.fanbies_placeholder input {
+  font-size: 1.2em;
+  padding-left: 0
+}
