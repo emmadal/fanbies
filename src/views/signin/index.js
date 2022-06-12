@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
+import InputAdornment from "@mui/material/InputAdornment";
 
 // Material Kit 2 PRO React components
 import MKBox from "components/MKBox";
@@ -69,9 +70,17 @@ function SignIn() {
                   value={validation.values.username || ""}
                   onChange={validation.handleChange}
                   type="text"
-                  label="fanbies.com/Username"
+                  placeholder="username"
                   fullWidth
                   error={!!(validation.touched.username && validation.errors.username)}
+                  InputProps={{
+                    className: "fanbies_placeholder",
+                    startAdornment: (
+                      <InputAdornment position="start" sx={{ padding: "0" }}>
+                        fanbies.com/
+                      </InputAdornment>
+                    ),
+                  }}
                 />
                 {validation.touched.username && validation.errors.username ? (
                   <MKTypography variant="button" color="error">
