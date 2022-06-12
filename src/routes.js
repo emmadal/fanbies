@@ -60,7 +60,7 @@ import SignInIllustration from "layouts/authentication/sign-in/illustration";
 import SignInSimplePage from "layouts/authentication/sign-in/simple";
 import SignUpCoverPage from "layouts/authentication/sign-up/cover";
 import ResetPasswordPage from "layouts/authentication/reset-password/cover";
-import AdminDashboardPage from "layouts/dashboard/admin";
+// import AdminDashboardPage from "layouts/dashboard/admin";
 
 // Sections
 import PageHeaders from "layouts/sections/page-sections/page-headers";

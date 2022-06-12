@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 // @mui material components
 import Card from "@mui/material/Card";
 
+import DefaultNavbar from "molecules/Navbars/DefaultNavbar";
+
 // Material Kit 2 PRO React components
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
@@ -13,10 +15,10 @@ import MKInput from "components/MKInput";
 import MKButton from "components/MKButton";
 
 // Authentication layout components
-import CoverLayout from "pages/Authentication/components/CoverLayout";
+import IllustrationLayout from "pages/Authentication/components/IllustrationLayout";
 
 // Images
-import bgImage from "assets/images/bg-sign-up-cover.jpeg";
+import bgImage from "assets/images/fanbies/join.svg";
 
 // Form validation
 import * as Yup from "yup";
@@ -75,169 +77,160 @@ function SignUp() {
     },
   });
   return (
-    <CoverLayout image={bgImage}>
-      <Card style={{ width: "415px" }}>
-        <MKBox
-          variant="gradient"
-          bgColor="primary"
-          borderRadius="lg"
-          coloredShadow="primary"
-          mx={2}
-          mt={-3}
-          p={3}
-          mb={1}
-          textAlign="center"
-        >
-          <MKTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Register
-          </MKTypography>
-        </MKBox>
-        <MKBox p={3}>
-          <MKBox component="form" role="form">
-            <MKBox mb={2}>
-              <MKInput
-                name="username"
-                value={validation.values.username || ""}
-                onChange={validation.handleChange}
-                type="text"
-                label="fanbies.com/Username"
-                fullWidth
-                error={!!(validation.touched.username && validation.errors.username)}
-              />
-              {validation.touched.username && validation.errors.username ? (
-                <MKTypography variant="button" color="error">
-                  {validation.errors.username}
-                </MKTypography>
-              ) : null}
-            </MKBox>
-            <MKBox mb={2}>
-              <MKInput
-                name="name"
-                value={validation.values.name || ""}
-                onChange={validation.handleChange}
-                type="text"
-                label="Name"
-                fullWidth
-                error={!!(validation.touched.name && validation.errors.name)}
-              />
-              {validation.touched.name && validation.errors.name ? (
-                <MKTypography variant="button" color="error">
-                  {validation.errors.name}
-                </MKTypography>
-              ) : null}
-            </MKBox>
-            <MKBox mb={2}>
-              <MKInput
-                name="email"
-                value={validation.values.email || ""}
-                onChange={validation.handleChange}
-                type="email"
-                label="Email"
-                fullWidth
-                error={!!(validation.touched.email && validation.errors.email)}
-              />
-              {validation.touched.email && validation.errors.email ? (
-                <MKTypography variant="button" color="error">
-                  {validation.errors.email}
-                </MKTypography>
-              ) : null}
-            </MKBox>
-            <MKBox mb={2}>
-              <MKInput
-                name="password"
-                value={validation.values.password || ""}
-                onChange={validation.handleChange}
-                type="password"
-                label="Password"
-                fullWidth
-                error={!!(validation.touched.password && validation.errors.password)}
-              />
-              {validation.touched.password && validation.errors.password ? (
-                <MKTypography variant="button" color="error">
-                  {validation.errors.password}
-                </MKTypography>
-              ) : null}
-            </MKBox>
-            <MKBox mb={2}>
-              <MKInput
-                name="confirm_password"
-                value={validation.values.confirm_password || ""}
-                onChange={validation.handleChange}
-                type="password"
-                label="Confirm Password"
-                fullWidth
-                error={
-                  !!(validation.touched.confirm_password && validation.errors.confirm_password)
-                }
-              />
-              {validation.touched.confirm_password && validation.errors.confirm_password ? (
-                <MKTypography variant="button" color="error">
-                  {validation.errors.confirm_password}
-                </MKTypography>
-              ) : null}
-            </MKBox>
-            <MKBox textAlign="center">
-              <MKTypography variant="button">
-                By clicking on sign up, you agree to{" "}
-                <MKTypography
-                  component={Link}
-                  to="/terms-conditions"
-                  variant="button"
-                  color="primary"
-                  fontWeight="medium"
-                  textGradient
-                >
-                  terms & conditions
-                </MKTypography>
-              </MKTypography>
-            </MKBox>
-
-            <MKBox textAlign="center">
-              <MKTypography variant="caption">
-                Please check spam email for registration details from the Fanbies Team
-              </MKTypography>
-            </MKBox>
-
-            <MKBox mt={3} mb={1}>
-              <MKButton
-                variant="gradient"
-                color="primary"
-                fullWidth
-                onClick={(e) => {
-                  e.preventDefault();
-                  validation.handleSubmit();
-                  return false;
-                }}
-              >
-                Register
-              </MKButton>
-            </MKBox>
-            {error ? (
-              <MKBox mt={2} mb={1}>
-                <MKTypography variant="button" color="error">
-                  {error}
+    <>
+      <DefaultNavbar routes={[]} sticky transparent light />
+      <IllustrationLayout illustration={bgImage}>
+        <MKTypography variant="h3" fontWeight="medium" color="black" mb={3}>
+          Create your free account
+        </MKTypography>
+        <Card>
+          <MKBox p={3}>
+            <MKBox component="form" role="form">
+              <MKBox mb={2}>
+                <MKInput
+                  name="username"
+                  value={validation.values.username || ""}
+                  onChange={validation.handleChange}
+                  type="text"
+                  label="fanbies.com/Username"
+                  fullWidth
+                  error={!!(validation.touched.username && validation.errors.username)}
+                />
+                {validation.touched.username && validation.errors.username ? (
+                  <MKTypography variant="button" color="error">
+                    {validation.errors.username}
+                  </MKTypography>
+                ) : null}
+              </MKBox>
+              <MKBox mb={2}>
+                <MKInput
+                  name="name"
+                  value={validation.values.name || ""}
+                  onChange={validation.handleChange}
+                  type="text"
+                  label="Name"
+                  fullWidth
+                  error={!!(validation.touched.name && validation.errors.name)}
+                />
+                {validation.touched.name && validation.errors.name ? (
+                  <MKTypography variant="button" color="error">
+                    {validation.errors.name}
+                  </MKTypography>
+                ) : null}
+              </MKBox>
+              <MKBox mb={2}>
+                <MKInput
+                  name="email"
+                  value={validation.values.email || ""}
+                  onChange={validation.handleChange}
+                  type="email"
+                  label="Email"
+                  fullWidth
+                  error={!!(validation.touched.email && validation.errors.email)}
+                />
+                {validation.touched.email && validation.errors.email ? (
+                  <MKTypography variant="button" color="error">
+                    {validation.errors.email}
+                  </MKTypography>
+                ) : null}
+              </MKBox>
+              <MKBox mb={2}>
+                <MKInput
+                  name="password"
+                  value={validation.values.password || ""}
+                  onChange={validation.handleChange}
+                  type="password"
+                  label="Password"
+                  fullWidth
+                  error={!!(validation.touched.password && validation.errors.password)}
+                />
+                {validation.touched.password && validation.errors.password ? (
+                  <MKTypography variant="button" color="error">
+                    {validation.errors.password}
+                  </MKTypography>
+                ) : null}
+              </MKBox>
+              <MKBox mb={2}>
+                <MKInput
+                  name="confirm_password"
+                  value={validation.values.confirm_password || ""}
+                  onChange={validation.handleChange}
+                  type="password"
+                  label="Confirm Password"
+                  fullWidth
+                  error={
+                    !!(validation.touched.confirm_password && validation.errors.confirm_password)
+                  }
+                />
+                {validation.touched.confirm_password && validation.errors.confirm_password ? (
+                  <MKTypography variant="button" color="error">
+                    {validation.errors.confirm_password}
+                  </MKTypography>
+                ) : null}
+              </MKBox>
+              <MKBox textAlign="center">
+                <MKTypography variant="button">
+                  By clicking on sign up, you agree to{" "}
+                  <MKTypography
+                    component={Link}
+                    to="/terms-conditions"
+                    variant="button"
+                    color="primary"
+                    fontWeight="medium"
+                    textGradient
+                  >
+                    terms & conditions
+                  </MKTypography>
                 </MKTypography>
               </MKBox>
-            ) : null}
-            <MKBox mt={3} mb={1} textAlign="center">
-              <MKTypography variant="button" color="text">
-                Already have an account?{" "}
-                <MKTypography
-                  component={Link}
-                  to="/signin"
-                  variant="button"
-                  color="primary"
-                  fontWeight="medium"
-                  textGradient
-                >
-                  Sign In
+
+              <MKBox textAlign="center">
+                <MKTypography variant="caption">
+                  Please check spam email for registration details from the Fanbies Team
                 </MKTypography>
-              </MKTypography>
+              </MKBox>
+
+              <MKBox mt={3} mb={1}>
+                <MKButton
+                  variant="gradient"
+                  color="primary"
+                  fullWidth
+                  onClick={(e) => {
+                    e.preventDefault();
+                    validation.handleSubmit();
+                    return false;
+                  }}
+                >
+                  Register
+                </MKButton>
+              </MKBox>
+              {error ? (
+                <MKBox mt={2} mb={1}>
+                  <MKTypography variant="button" color="error">
+                    {error}
+                  </MKTypography>
+                </MKBox>
+              ) : null}
+              <MKBox mt={3} mb={1} textAlign="center">
+                <MKTypography variant="button" color="text">
+                  Already have an account?{" "}
+                  <MKTypography
+                    component={Link}
+                    to="/signin"
+                    variant="button"
+                    color="primary"
+                    fontWeight="medium"
+                    textGradient
+                  >
+                    Sign In
+                  </MKTypography>
+                </MKTypography>
+              </MKBox>
             </MKBox>
           </MKBox>
-        </MKBox>
-      </Card>
-    </CoverLayout>
+        </Card>
+      </IllustrationLayout>
+    </>
   );
 }
 

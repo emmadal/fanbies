@@ -10,12 +10,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 // Material Kit 2 PRO React themes
 import theme from "assets/theme";
 import indexRoutes from "pageRoutes";
-
-// Routes
-// import LandingPage from "views/landing-page";
-// import SignIn from "views/signin";
-// import SignUp from "views/signup";
-// import NoMatch from "views/404";
+import "./App.css";
 
 export default function App() {
   const { pathname } = useLocation();
