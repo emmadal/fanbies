@@ -22,7 +22,7 @@ export default function App() {
   const { pathname } = useLocation();
   const [user, setUser] = useState(null);
 
-  const getTokenByName = (tokenName) => {
+  const getCookieByName = (tokenName) => {
     let token;
     if (document.cookie) {
       token = document?.cookie
@@ -43,7 +43,7 @@ export default function App() {
     (async () => {
       const data = {
         username: localStorage.getItem("fanbies-username"),
-        jtoken: getTokenByName("fanbies-token") ?? "",
+        jtoken: getCookieByName("fanbies-token") ?? "",
       };
       const res = await getUserProfile(data);
       if (res) {

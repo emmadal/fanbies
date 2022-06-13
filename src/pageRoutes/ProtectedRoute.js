@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom";
 const ProtectedRoute = ({ children }) => {
   const { user } = useContext(AuthContext);
 
-  const getTokenByName = (tokenName) => {
+  const getCookieByName = (tokenName) => {
     let token;
     if (document.cookie) {
       token = document?.cookie
@@ -16,7 +16,7 @@ const ProtectedRoute = ({ children }) => {
     return token;
   };
 
-  if (!user && !getTokenByName("fanbies-token")) {
+  if (!user && !getCookieByName("fanbies-token")) {
     return <Navigate to="/" replace />;
   }
   return children;
