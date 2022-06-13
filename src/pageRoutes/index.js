@@ -6,6 +6,7 @@ import Admin from "views/admin";
 import NoMatch from "views/404";
 import FAQ from "views/faq";
 import Terms from "views/terms";
+import PublicProfile from "views/public-profile";
 
 const indexRoutes = [
   { route: "/faq", name: "faq", component: <FAQ /> },
@@ -14,6 +15,7 @@ const indexRoutes = [
   { route: "/signin", name: "signin", component: <SignIn /> },
   { route: "/", name: "LandingPage", component: <LandingPage /> },
   { route: "/admin", name: "admin", component: <Admin /> },
+  { route: "/user/:username", name: "username", component: <PublicProfile /> },
   { route: "*", name: "signin", component: <NoMatch /> },
 ];
 

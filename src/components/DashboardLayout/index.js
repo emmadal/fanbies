@@ -28,7 +28,7 @@ function DashboardLayout({ children }) {
       >
         <Container>
           <Grid container>
-            <Grid item xs={12} md={7} lg={7} sm={7}>
+            <Grid item xs={12} md={12} lg={12} sm={12}>
               {children}
             </Grid>
           </Grid>

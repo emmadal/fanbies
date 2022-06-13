@@ -13,3 +13,19 @@ html,
   font-size: 1.2em;
   padding-left: 0
 }
+
+.phone{
+  box-sizing: border-box;
+  border-radius: 40px;
+  border: 19px solid black;
+  width: 352px;
+  height: 724px;
+  display: block;
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  transform-origin: top left;
+}
+.phone_translate{
+  transform:scale(0.536022) translateX(60%) translateY(-50%) translate3d(0px, 0px, 0px); 
+}
