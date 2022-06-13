@@ -7,6 +7,7 @@ import NoMatch from "views/404";
 import FAQ from "views/faq";
 import Terms from "views/terms";
 import PublicProfile from "views/public-profile";
+import ProtectedRoute from "pageRoutes/ProtectedRoute";
 
 const indexRoutes = [
   { route: "/faq", name: "faq", component: <FAQ /> },
@@ -14,7 +15,15 @@ const indexRoutes = [
   { route: "/signup", name: "signup", component: <SignUp /> },
   { route: "/signin", name: "signin", component: <SignIn /> },
   { route: "/", name: "LandingPage", component: <LandingPage /> },
-  { route: "/admin", name: "admin", component: <Admin /> },
+  {
+    route: "/admin",
+    name: "admin",
+    component: (
+      <ProtectedRoute>
+        <Admin />
+      </ProtectedRoute>
+    ),
+  },
   { route: "/:username", name: "username", component: <PublicProfile /> },
   { route: "*", name: "nomatch", component: <NoMatch /> },
 ];
