@@ -37,7 +37,7 @@ function PublicProfile() {
       <MKBox mb={1}>
         <MKAvatar variant="circular" size="xxl" src="https://bit.ly/34BY10g" />
       </MKBox>
-      <MKBox textAlign="center">
+      <MKBox textAlign="center" mx={2}>
         <MKTypography variant="h5" color="white" fontWeight="bold">
           @{username}
         </MKTypography>

@@ -15,8 +15,8 @@ const indexRoutes = [
   { route: "/signin", name: "signin", component: <SignIn /> },
   { route: "/", name: "LandingPage", component: <LandingPage /> },
   { route: "/admin", name: "admin", component: <Admin /> },
-  { route: "/user/:username", name: "username", component: <PublicProfile /> },
-  { route: "*", name: "signin", component: <NoMatch /> },
+  { route: "/:username", name: "username", component: <PublicProfile /> },
+  { route: "*", name: "nomatch", component: <NoMatch /> },
 ];
 
 export default indexRoutes;

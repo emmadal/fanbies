@@ -3,10 +3,11 @@ import DashboardLayout from "components/DashboardLayout";
 
 // Material Kit 2 PRO React components
 import MKBox from "components/MKBox";
-// import MKTypography from "components/MKTypography";
+import MKTypography from "components/MKTypography";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
+import Divider from "@mui/material/Divider";
 
 // Stats page components
 import DashboardNavigation from "components/DashboardNavigation";
@@ -14,20 +15,45 @@ import DashboardNavigation from "components/DashboardNavigation";
 function Admin() {
   return (
     <DashboardLayout>
-      <MKBox>
-        <Grid container>
+      <MKBox height="100vh">
+        <Grid container spacing={0}>
           <Grid item xs={12} md={8} lg={8} sm={8}>
-            <DashboardNavigation />
+            <MKBox minHeight="100vh">
+              <DashboardNavigation />
+            </MKBox>
           </Grid>
-          <Grid item xs={12} md={4} lg={4} sm={4}>
-            <MKBox width="100%" minHeight="100vh" justifyContent="center" alignItems="center">
+          <Grid md={1} lg={1} sm={1} xs={1} spacing={0}>
+            <Divider orientation="vertical" flexItem style={{ width: "5px" }} />
+          </Grid>
+          <Grid item xs={12} md={3} lg={3} sm={3} spacing={0}>
+            <MKBox
+              minHeight="100vh"
+              display="flex"
+              justifyContent="center"
+              textAlign="center"
+              position="fixed"
+            >
+              <MKTypography textAlign="center" fontWeight="bold" variant="h6" pt={3}>
+                My Fanbies:{" "}
+                <MKTypography
+                  color="primary"
+                  fontWeight="bold"
+                  variant="button"
+                  component="a"
+                  href={`https://fanbies.com/${process.env.PUBLIC_URL}john`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {`https://fanbies.com/${process.env.PUBLIC_URL}john`}
+                </MKTypography>
+              </MKTypography>
               <iframe
                 className="phone phone_translate"
                 height="100%"
                 width="100%"
                 loading="eager"
-                title="usertest"
-                src={`${process.env.PUBLIC_URL}/user/usertest`}
+                title="john"
+                src={`${process.env.PUBLIC_URL}/john`}
               />
             </MKBox>
           </Grid>
