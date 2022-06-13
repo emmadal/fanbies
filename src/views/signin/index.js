@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 // react-router-dom components
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -18,6 +18,9 @@ import MKSpinner from "components/MKSpinner";
 import BasicLayout from "pages/Authentication/components/BasicLayout";
 import DefaultNavbar from "molecules/Navbars/DefaultNavbar";
 
+// user context
+import AuthContext from "context/AuthContext";
+
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 
@@ -31,6 +34,9 @@ import { loginUser } from "api";
 function SignIn() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
@@ -44,13 +50,20 @@ function SignIn() {
     onSubmit: async (values) => {
       setIsLoading(!isLoading);
       const res = await loginUser(values);
+      // window.console.log(cookies);
       if (!res.success) {
         setIsLoading(false);
         setError("Invalid username and/or password");
       } else {
-        // Redirect on user profile after signin. if success and remove error message
-        window.console.log(res);
         setIsLoading(false);
+        const obj = res.response[0];
+        // delete token key in user object
+        const { token, ...dataWithoutToken } = obj;
+        // Redirect on user profile after signin. if success and remove error message
+        localStorage.setItem("fanbies-username", dataWithoutToken.username);
+        document.cookie = `fanbies-token=${token}; path="/admin; Secure; SameSite=true"`;
+        setUser(dataWithoutToken);
+        navigate("/admin", { replace: true });
       }
     },
   });

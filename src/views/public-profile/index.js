@@ -1,5 +1,7 @@
+import { useContext } from "react";
+
 // react-router-dom components
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 
 // Material Kit 2 PRO React components
 import MKBox from "components/MKBox";
@@ -13,6 +15,9 @@ import colors from "assets/theme/base/colors";
 // Material Kit 2 PRO React helper functions
 import rgba from "assets/theme/functions/rgba";
 
+// context
+import AuthContext from "context/AuthContext";
+
 const { primary } = colors;
 const links = [
   { id: 1, name: "Twitter", url: "https://twitter.com" },
@@ -21,7 +26,9 @@ const links = [
 ];
 
 function PublicProfile() {
-  const { username } = useParams();
+  const { user } = useContext(AuthContext);
+
+  // const { username } = useParams();
   return (
     <MKBox
       width="100%"
@@ -35,11 +42,11 @@ function PublicProfile() {
       flexDirection="column"
     >
       <MKBox mb={1}>
-        <MKAvatar variant="circular" size="xxl" src="https://bit.ly/34BY10g" />
+        <MKAvatar variant="circular" size="xxl" src={`${user?.picture}`} />
       </MKBox>
       <MKBox textAlign="center" mx={2}>
         <MKTypography variant="h5" color="white" fontWeight="bold">
-          @{username}
+          @{user?.username}
         </MKTypography>
         <MKTypography variant="button" color="white">
           Biography
