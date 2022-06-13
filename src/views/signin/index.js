@@ -12,6 +12,7 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 import MKInput from "components/MKInput";
 import MKButton from "components/MKButton";
+import MKSpinner from "components/MKSpinner";
 
 // Authentication pages components
 import BasicLayout from "pages/Authentication/components/BasicLayout";
@@ -29,6 +30,7 @@ import { loginUser } from "api";
 
 function SignIn() {
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
@@ -40,11 +42,16 @@ function SignIn() {
       username: Yup.string().required("Please enter a valid username"),
     }),
     onSubmit: async (values) => {
+      setIsLoading(!isLoading);
       const res = await loginUser(values);
       if (!res.success) {
+        setIsLoading(false);
         setError("Invalid username and/or password");
+      } else {
+        // Redirect on user profile after signin. if success and remove error message
+        window.console.log(res);
+        setIsLoading(false);
       }
-      // Redirect on user profile after signin. if success and remove error message
     },
   });
 
@@ -130,7 +137,7 @@ function SignIn() {
                   color="primary"
                   fullWidth
                 >
-                  Sign in
+                  {isLoading ? <MKSpinner color="white" size={20} /> : "Sign in"}
                 </MKButton>
               </MKBox>
               {error ? (

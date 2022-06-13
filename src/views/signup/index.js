@@ -13,9 +13,13 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 import MKInput from "components/MKInput";
 import MKButton from "components/MKButton";
+import MKSpinner from "components/MKSpinner";
 
 // Authentication layout components
 import IllustrationLayout from "pages/Authentication/components/IllustrationLayout";
+
+// @mui material components
+import InputAdornment from "@mui/material/InputAdornment";
 
 // Images
 import bgImage from "assets/images/fanbies/love.svg";
@@ -32,6 +36,7 @@ import { registerUser } from "api";
 
 function SignUp() {
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const validation = useFormik({
     enableReinitialize: true,
@@ -64,13 +69,16 @@ function SignUp() {
     }),
     onSubmit: async (values) => {
       if (values.confirm_password === values.password) {
+        setIsLoading(!isLoading);
         const { confirm_password: ConfirmPassword, ...userData } = values;
         const res = await registerUser(userData);
         if (!res?.success) {
+          setIsLoading(false);
           setError(res?.message);
           return;
         }
         if (res.success) {
+          setIsLoading(false);
           window.console.log(values);
         }
       }
@@ -91,12 +99,20 @@ function SignUp() {
               <MKBox mb={2}>
                 <MKInput
                   name="username"
+                  placeholder="username"
                   value={validation.values.username || ""}
                   onChange={validation.handleChange}
                   type="text"
-                  label="fanbies.com/Username"
                   fullWidth
                   error={!!(validation.touched.username && validation.errors.username)}
+                  InputProps={{
+                    className: "fanbies_placeholder",
+                    startAdornment: (
+                      <InputAdornment position="start" sx={{ padding: "0" }}>
+                        fanbies.com/
+                      </InputAdornment>
+                    ),
+                  }}
                 />
                 {validation.touched.username && validation.errors.username ? (
                   <MKTypography variant="button" color="error">
@@ -203,7 +219,7 @@ function SignUp() {
                     return false;
                   }}
                 >
-                  Register
+                  {isLoading ? <MKSpinner color="white" size={20} /> : "Register"}
                 </MKButton>
               </MKBox>
               {error ? (
