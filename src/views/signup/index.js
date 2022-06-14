@@ -1,12 +1,16 @@
-import { useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useState, useContext } from "react";
 
 // react-router-dom component
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
 
 import DefaultNavbar from "molecules/Navbars/DefaultNavbar";
+
+// user context
+import AuthContext from "context/AuthContext";
 
 // Material Kit 2 PRO React components
 import MKBox from "components/MKBox";
@@ -37,6 +41,8 @@ import { registerUser } from "api";
 function SignUp() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const { setUser } = useContext(AuthContext);
 
   const validation = useFormik({
     enableReinitialize: true,
@@ -70,8 +76,14 @@ function SignUp() {
     onSubmit: async (values) => {
       if (values.confirm_password === values.password) {
         setIsLoading(!isLoading);
-        const { confirm_password: ConfirmPassword, ...userData } = values;
-        const res = await registerUser(userData);
+        const userObject = {
+          username: values.username,
+          useremail: values.email,
+          uname: values.name,
+          password: values.password,
+          phone: "",
+        };
+        const res = await registerUser(userObject);
         if (!res?.success) {
           setIsLoading(false);
           setError(res?.message);
@@ -79,7 +91,13 @@ function SignUp() {
         }
         if (res.success) {
           setIsLoading(false);
-          window.console.log(values);
+          const obj = res.response;
+          // delete token key in user object
+          const { token, ...dataWithoutToken } = obj;
+          localStorage.setItem("fanbies-username", dataWithoutToken.username);
+          document.cookie = `fanbies-token=${token}; path="/admin; Secure; SameSite=true"`;
+          setUser(dataWithoutToken);
+          navigate("/admin", { replace: true });
         }
       }
     },
