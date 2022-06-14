@@ -22,15 +22,15 @@ export default function App() {
   const { pathname } = useLocation();
   const [user, setUser] = useState(null);
 
-  const getCookieByName = (tokenName) => {
+  const getCookieByName = (cookieName) => {
     let token;
     if (document.cookie) {
       token = document?.cookie
         .split(";")
-        .find((row) => row.startsWith(`${tokenName}=`))
+        .find((row) => row.startsWith(`${cookieName}=`))
         .split("=")[1];
     }
-    return token;
+    return token === undefined ? "" : token;
   };
 
   // Setting page scroll to 0 when changing the route
@@ -39,20 +39,27 @@ export default function App() {
     document.scrollingElement.scrollTop = 0;
   }, [pathname]);
 
+  // Check if user is authenticated
+  const onAuthenticated = async () => {
+    const data = {
+      username: localStorage.getItem("fanbies-username") ?? "",
+      jtoken: getCookieByName("fanbies-token"),
+    };
+    const res = await getUserProfile(data);
+    if (res) {
+      const response = res.response[0];
+      // delete token key in user object
+      const { token, ...dataWithoutToken } = response;
+      setUser(dataWithoutToken);
+    }
+  };
+
   useEffect(() => {
-    (async () => {
-      const data = {
-        username: localStorage.getItem("fanbies-username"),
-        jtoken: getCookieByName("fanbies-token") ?? "",
-      };
-      const res = await getUserProfile(data);
-      if (res) {
-        const response = res.response[0];
-        // delete token key in user object
-        const { token, ...dataWithoutToken } = response;
-        setUser(dataWithoutToken);
-      }
-    })();
+    const onAuth = async () => {
+      await onAuthenticated();
+    };
+    onAuth();
+    return onAuth();
   }, []);
 
   const getAllRoutes = (r) =>
