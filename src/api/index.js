@@ -22,7 +22,6 @@ Register user
 export const registerUser = (data) =>
   new Promise((resolve, reject) => {
     const params = {
-      mode: "cors",
       method: "POST",
       headers: { "Content-Type": "application/json" },
       redirect: "follow",
