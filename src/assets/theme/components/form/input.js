@@ -18,7 +18,7 @@ import colors from "assets/theme/base/colors";
 import typography from "assets/theme/base/typography";
 import borders from "assets/theme/base/borders";
 
-const { info, inputBorderColor, dark } = colors;
+const { inputBorderColor, dark, primary } = colors;
 const { size } = typography;
 const { borderWidth } = borders;
 
@@ -37,7 +37,7 @@ export default {
       },
 
       "&:after": {
-        borderColor: info.main,
+        borderColor: primary.main,
       },
     },
   },
