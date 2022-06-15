@@ -8,6 +8,7 @@ import FAQ from "views/faq";
 import Terms from "views/terms";
 import PublicProfile from "views/public-profile";
 import ForgottenPassword from "views/forgotten";
+import ResetPassword from "views/resetPasswordPage";
 
 // Protected Route
 import ProtectedRoute from "pageRoutes/ProtectedRoute";
@@ -17,6 +18,7 @@ const indexRoutes = [
   { route: "/terms", name: "terms", component: <Terms /> },
   { route: "/signup", name: "signup", component: <SignUp /> },
   { route: "/signin", name: "signin", component: <SignIn /> },
+  { route: "/resetpass", name: "resetpass", component: <ResetPassword /> },
   { route: "/forgotten", name: "forgotten", component: <ForgottenPassword /> },
   { route: "/", name: "LandingPage", component: <LandingPage /> },
   {

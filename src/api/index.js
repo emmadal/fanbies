@@ -68,3 +68,38 @@ export const forgottenPassword = (data) =>
       .then((e) => resolve(e))
       .catch((err) => reject(err.message));
   });
+
+/*
+Update user password 
+*/
+export const updatePassword = (data) =>
+  new Promise((resolve, reject) => {
+    const params = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      redirect: "follow",
+      body: JSON.stringify({ ...data }),
+    };
+    fetch(`${API}/resetuserpass`, params)
+      .then((res) => res.json())
+      .then((e) => resolve(e))
+      .catch((err) => reject(err.message));
+  });
+
+/*
+One time validate reset hash for password reset
+*/
+export const validateResetHash = (data, abortcontroller) =>
+  new Promise((resolve, reject) => {
+    const params = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      redirect: "follow",
+      body: JSON.stringify({ ...data }),
+      signal: abortcontroller.signal,
+    };
+    fetch(`${API}/validateresthash`, params)
+      .then((res) => res.json())
+      .then((e) => resolve(e))
+      .catch((err) => reject(err.message));
+  });
