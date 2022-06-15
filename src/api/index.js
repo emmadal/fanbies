@@ -51,3 +51,20 @@ export const getUserProfile = (data) =>
       .then((e) => resolve(e))
       .catch((err) => reject(err.message));
   });
+
+/*
+Forgotten password email
+*/
+export const forgottenPassword = (data) =>
+  new Promise((resolve, reject) => {
+    const params = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      redirect: "follow",
+      body: JSON.stringify({ ...data }),
+    };
+    fetch(`${API}/forgottenpass`, params)
+      .then((res) => res.json())
+      .then((e) => resolve(e))
+      .catch((err) => reject(err.message));
+  });

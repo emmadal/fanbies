@@ -27,7 +27,7 @@ function IllustrationLayout({ header, title, description, illustration, position
   return (
     <MKBox width="100%" height="100%" bgColor="white">
       <Grid container>
-        <Grid item xs={12} lg={6}>
+        <Grid item xs={12} lg={7}>
           <MKBox
             display={{ xs: "none", lg: "flex" }}
             width="100%"

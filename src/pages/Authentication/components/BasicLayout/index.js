@@ -16,7 +16,7 @@ function BasicLayout({ image, children }) {
         left={0}
         zIndex={1}
         width="100%"
-        minHeight="100vh"
+        minHeight="150vh"
         sx={{
           backgroundImage: ({ functions: { linearGradient, rgba }, palette: { gradients } }) =>
             image &&
@@ -27,11 +27,12 @@ function BasicLayout({ image, children }) {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
+          backgroundColor: "white",
         }}
       />
       <MKBox px={1} width="100%" height="100vh" mx="auto" position="relative" zIndex={2}>
         <Grid container spacing={1} justifyContent="center" alignItems="center" height="100%">
-          <Grid item xs={11} sm={9} md={6} lg={5} xl={4}>
+          <Grid item xs={11} sm={9} md={6} lg={6} xl={5}>
             {children}
           </Grid>
         </Grid>
@@ -40,9 +41,14 @@ function BasicLayout({ image, children }) {
   );
 }
 
+// Setting default values for the props of IllustrationLayout
+BasicLayout.defaultProps = {
+  image: "",
+};
+
 // Typechecking props for the BasicLayout
 BasicLayout.propTypes = {
-  image: PropTypes.string.isRequired,
+  image: PropTypes.string,
   children: PropTypes.node.isRequired,
 };
 

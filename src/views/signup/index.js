@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 // @mui material components
 import Card from "@mui/material/Card";
 
-import DefaultNavbar from "molecules/Navbars/DefaultNavbar";
+// import DefaultNavbar from "molecules/Navbars/DefaultNavbar";
 
 // user context
 import AuthContext from "context/AuthContext";
@@ -20,13 +20,14 @@ import MKButton from "components/MKButton";
 import MKSpinner from "components/MKSpinner";
 
 // Authentication layout components
-import IllustrationLayout from "pages/Authentication/components/IllustrationLayout";
+import BasicLayout from "pages/Authentication/components/BasicLayout";
 
 // @mui material components
 import InputAdornment from "@mui/material/InputAdornment";
 
 // Images
-import bgImage from "assets/images/fanbies/love.svg";
+import bgImage from "assets/images/vr-bg.jpg";
+import fanbiesImage from "assets/images/fanbies/fanbies_white.png";
 
 // Form validation
 import * as Yup from "yup";
@@ -48,7 +49,6 @@ function SignUp() {
     enableReinitialize: true,
     initialValues: {
       email: "",
-      name: "",
       username: "",
       password: "",
       confirm_password: "",
@@ -68,7 +68,6 @@ function SignUp() {
     },
     validationSchema: Yup.object({
       email: Yup.string().required("Enter a valid Email"),
-      name: Yup.string().required("Enter your Name"),
       username: Yup.string().required("Enter a username"),
       password: Yup.string().required("Enter your password"),
       confirm_password: Yup.string().required("Confirm your password"),
@@ -79,7 +78,7 @@ function SignUp() {
         const userObject = {
           username: values.username,
           useremail: values.email,
-          uname: values.name,
+          uname: "",
           password: values.password,
           phone: "",
         };
@@ -101,19 +100,23 @@ function SignUp() {
         }
       }
     },
+    validateOnChange: true,
   });
   return (
     <>
-      <DefaultNavbar routes={[]} sticky />
-      <IllustrationLayout
-        illustration={bgImage}
-        position="-300px 0"
-        title="Create your fanbies account"
-        description="Free forever. No payment needed."
-      >
-        <Card>
+      <BasicLayout image={bgImage}>
+        <MKTypography variant="h3" mt={5} fontWeight="bold" color="white" mb={1}>
+          Create your Fanbies page now
+        </MKTypography>
+        <MKTypography variant="body2" color="white">
+          Join the millions of creators and business owners on Fanbies with your personal URL.
+        </MKTypography>
+        <MKTypography variant="caption" color="white" fontWeight="bold" textAlign="center">
+          Free forever. No payment needed.
+        </MKTypography>
+        <Card mb={10}>
           <MKBox p={2}>
-            <MKBox component="form" role="form">
+            <MKBox component="form" role="form" p={2}>
               <MKBox mb={2}>
                 <MKInput
                   name="username"
@@ -124,7 +127,7 @@ function SignUp() {
                   fullWidth
                   error={!!(validation.touched.username && validation.errors.username)}
                   InputProps={{
-                    className: "fanbies_placeholder",
+                    className: "fanbies_input_placeholder",
                     startAdornment: (
                       <InputAdornment position="start" sx={{ padding: "0" }}>
                         fanbies.com/
@@ -135,22 +138,6 @@ function SignUp() {
                 {validation.touched.username && validation.errors.username ? (
                   <MKTypography variant="button" color="error">
                     {validation.errors.username}
-                  </MKTypography>
-                ) : null}
-              </MKBox>
-              <MKBox mb={2}>
-                <MKInput
-                  name="name"
-                  value={validation.values.name || ""}
-                  onChange={validation.handleChange}
-                  type="text"
-                  label="Name"
-                  fullWidth
-                  error={!!(validation.touched.name && validation.errors.name)}
-                />
-                {validation.touched.name && validation.errors.name ? (
-                  <MKTypography variant="button" color="error">
-                    {validation.errors.name}
                   </MKTypography>
                 ) : null}
               </MKBox>
@@ -236,8 +223,13 @@ function SignUp() {
                     validation.handleSubmit();
                     return false;
                   }}
+                  disabled={
+                    !validation.values.username ||
+                    !validation.values.email ||
+                    !validation.values.password
+                  }
                 >
-                  {isLoading ? <MKSpinner color="white" size={20} /> : "Register"}
+                  {isLoading ? <MKSpinner color="white" size={20} /> : "Sign up"}
                 </MKButton>
               </MKBox>
               {error ? (
@@ -265,7 +257,21 @@ function SignUp() {
             </MKBox>
           </MKBox>
         </Card>
-      </IllustrationLayout>
+        <MKTypography component={Link} to="/">
+          <MKBox
+            component="img"
+            src={fanbiesImage}
+            alt="fanbies logo"
+            width="125px"
+            position="relative"
+            zIndex={1}
+            display="flex"
+            mb={10}
+            mt={3}
+            mx="auto"
+          />
+        </MKTypography>
+      </BasicLayout>
     </>
   );
 }
