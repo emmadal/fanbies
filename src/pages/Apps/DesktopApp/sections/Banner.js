@@ -24,7 +24,7 @@ import MKTypography from "components/MKTypography";
 
 // Images
 import bgPattern from "assets/images/shapes/pattern-lines.svg";
-import laptop from "assets/images/macbook-2.png";
+import laptop from "assets/images/marie.jpg";
 
 function Banner() {
   return (

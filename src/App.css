@@ -4,12 +4,12 @@ html,
   height: 100%; 
 }
 
-.fanbies_placeholder div {
+.fanbies_input_placeholder div {
   margin-right: 1px;
 }
 
-.fanbies_placeholder div p,
-.fanbies_placeholder input {
+.fanbies_input_placeholder div p,
+.fanbies_input_placeholder input {
   font-size: 1.2em;
   padding-left: 0
 }

@@ -22,7 +22,8 @@ import DefaultNavbar from "molecules/Navbars/DefaultNavbar";
 import AuthContext from "context/AuthContext";
 
 // Images
-import bgImage from "assets/images/bg-sign-in-basic.jpeg";
+import fanbiesImage from "assets/images/fanbies/fanbies_white.png";
+import bgImage from "assets/images/fanbies/signin.jpg";
 
 // form validation with Formik
 import { useFormik } from "formik";
@@ -46,6 +47,7 @@ function SignIn() {
     },
     validationSchema: Yup.object({
       username: Yup.string().required("Please enter a valid username"),
+      password: Yup.string().required("Password Required"),
     }),
     onSubmit: async (values) => {
       setIsLoading(!isLoading);
@@ -66,6 +68,7 @@ function SignIn() {
         navigate("/admin", { replace: true });
       }
     },
+    validateOnChange: true,
   });
 
   return (
@@ -78,8 +81,8 @@ function SignIn() {
         action={{ type: "internal", route: "/signup", label: "Sign Up Free", color: "primary" }}
       />
       <BasicLayout image={bgImage}>
-        <MKTypography variant="h2" fontWeight="medium" color="white" mb={3}>
-          Log in to your Fanbies
+        <MKTypography variant="h3" mt={5} fontWeight="bold" color="white" mb={3}>
+          Sign in to your Fanbies
         </MKTypography>
         <Card>
           <MKBox pt={4} pb={3} px={3}>
@@ -94,7 +97,7 @@ function SignIn() {
                   fullWidth
                   error={!!(validation.touched.username && validation.errors.username)}
                   InputProps={{
-                    className: "fanbies_placeholder",
+                    className: "fanbies_input_placeholder",
                     startAdornment: (
                       <InputAdornment position="start" sx={{ padding: "0" }}>
                         fanbies.com/
@@ -103,7 +106,7 @@ function SignIn() {
                   }}
                 />
                 {validation.touched.username && validation.errors.username ? (
-                  <MKTypography variant="button" color="error">
+                  <MKTypography variant="caption" color="error">
                     {validation.errors.username}
                   </MKTypography>
                 ) : null}
@@ -113,6 +116,7 @@ function SignIn() {
                   type="password"
                   name="password"
                   label="Password"
+                  error={!!(validation.touched.password && validation.errors.password)}
                   value={validation.values.password || ""}
                   onChange={validation.handleChange}
                   fullWidth
@@ -149,6 +153,7 @@ function SignIn() {
                   }}
                   color="primary"
                   fullWidth
+                  disabled={!validation.values.username || !validation.values.password}
                 >
                   {isLoading ? <MKSpinner color="white" size={20} /> : "Sign in"}
                 </MKButton>
@@ -179,7 +184,7 @@ function SignIn() {
               <MKBox mb={1} textAlign="center">
                 <MKTypography
                   component={Link}
-                  to="/reset-password"
+                  to="/forgotten"
                   variant="button"
                   color="primary"
                   fontWeight="medium"
@@ -191,6 +196,18 @@ function SignIn() {
             </MKBox>
           </MKBox>
         </Card>
+        <MKTypography component={Link} to="/">
+          <MKBox
+            component="img"
+            src={fanbiesImage}
+            alt="fanbies logo"
+            width="125px"
+            position="relative"
+            zIndex={1}
+            display="flex"
+            mx="auto"
+          />
+        </MKTypography>
       </BasicLayout>
     </>
   );
