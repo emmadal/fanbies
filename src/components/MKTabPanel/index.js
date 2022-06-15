@@ -1,6 +1,6 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import Typography from "@mui/material/Typography";
+import MKBox from "components/MKBox";
 import Box from "@mui/material/Box";
 
 function MKTabPanel({ children, value, index }) {
@@ -13,7 +13,7 @@ function MKTabPanel({ children, value, index }) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <MKBox>{children}</MKBox>
         </Box>
       )}
     </div>

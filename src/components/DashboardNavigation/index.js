@@ -4,9 +4,13 @@ import { useState } from "react";
 import Grid from "@mui/material/Grid";
 import AppBar from "@mui/material/AppBar";
 import Tabs from "@mui/material/Tabs";
+
 // import TabPanel from "@mui/material/TabPanel";
 import MKTabPanel from "components/MKTabPanel";
 import Tab from "@mui/material/Tab";
+
+// import custom components
+import Settings from "views/user-settings";
 
 function a11yProps(index) {
   return {
@@ -35,7 +39,7 @@ function DashboardNavigation() {
           Profile Tab
         </MKTabPanel>
         <MKTabPanel value={activeTab} index={2}>
-          Settings Tab
+          <Settings />
         </MKTabPanel>
       </AppBar>
     </Grid>
