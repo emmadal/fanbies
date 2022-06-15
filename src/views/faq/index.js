@@ -30,7 +30,7 @@ function Faq() {
         action={{ type: "internal", route: "/signup", label: "Sign Up Free", color: "primary" }}
         sticky
       />
-      <MKBox component="section" pt={20} pb={12}>
+      <MKBox component="section" pt={20} pb={6}>
         <Container>
           <Grid container justifyContent="center">
             <Grid item xs={12}>
@@ -269,9 +269,7 @@ function Faq() {
           </Grid>
         </Container>
       </MKBox>
-      <MKBox pt={{ xs: 0, lg: 3 }} pb={3}>
-        <CenteredFooter />
-      </MKBox>
+      <CenteredFooter />
     </>
   );
 }

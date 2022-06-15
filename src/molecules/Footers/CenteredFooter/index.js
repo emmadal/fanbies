@@ -7,6 +7,7 @@ import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 
 // @mui icons
+import fanbiesImage from "assets/images/fanbies/fanbies_dark.png";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -48,7 +49,7 @@ function CenteredFooter({ company, links, socials, light }) {
   ));
 
   return (
-    <MKBox component="footer" py={6}>
+    <MKBox component="footer" py={1}>
       <Grid container justifyContent="center">
         <Grid item xs={10} lg={8}>
           <Stack
@@ -68,7 +69,7 @@ function CenteredFooter({ company, links, socials, light }) {
           </Stack>
         </Grid>
         <Grid item xs={12} lg={8} sx={{ textAlign: "center" }}>
-          <MKTypography variant="body2" color={light ? "white" : "secondary"}>
+          <MKTypography mb={1} variant="body2" color={light ? "white" : "secondary"}>
             Copyright &copy; {year} made with <FavouriteIcon fontSize="small" /> by{" "}
             <MKTypography
               component={Link}
@@ -81,6 +82,17 @@ function CenteredFooter({ company, links, socials, light }) {
             </MKTypography>
             .
           </MKTypography>
+          <MKTypography component={Link} to="/">
+            <MKBox
+              component="img"
+              src={fanbiesImage}
+              alt="fanbies logo"
+              width="125px"
+              position="relative"
+              display="flex"
+              mx="auto"
+            />
+          </MKTypography>
         </Grid>
       </Grid>
     </MKBox>
@@ -91,7 +103,6 @@ function CenteredFooter({ company, links, socials, light }) {
 CenteredFooter.defaultProps = {
   company: { href: "https://www.fanbies.com/", name: "Fanbies" },
   links: [
-    { href: "/terms", name: "Referral Program" },
     { href: "/terms", name: "Terms" },
     { href: "/faq", name: "FAQ" },
     { href: "/faq", name: "Articles" },

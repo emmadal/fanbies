@@ -68,9 +68,15 @@ function SignUp() {
     },
     validationSchema: Yup.object({
       email: Yup.string().required("Enter a valid Email"),
-      username: Yup.string().required("Enter a username"),
-      password: Yup.string().required("Enter your password"),
-      confirm_password: Yup.string().required("Confirm your password"),
+      username: Yup.string()
+        .matches(
+          /^[a-zA-Z0-9\-_]{3,30}$/,
+          "Usernames cannot be longer than 30 characters and minimum 3 characters"
+        )
+        .required("Enter a username"),
+      password: Yup.string()
+        .min(6, "Password must be at least 6 characters")
+        .required("Enter your password"),
     }),
     onSubmit: async (values) => {
       if (values.confirm_password === values.password) {

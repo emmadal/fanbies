@@ -22,7 +22,7 @@ function Terms() {
         action={{ type: "internal", route: "/signup", label: "Sign Up Free", color: "primary" }}
         sticky
       />
-      <MKBox component="section" pt={20} pb={12}>
+      <MKBox component="section" pt={20} pb={6}>
         <Container>
           <Grid container justifyContent="center">
             <Grid item xs={12}>
@@ -263,9 +263,7 @@ function Terms() {
           </Grid>
         </Container>
       </MKBox>
-      <MKBox pt={6} px={1} mt={6}>
-        <CenteredFooter />
-      </MKBox>
+      <CenteredFooter />
     </>
   );
 }
