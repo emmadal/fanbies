@@ -20,22 +20,22 @@ import AuthContext from "context/AuthContext";
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const validation = useFormik({
     enableReinitialize: true,
     initialValues: {
+      name: "",
+      email: "",
       fb_id: "",
       ig_id: "",
       linkedin_id: "",
       twitter_id: "",
       tik_id: "",
     },
-    onSubmit: async (values) => {
-      window.console.log(values);
+    onSubmit: async () => {
       setIsLoading(!isLoading);
-      setError("");
     },
   });
   return (
@@ -79,13 +79,29 @@ const Profile = () => {
               <MKInput
                 type="text"
                 variant="standard"
-                name="profile_title"
-                placeholder={`@${user?.username}`}
-                label="Profile title (optional)"
-                value={validation.values?.profile_title}
+                name="name"
+                label="Name"
+                value={validation.values?.name || user?.name}
                 onChange={validation.handleChange}
                 fullWidth
               />
+            </MKBox>
+            <MKBox mt={2} mb={2}>
+              <MKInput
+                type="text"
+                variant="standard"
+                name="email"
+                label="Email"
+                value={validation.values?.email || user?.email}
+                onChange={validation.handleChange}
+                error={!!(validation.touched.email && validation.errors.email)}
+                fullWidth
+              />
+              {validation.touched.email && validation.errors.email ? (
+                <MKTypography variant="button" color="error">
+                  {validation.errors.email}
+                </MKTypography>
+              ) : null}
             </MKBox>
             <MKBox mt={4} mb={2}>
               <MKInput
@@ -119,13 +135,13 @@ const Profile = () => {
                 {isLoading ? <MKSpinner color="white" size={20} /> : "Save details"}
               </MKButton>
             </MKBox>
-            {error ? (
+            {/* {error ? (
               <MKBox mt={2} mb={1}>
                 <MKTypography variant="button" color="error">
                   {error}
                 </MKTypography>
               </MKBox>
-            ) : null}
+            ) : null} */}
           </MKBox>
         </MKBox>
         <MKTypography textAlign="start" mt={2} mb={2}>
@@ -236,13 +252,13 @@ const Profile = () => {
                 {isLoading ? <MKSpinner color="white" size={20} /> : "Save details"}
               </MKButton>
             </MKBox>
-            {error ? (
+            {/* {error ? (
               <MKBox mt={2} mb={1}>
                 <MKTypography variant="button" color="error">
                   {error}
                 </MKTypography>
               </MKBox>
-            ) : null}
+            ) : null} */}
           </MKBox>
         </MKBox>
       </Grid>
