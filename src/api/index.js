@@ -103,3 +103,20 @@ export const validateResetHash = (data, abortcontroller) =>
       .then((e) => resolve(e))
       .catch((err) => reject(err.message));
   });
+
+/*
+Delete user account
+*/
+export const deleteAccount = (jwtoken, uid) =>
+  new Promise((resolve, reject) => {
+    const params = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      redirect: "follow",
+      body: JSON.stringify({ jwtoken, uid }),
+    };
+    fetch(`${API}/deleteuser`, params)
+      .then((res) => res.json())
+      .then((e) => resolve(e))
+      .catch((err) => reject(err.message));
+  });

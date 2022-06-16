@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable no-unused-vars */
+import React, { useState, useContext } from "react";
 
 // Material Kit 2 React Components
 import MKTypography from "components/MKTypography";
@@ -13,12 +14,53 @@ import { useNavigate } from "react-router-dom";
 import { Grid } from "@mui/material";
 import Switch from "@mui/material/Switch";
 
+// context
+import AuthContext from "context/AuthContext";
+
+// api call
+import { deleteAccount } from "api";
+
 const Settings = () => {
   const [error, setError] = useState("");
+  const { user } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const [checked, setChecked] = useState(false);
   const toggleSwitch = () => setChecked(!checked);
+  const { rand_: userId } = user;
   const navigate = useNavigate();
+
+  const getCookieByName = (cookieName) => {
+    let token;
+    if (document.cookie) {
+      token = document?.cookie
+        .split(";")
+        .find((row) => row.startsWith(`${cookieName}=`))
+        .split("=")[1];
+    }
+    return token === undefined ? "" : token;
+  };
+
+  const deleteUserAccount = async () => {
+    if (navigator.onLine) {
+      const token = getCookieByName("fanbies-token");
+      setLoading2(!loading2);
+      const req = await deleteAccount(token, userId);
+      if (req.success) {
+        setLoading2(!false);
+        localStorage.removeItem("fanbies-username");
+        document.cookie = `fanbies-token=; Max-Age=0; path=/; domain=${
+          process.env.PUBLIC_URL
+        };expires=${new Date().toLocaleDateString()}`;
+        navigate("/", { replace: true });
+      } else {
+        setLoading2(!false);
+        setError("Something went wrong. Please try again.");
+      }
+    } else {
+      setError("You're offline. Please check your network connection...");
+    }
+  };
 
   const logOut = (e) => {
     e.preventDefault();
@@ -86,9 +128,16 @@ const Settings = () => {
               Click the button below if you would like to delete your account.
             </MKTypography>
           </MKBox>
-          <MKButton variant="gradient" color="error" fullWidth>
+          <MKButton variant="gradient" color="error" fullWidth onClick={deleteUserAccount}>
             Delete account
           </MKButton>
+          {error ? (
+            <MKBox mt={2} mb={1}>
+              <MKTypography variant="button" color="error" fontWeight="bold">
+                {error}
+              </MKTypography>
+            </MKBox>
+          ) : null}
         </MKBox>
       </Grid>
     </Grid>
