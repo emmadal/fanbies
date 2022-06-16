@@ -21,7 +21,7 @@ export default styled(TextField)(({ theme, ownerState }) => {
   const { palette, functions } = theme;
   const { error, success, disabled } = ownerState;
 
-  const { grey, transparent, error: colorError, success: colorSuccess } = palette;
+  const { transparent, error: colorError, success: colorSuccess } = palette;
   const { pxToRem } = functions;
 
   // styles for the input with error={true}
@@ -63,7 +63,8 @@ export default styled(TextField)(({ theme, ownerState }) => {
   });
 
   return {
-    backgroundColor: disabled ? `${grey[200]} !important` : transparent.main,
+    backgroundColor: transparent.main,
+    // backgroundColor: disabled ? `${grey[200]} !important` : transparent.main,
     pointerEvents: disabled ? "none" : "auto",
     ...(error && errorStyles()),
     ...(success && successStyles()),
