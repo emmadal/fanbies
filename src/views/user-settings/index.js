@@ -111,6 +111,7 @@ const Settings = () => {
                 value={validation.values?.username || user?.username}
                 onChange={validation.handleChange}
                 fullWidth
+                disabled
                 error={!!(validation.touched.username && validation.errors.username)}
                 InputProps={{
                   className: "fanbies_placeholder",
