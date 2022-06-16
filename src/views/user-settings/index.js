@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useContext } from "react";
 
 // Material Kit 2 React Components
@@ -47,14 +46,14 @@ const Settings = () => {
       setLoading2(!loading2);
       const req = await deleteAccount(token, userId);
       if (req.success) {
-        setLoading2(!false);
+        setLoading2(false);
         localStorage.removeItem("fanbies-username");
         document.cookie = `fanbies-token=; Max-Age=0; path=/; domain=${
           process.env.PUBLIC_URL
         };expires=${new Date().toLocaleDateString()}`;
         navigate("/", { replace: true });
       } else {
-        setLoading2(!false);
+        setLoading2(false);
         setError("Something went wrong. Please try again.");
       }
     } else {
