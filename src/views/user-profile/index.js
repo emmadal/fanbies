@@ -18,10 +18,38 @@ import { useFormik } from "formik";
 // context user
 import AuthContext from "context/AuthContext";
 
+// api call
+import { removeProfilePicture, getCookie, getUserProfile } from "api";
+
 const Profile = () => {
-  const { user } = useContext(AuthContext);
-  // const [error, setError] = useState("");
+  const { user, setUser } = useContext(AuthContext);
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+
+  const removePicture = async () => {
+    if (navigator.onLine) {
+      setLoading2(!loading2);
+      const tk = getCookie("fanbies-token");
+      const req = await removeProfilePicture(tk);
+      const data = {
+        username: localStorage.getItem("fanbies-username") ?? "",
+        jtoken: tk,
+      };
+      if (req.success) {
+        const res = await getUserProfile(data);
+        if (res.success) {
+          const response = res.response[0];
+          // delete token key in user object
+          const { token, ...dataWithoutToken } = response;
+          setLoading2(false);
+          setUser(dataWithoutToken);
+        }
+      }
+    } else {
+      setError("You're offline. Please check your network connection...");
+    }
+  };
 
   const validation = useFormik({
     enableReinitialize: true,
@@ -69,9 +97,17 @@ const Profile = () => {
                 color="error"
                 size="small"
                 sx={{ marginLeft: 1, marginRight: 1 }}
+                onClick={removePicture}
               >
-                Remove image
+                {loading2 ? <MKSpinner color="error" size={20} /> : "Remove image"}
               </MKButton>
+              {error ? (
+                <MKBox mt={2} mb={1}>
+                  <MKTypography variant="button" color="error" fontWeight="bold">
+                    {error}
+                  </MKTypography>
+                </MKBox>
+              ) : null}
             </MKBox>
           </MKBox>
           <MKBox component="form" role="form">

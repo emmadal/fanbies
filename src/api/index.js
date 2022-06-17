@@ -105,6 +105,24 @@ export const validateResetHash = (data, abortcontroller) =>
   });
 
 /*
+Remove user profile picture
+*/
+export const removeProfilePicture = (token) =>
+  new Promise((resolve, reject) => {
+    const params = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      redirect: "follow",
+      body: JSON.stringify({ jtoken: token }),
+    };
+
+    fetch(`${API}/removeprofilepic`, params)
+      .then((res) => res.json())
+      .then((e) => resolve(e))
+      .catch((err) => reject(err.message));
+  });
+
+/*
 Delete user account
 */
 export const deleteAccount = (jwtoken, uid) =>
@@ -120,3 +138,17 @@ export const deleteAccount = (jwtoken, uid) =>
       .then((e) => resolve(e))
       .catch((err) => reject(err.message));
   });
+
+/*
+Get Cookie by name
+*/
+export const getCookie = (cookieName) => {
+  let name;
+  if (document.cookie) {
+    name = document?.cookie
+      .split(";")
+      .find((row) => row.startsWith(`${cookieName}=`))
+      .split("=")[1];
+  }
+  return name ?? "";
+};
