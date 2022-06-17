@@ -19,13 +19,15 @@ import { useFormik } from "formik";
 import AuthContext from "context/AuthContext";
 
 // api call
-import { removeProfilePicture, getCookie, getUserProfile } from "api";
+import { removeProfilePicture, getCookie, getUserProfile, updateUserProfile } from "api";
 
 const Profile = () => {
   const { user, setUser } = useContext(AuthContext);
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [type, setType] = useState("");
+  const [loading1, setLoading1] = useState(false);
   const [loading2, setLoading2] = useState(false);
+  const [loading3, setLoading3] = useState(false);
 
   const removePicture = async () => {
     if (navigator.onLine) {
@@ -54,16 +56,39 @@ const Profile = () => {
   const validation = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: "",
-      email: "",
+      name: user?.name ?? "",
+      useremail: user?.email ?? "",
+      bio: user?.bio ?? "",
       fb_id: "",
       ig_id: "",
       linkedin_id: "",
       twitter_id: "",
       tik_id: "",
     },
-    onSubmit: async () => {
-      setIsLoading(!isLoading);
+    onSubmit: async (values) => {
+      if (type === "UPDATE_PROFILE") {
+        setLoading1(!loading1);
+        const jtoken = getCookie("fanbies-token");
+        const req = await updateUserProfile(values, jtoken);
+        if (req.success) {
+          const res = await getUserProfile({
+            username: localStorage.getItem("fanbies-username") ?? "",
+            jtoken,
+          });
+          if (res.success) {
+            setLoading1(false);
+            const response = res.response[0];
+            // delete token key in user object
+            const { token, ...dataWithoutToken } = response;
+            setLoading2(false);
+            setUser(dataWithoutToken);
+            setType("");
+          }
+        }
+      }
+      if (type === "UPDATE_SOCIAL_LINKS") {
+        setLoading3(!loading3);
+      }
     },
   });
   return (
@@ -117,25 +142,25 @@ const Profile = () => {
                 variant="standard"
                 name="name"
                 label="Name"
-                value={validation.values?.name || user?.name}
+                value={validation.values.name}
                 onChange={validation.handleChange}
                 fullWidth
               />
             </MKBox>
             <MKBox mt={2} mb={2}>
               <MKInput
-                type="text"
+                type="email"
                 variant="standard"
-                name="email"
+                name="useremail"
                 label="Email"
-                value={validation.values?.email || user?.email}
+                value={validation.values.useremail}
                 onChange={validation.handleChange}
-                error={!!(validation.touched.email && validation.errors.email)}
+                error={!!(validation.touched.useremail && validation.errors.useremail)}
                 fullWidth
               />
-              {validation.touched.email && validation.errors.email ? (
+              {validation.touched.useremail && validation.errors.useremail ? (
                 <MKTypography variant="button" color="error">
-                  {validation.errors.email}
+                  {validation.errors.useremail}
                 </MKTypography>
               ) : null}
             </MKBox>
@@ -147,7 +172,7 @@ const Profile = () => {
                 maxLength={10}
                 name="bio"
                 label="Bio"
-                value={validation.values?.bio || user?.bio}
+                value={validation.values.bio}
                 onChange={validation.handleChange}
                 fullWidth
                 error={!!(validation.touched.bio && validation.errors.bio)}
@@ -163,21 +188,22 @@ const Profile = () => {
                 variant="gradient"
                 onClick={(e) => {
                   e.preventDefault();
+                  setType("UPDATE_PROFILE");
                   validation.handleSubmit();
                   return false;
                 }}
                 color="primary"
               >
-                {isLoading ? <MKSpinner color="white" size={20} /> : "Save details"}
+                {loading1 ? <MKSpinner color="white" size={20} /> : "Save details"}
               </MKButton>
             </MKBox>
-            {/* {error ? (
+            {error ? (
               <MKBox mt={2} mb={1}>
                 <MKTypography variant="button" color="error">
                   {error}
                 </MKTypography>
               </MKBox>
-            ) : null} */}
+            ) : null}
           </MKBox>
         </MKBox>
         <MKTypography textAlign="start" mt={2} mb={2}>
@@ -281,20 +307,21 @@ const Profile = () => {
                 onClick={(e) => {
                   e.preventDefault();
                   validation.handleSubmit();
+                  setType("UPDATE_SOCIAL_LINKS");
                   return false;
                 }}
                 color="primary"
               >
-                {isLoading ? <MKSpinner color="white" size={20} /> : "Save details"}
+                {loading3 ? <MKSpinner color="white" size={20} /> : "Save details"}
               </MKButton>
             </MKBox>
-            {/* {error ? (
+            {error ? (
               <MKBox mt={2} mb={1}>
                 <MKTypography variant="button" color="error">
                   {error}
                 </MKTypography>
               </MKBox>
-            ) : null} */}
+            ) : null}
           </MKBox>
         </MKBox>
       </Grid>
