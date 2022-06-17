@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 // Material Kit 2 React Components
 import MKTypography from "components/MKTypography";
 import MKBox from "components/MKBox";
 import MKButton from "components/MKButton";
 import MKSpinner from "components/MKSpinner";
+import MKDeleteModal from "components/MKDeleteModal";
 
 // react router components
 import { useNavigate } from "react-router-dom";
@@ -13,12 +14,54 @@ import { useNavigate } from "react-router-dom";
 import { Grid } from "@mui/material";
 import Switch from "@mui/material/Switch";
 
+// context
+import AuthContext from "context/AuthContext";
+
+// api call
+import { deleteAccount } from "api";
+
 const Settings = () => {
   const [error, setError] = useState("");
+  const [open, setOpen] = useState(false);
+  const { user } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [checked, setChecked] = useState(false);
   const toggleSwitch = () => setChecked(!checked);
+  const { rand_: userId } = user;
   const navigate = useNavigate();
+
+  const getCookieByName = (cookieName) => {
+    let token;
+    if (document.cookie) {
+      token = document?.cookie
+        .split(";")
+        .find((row) => row.startsWith(`${cookieName}=`))
+        .split("=")[1];
+    }
+    return token === undefined ? "" : token;
+  };
+
+  const deleteUserAccount = async () => {
+    if (navigator.onLine) {
+      setOpen(!open);
+      const token = getCookieByName("fanbies-token");
+      const req = await deleteAccount(token, userId);
+      if (req.success) {
+        setOpen(false);
+        localStorage.removeItem("fanbies-username");
+        document.cookie = `fanbies-token=; Max-Age=0; path=/; domain=${
+          process.env.PUBLIC_URL
+        };expires=${new Date().toLocaleDateString()}`;
+        setOpen(false);
+        navigate("/", { replace: true });
+      } else {
+        setOpen(false);
+        setError("Something went wrong. Please try again.");
+      }
+    } else {
+      setError("You're offline. Please check your network connection...");
+    }
+  };
 
   const logOut = (e) => {
     e.preventDefault();
@@ -38,6 +81,13 @@ const Settings = () => {
   return (
     <Grid container>
       <Grid item xs={12} md={12} lg={12} sm={12}>
+        <MKDeleteModal
+          title="Delete User"
+          message="This action is irreversible. Do you want to perform this action ?"
+          isOpen={open}
+          confirmDelete={deleteUserAccount}
+          cancelAction={setOpen}
+        />
         <MKBox mt={4} color="white" bgColor="white" borderRadius="lg" shadow="lg" opacity={1} p={2}>
           <Grid container>
             <Grid item xs={12} md={11} lg={11} sm={11}>
@@ -86,9 +136,16 @@ const Settings = () => {
               Click the button below if you would like to delete your account.
             </MKTypography>
           </MKBox>
-          <MKButton variant="gradient" color="error" fullWidth>
+          <MKButton variant="gradient" color="error" fullWidth onClick={() => setOpen(!open)}>
             Delete account
           </MKButton>
+          {error ? (
+            <MKBox mt={2} mb={1}>
+              <MKTypography variant="button" color="error" fontWeight="bold">
+                {error}
+              </MKTypography>
+            </MKBox>
+          ) : null}
         </MKBox>
       </Grid>
     </Grid>

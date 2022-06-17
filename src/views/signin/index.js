@@ -55,7 +55,7 @@ function SignIn() {
       // window.console.log(cookies);
       if (!res.success) {
         setIsLoading(false);
-        setError("Invalid username and/or password");
+        setError(res.message);
       } else {
         setIsLoading(false);
         const obj = res.response[0];
