@@ -5,6 +5,7 @@ import MKTypography from "components/MKTypography";
 import MKBox from "components/MKBox";
 import MKButton from "components/MKButton";
 import MKSpinner from "components/MKSpinner";
+import MKDeleteModal from "components/MKDeleteModal";
 
 // react router components
 import { useNavigate } from "react-router-dom";
@@ -21,9 +22,9 @@ import { deleteAccount } from "api";
 
 const Settings = () => {
   const [error, setError] = useState("");
+  const [open, setOpen] = useState(false);
   const { user } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
-  const [loading2, setLoading2] = useState(false);
   const [checked, setChecked] = useState(false);
   const toggleSwitch = () => setChecked(!checked);
   const { rand_: userId } = user;
@@ -42,18 +43,19 @@ const Settings = () => {
 
   const deleteUserAccount = async () => {
     if (navigator.onLine) {
+      setOpen(!open);
       const token = getCookieByName("fanbies-token");
-      setLoading2(!loading2);
       const req = await deleteAccount(token, userId);
       if (req.success) {
-        setLoading2(false);
+        setOpen(false);
         localStorage.removeItem("fanbies-username");
         document.cookie = `fanbies-token=; Max-Age=0; path=/; domain=${
           process.env.PUBLIC_URL
         };expires=${new Date().toLocaleDateString()}`;
+        setOpen(false);
         navigate("/", { replace: true });
       } else {
-        setLoading2(false);
+        setOpen(false);
         setError("Something went wrong. Please try again.");
       }
     } else {
@@ -79,6 +81,13 @@ const Settings = () => {
   return (
     <Grid container>
       <Grid item xs={12} md={12} lg={12} sm={12}>
+        <MKDeleteModal
+          title="Delete User"
+          message="This action is irreversible. Do you want to perform this action ?"
+          isOpen={open}
+          confirmDelete={deleteUserAccount}
+          cancelAction={setOpen}
+        />
         <MKBox mt={4} color="white" bgColor="white" borderRadius="lg" shadow="lg" opacity={1} p={2}>
           <Grid container>
             <Grid item xs={12} md={11} lg={11} sm={11}>
@@ -127,7 +136,7 @@ const Settings = () => {
               Click the button below if you would like to delete your account.
             </MKTypography>
           </MKBox>
-          <MKButton variant="gradient" color="error" fullWidth onClick={deleteUserAccount}>
+          <MKButton variant="gradient" color="error" fullWidth onClick={() => setOpen(!open)}>
             Delete account
           </MKButton>
           {error ? (
