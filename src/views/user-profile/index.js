@@ -68,8 +68,9 @@ const Profile = () => {
     onSubmit: async (values) => {
       if (type === "UPDATE_PROFILE") {
         setLoading1(!loading1);
+        const { name, useremail, bio } = values;
         const jtoken = getCookie("fanbies-token");
-        const req = await updateUserProfile(values, jtoken);
+        const req = await updateUserProfile({ name, useremail, bio, jtoken });
         if (req.success) {
           const res = await getUserProfile({
             username: localStorage.getItem("fanbies-username") ?? "",

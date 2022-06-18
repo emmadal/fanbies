@@ -155,14 +155,8 @@ export const getCookie = (cookieName) => {
 /*
 Update user profile
 */
-export const updateUserProfile = (obj, jtoken) =>
+export const updateUserProfile = (data) =>
   new Promise((resolve, reject) => {
-    const data = {
-      name: obj.name,
-      useremail: obj.useremail,
-      bio: obj.bio,
-      jtoken,
-    };
     const params = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
