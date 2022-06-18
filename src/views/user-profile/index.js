@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 
 // Material Kit 2 React Components
 import MKInput from "components/MKInput";
@@ -9,7 +9,8 @@ import MKAvatar from "components/MKAvatar";
 import MKSpinner from "components/MKSpinner";
 
 // import material components
-import { Grid } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
 import InputAdornment from "@mui/material/InputAdornment";
 
 // form validation with Formik
@@ -19,7 +20,13 @@ import { useFormik } from "formik";
 import AuthContext from "context/AuthContext";
 
 // api call
-import { removeProfilePicture, getCookie, getUserProfile, updateUserProfile } from "api";
+import {
+  removeProfilePicture,
+  getCookie,
+  getUserProfile,
+  uploadProfilePicture,
+  updateUserProfile,
+} from "api";
 
 const Profile = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -28,6 +35,7 @@ const Profile = () => {
   const [loading1, setLoading1] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [loading3, setLoading3] = useState(false);
+  const ref = useRef();
 
   const removePicture = async () => {
     if (navigator.onLine) {
@@ -51,6 +59,36 @@ const Profile = () => {
     } else {
       setError("You're offline. Please check your network connection...");
     }
+  };
+
+  const uploadPicture = () => {
+    const { rand_: userId } = user;
+    document.getElementById("input_file").click();
+    document.getElementById("input_file").addEventListener("change", async () => {
+      const data = new FormData();
+      data.append("file", ref.current.files[0]);
+      data.set("id", userId);
+      if (navigator.onLine) {
+        setLoading3(!loading3);
+        const res = await uploadProfilePicture(data);
+        if (res) {
+          const req = await getUserProfile({
+            username: localStorage.getItem("fanbies-username") ?? "",
+            jtoken: getCookie("fanbies-token"),
+          });
+          if (req.success) {
+            const response = res.response[0];
+            // delete token key in user object
+            const { token, ...dataWithoutToken } = response;
+            setLoading3(false);
+            setUser(dataWithoutToken);
+          }
+        }
+      } else {
+        setLoading3(false);
+        setError("You're offline. Please check your network connection...");
+      }
+    });
   };
 
   const validation = useFormik({
@@ -110,23 +148,16 @@ const Profile = () => {
               />
             </MKBox>
             <MKBox mx={1} alignSelf="center">
-              <MKButton
-                variant="gradient"
-                color="primary"
-                size="small"
-                sx={{ marginLeft: 1, marginRight: 1 }}
-              >
-                Upload an image
-              </MKButton>
-              <MKButton
-                variant="outlined"
-                color="error"
-                size="small"
-                sx={{ marginLeft: 1, marginRight: 1 }}
-                onClick={removePicture}
-              >
-                {loading2 ? <MKSpinner color="error" size={20} /> : "Remove image"}
-              </MKButton>
+              <Stack direction="row" spacing={2}>
+                <input type="file" accept="image/*" id="input_file" ref={ref} hidden />
+                <MKButton variant="gradient" color="primary" size="small" onClick={uploadPicture}>
+                  {loading3 ? <MKSpinner color="white" size={20} /> : "Upload an image"}
+                </MKButton>
+                <MKButton variant="outlined" color="error" size="small" onClick={removePicture}>
+                  {loading2 ? <MKSpinner color="error" size={20} /> : "Remove image"}
+                </MKButton>
+              </Stack>
+
               {error ? (
                 <MKBox mt={2} mb={1}>
                   <MKTypography variant="button" color="error" fontWeight="bold">
