@@ -29,20 +29,19 @@ function PublicProfile() {
   const { user, setUser } = useContext(AuthContext);
 
   useEffect(() => {
-    (async () => {
-      setInterval(async () => {
-        const res = await getUserProfile({
-          username: localStorage.getItem("fanbies-username") ?? "",
-          jtoken: getCookie("fanbies-token"),
-        });
-        if (res) {
-          const response = res.response[0];
-          // delete token key in user object
-          const { token, ...dataWithoutToken } = response;
-          setUser(dataWithoutToken);
-        }
-      }, 2000);
-    })();
+    const interval = setInterval(async () => {
+      const res = await getUserProfile({
+        username: localStorage.getItem("fanbies-username") ?? "",
+        jtoken: getCookie("fanbies-token"),
+      });
+      if (res) {
+        const response = res.response[0];
+        // delete token key in user object
+        const { token, ...dataWithoutToken } = response;
+        setUser(dataWithoutToken);
+      }
+    }, 2000);
+    return () => clearInterval(interval);
   }, [setUser]);
 
   return (
