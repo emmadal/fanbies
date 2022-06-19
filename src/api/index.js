@@ -41,7 +41,6 @@ export const getUserProfile = (data) =>
   new Promise((resolve, reject) => {
     const params = {
       method: "POST",
-      mode: "cors",
       headers: { "Content-Type": "application/json" },
       redirect: "follow",
       body: JSON.stringify({ ...data }),
@@ -152,3 +151,20 @@ export const getCookie = (cookieName) => {
   }
   return name ?? "";
 };
+
+/*
+Update user profile
+*/
+export const updateUserProfile = (data) =>
+  new Promise((resolve, reject) => {
+    const params = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      redirect: "follow",
+      body: JSON.stringify({ ...data }),
+    };
+    fetch(`${API}/updatedetails`, params)
+      .then((res) => res.json())
+      .then((e) => resolve(e))
+      .catch((err) => reject(err.message));
+  });

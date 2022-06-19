@@ -72,6 +72,7 @@ const Settings = () => {
         document.cookie = `fanbies-token=; Max-Age=0; path=/; domain=${
           process.env.PUBLIC_URL
         };expires=${new Date().toLocaleDateString()}`;
+        localStorage.removeItem("fanbies-username");
         navigate("/", { replace: true });
       }, 2000);
     } else {
