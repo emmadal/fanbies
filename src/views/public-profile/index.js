@@ -1,7 +1,4 @@
-import { useContext } from "react";
-
-// react-router-dom components
-// import { useParams } from "react-router-dom";
+import { useContext, useEffect } from "react";
 
 // Material Kit 2 PRO React components
 import MKBox from "components/MKBox";
@@ -15,6 +12,9 @@ import colors from "assets/theme/base/colors";
 // Material Kit 2 PRO React helper functions
 import rgba from "assets/theme/functions/rgba";
 
+// api call
+import { getUserProfile, getCookie } from "api";
+
 // context
 import AuthContext from "context/AuthContext";
 
@@ -26,9 +26,24 @@ const links = [
 ];
 
 function PublicProfile() {
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
 
-  // const { username } = useParams();
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      const res = await getUserProfile({
+        username: localStorage.getItem("fanbies-username") ?? "",
+        jtoken: getCookie("fanbies-token"),
+      });
+      if (res) {
+        const response = res.response[0];
+        // delete token key in user object
+        const { token, ...dataWithoutToken } = response;
+        setUser(dataWithoutToken);
+      }
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [setUser]);
+
   return (
     <MKBox
       width="100%"
