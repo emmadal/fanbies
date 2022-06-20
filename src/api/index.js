@@ -122,6 +122,21 @@ export const removeProfilePicture = (token) =>
   });
 
 /*
+Upload user profile picture
+*/
+export const uploadProfilePicture = (data) =>
+  new Promise((resolve, reject) => {
+    const params = {
+      method: "POST",
+      body: data,
+    };
+    fetch(`${API}/profilepicupdate`, params)
+      .then((res) => res.json())
+      .then((e) => resolve(e))
+      .catch((err) => reject(err.message));
+  });
+
+/*
 Delete user account
 */
 export const deleteAccount = (jwtoken, uid) =>

@@ -64,7 +64,7 @@ function PublicProfile() {
           @{user?.username}
         </MKTypography>
         <MKTypography variant="button" color="white">
-          Biography
+          {user?.bio ?? ""}
         </MKTypography>
         {links.map((link) => (
           <MKButton
