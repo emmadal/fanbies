@@ -20,17 +20,12 @@ import { useFormik } from "formik";
 import AuthContext from "context/AuthContext";
 
 // api call
-import {
-  removeProfilePicture,
-  getCookie,
-  getUserProfile,
-  uploadProfilePicture,
-  updateUserProfile,
-} from "api";
+import { removeProfilePicture, getCookie, uploadProfilePicture, updateUserProfile } from "api";
 
 const Profile = () => {
-  const { user, setUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [error, setError] = useState("");
+  const [imageURL, setImageURL] = useState("");
   const [type, setType] = useState("");
   const [loading1, setLoading1] = useState(false);
   const [loading2, setLoading2] = useState(false);
@@ -42,19 +37,9 @@ const Profile = () => {
       setLoading2(!loading2);
       const tk = getCookie("fanbies-token");
       const req = await removeProfilePicture(tk);
-      const data = {
-        username: localStorage.getItem("fanbies-username") ?? "",
-        jtoken: tk,
-      };
       if (req.success) {
-        const res = await getUserProfile(data);
-        if (res.success) {
-          const response = res.response[0];
-          // delete token key in user object
-          const { token, ...dataWithoutToken } = response;
-          setLoading2(false);
-          setUser(dataWithoutToken);
-        }
+        setLoading2(false);
+        setImageURL("");
       }
     } else {
       setError("You're offline. Please check your network connection...");
@@ -67,22 +52,13 @@ const Profile = () => {
     document.getElementById("input_file").addEventListener("change", async () => {
       const data = new FormData();
       data.append("file", ref.current.files[0]);
-      data.set("id", userId);
+      data.append("id", userId);
       if (navigator.onLine) {
         setLoading3(!loading3);
         const res = await uploadProfilePicture(data);
-        if (res) {
-          const req = await getUserProfile({
-            username: localStorage.getItem("fanbies-username") ?? "",
-            jtoken: getCookie("fanbies-token"),
-          });
-          if (req.success) {
-            const response = res.response[0];
-            // delete token key in user object
-            const { token, ...dataWithoutToken } = response;
-            setLoading3(false);
-            setUser(dataWithoutToken);
-          }
+        if (res.success) {
+          setLoading3(false);
+          setImageURL(res.response);
         }
       } else {
         setLoading3(false);
@@ -110,19 +86,8 @@ const Profile = () => {
         const jtoken = getCookie("fanbies-token");
         const req = await updateUserProfile({ name, useremail, bio, jtoken });
         if (req.success) {
-          const res = await getUserProfile({
-            username: localStorage.getItem("fanbies-username") ?? "",
-            jtoken,
-          });
-          if (res.success) {
-            setLoading1(false);
-            const response = res.response[0];
-            // delete token key in user object
-            const { token, ...dataWithoutToken } = response;
-            setLoading2(false);
-            setUser(dataWithoutToken);
-            setType("");
-          }
+          setType("");
+          setLoading1(false);
         }
       }
       if (type === "UPDATE_SOCIAL_LINKS") {
@@ -143,7 +108,7 @@ const Profile = () => {
                 alt="user image"
                 variant="circular"
                 size="xxl"
-                src={`${user?.picture}`}
+                src={imageURL.length ? imageURL : user?.picture}
                 sx={{ border: "2px solid rgba(0, 0, 0, 0.05)", cursor: "pointer" }}
               />
             </MKBox>
