@@ -12,7 +12,6 @@ import { useNavigate } from "react-router-dom";
 
 // import material components
 import { Grid } from "@mui/material";
-import Switch from "@mui/material/Switch";
 
 // context
 import AuthContext from "context/AuthContext";
@@ -25,8 +24,6 @@ const Settings = () => {
   const [open, setOpen] = useState(false);
   const { user } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
-  const [checked, setChecked] = useState(false);
-  const toggleSwitch = () => setChecked(!checked);
   const { rand_: userId } = user;
   const navigate = useNavigate();
 
@@ -89,19 +86,6 @@ const Settings = () => {
           confirmDelete={deleteUserAccount}
           cancelAction={setOpen}
         />
-        <MKBox mt={4} color="white" bgColor="white" borderRadius="lg" shadow="lg" opacity={1} p={2}>
-          <Grid container>
-            <Grid item xs={12} md={11} lg={11} sm={11}>
-              <MKTypography>Enable Multi-factor authentication</MKTypography>
-              <MKTypography variant="caption">
-                Cover yourself with one more layer of security
-              </MKTypography>
-            </Grid>
-            <Grid item xs={12} md={1} lg={1} sm={1}>
-              <Switch checked={checked} onChange={toggleSwitch} color="primary" />
-            </Grid>
-          </Grid>
-        </MKBox>
         <MKTypography textAlign="start" mt={2} mb={2}>
           Action account for fanbies
         </MKTypography>

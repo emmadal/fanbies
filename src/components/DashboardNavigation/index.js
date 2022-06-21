@@ -27,7 +27,7 @@ function DashboardNavigation() {
 
   return (
     <Grid container item justifyContent="center" xs={12} mx="auto">
-      <AppBar position="static" style={{ paddingTop: 15 }}>
+      <AppBar position="static" style={{ paddingTop: 5 }}>
         <Tabs value={activeTab} onChange={handleTabType}>
           <Tab label="Links" {...a11yProps(0)} />
           <Tab label="Profile" {...a11yProps(1)} />

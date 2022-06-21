@@ -9,7 +9,7 @@ import MKTypography from "components/MKTypography";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
-import Divider from "@mui/material/Divider";
+import Link from "@mui/material/Link";
 
 // context
 import AuthContext from "context/AuthContext";
@@ -17,50 +17,90 @@ import AuthContext from "context/AuthContext";
 // Stats page components
 import DashboardNavigation from "components/DashboardNavigation";
 
+// Images
+import fanbiesLogo from "assets/images/favicon.png";
+
 function Admin() {
   const { user } = useContext(AuthContext);
   return (
     <DashboardLayout>
       <MKBox height="100vh">
         <Grid container spacing={0}>
-          <Grid item xs={12} md={8} lg={8} sm={8}>
+          <Grid item xs={12} md={1} lg={1} sm={1}>
+            <MKBox
+              component="div"
+              justifyContent="center"
+              display="flex"
+              sx={{
+                alignItems: "start",
+                height: "100%",
+                backgroundColor: "#fff",
+                borderRight: "1px solid #d7ddd1",
+              }}
+            >
+              <MKBox
+                mt={2}
+                component="img"
+                src={fanbiesLogo}
+                alt="Fanbies Logo"
+                sx={{ width: "30px" }}
+              />
+            </MKBox>
+          </Grid>
+          <Grid item xs={12} md={7} lg={7} sm={7}>
             <MKBox minHeight="100vh">
               <DashboardNavigation />
             </MKBox>
           </Grid>
-          <Grid item md={1} lg={1} sm={1} xs={1}>
-            <Divider orientation="vertical" flexItem style={{ width: "5px" }} />
-          </Grid>
-          <Grid item xs={12} md={3} lg={3} sm={3}>
+          <Grid
+            item
+            xs={12}
+            md={4}
+            lg={4}
+            sm={4}
+            sx={{
+              backgroundColor: "#fff",
+              borderLeft: "1px solid #d7ddd1",
+            }}
+          >
             <MKBox
               minHeight="100vh"
               display="flex"
+              flexDirection="column"
               justifyContent="center"
               textAlign="center"
-              position="fixed"
             >
-              <MKTypography textAlign="center" fontWeight="bold" variant="h6" pt={3}>
-                My Fanbies:{" "}
-                <MKTypography
-                  color="primary"
-                  fontWeight="bold"
-                  variant="button"
-                  component="a"
-                  href={`https://fanbies.com/${process.env.PUBLIC_URL}${user?.username}`}
+              <MKTypography
+                mb={6}
+                fontWeight="bold"
+                pt={2}
+                pb={1}
+                sx={{
+                  borderBottom: "1px solid #d7ddd1",
+                  fontSize: ".7em",
+                }}
+              >
+                Your Link:{" "}
+                <Link
                   target="_blank"
                   rel="noreferrer"
+                  underline="always"
+                  href={`https://fanbies.com/${process.env.PUBLIC_URL}${user?.username}`}
+                  color="primary"
                 >
                   {`https://fanbies.com/${process.env.PUBLIC_URL}${user?.username}`}
-                </MKTypography>
+                </Link>
               </MKTypography>
-              <iframe
-                className="phone phone_translate"
-                height="100%"
-                width="100%"
-                loading="eager"
-                title="john"
-                src={`${process.env.PUBLIC_URL}/john`}
-              />
+              <MKBox component="div">
+                <iframe
+                  className="phone phone_translate"
+                  height="100%"
+                  width="100%"
+                  loading="eager"
+                  title={`${user?.username}`}
+                  src={`${process.env.PUBLIC_URL}/john`}
+                />
+              </MKBox>
             </MKBox>
           </Grid>
         </Grid>

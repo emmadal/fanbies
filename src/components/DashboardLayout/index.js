@@ -2,7 +2,6 @@
 import PropTypes from "prop-types";
 
 // @mui material components
-import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 
 // Material Kit 2 PRO React components
@@ -18,13 +17,11 @@ import Grid from "@mui/material/Grid";
 
 function DashboardLayout({ children }) {
   return (
-    <Container>
-      <Grid container>
-        <Grid item xs={12} md={12} lg={12} sm={12}>
-          {children}
-        </Grid>
+    <Grid container mx="auto">
+      <Grid item xs={12} md={12} lg={12} sm={12}>
+        {children}
       </Grid>
-    </Container>
+    </Grid>
   );
 }
 
