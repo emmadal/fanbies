@@ -34,17 +34,18 @@ function PublicProfile() {
   const jtoken = getCookie("fanbies-token");
   const username = localStorage.getItem("fanbies-username") ?? params.username;
 
+  const getUserApi = async () => {
+    const res = await getUserProfile({ username, jtoken });
+    if (res) {
+      const response = res.response[0];
+      // delete token key in user object
+      const { token, ...dataWithoutToken } = response;
+      setUser(dataWithoutToken);
+    }
+  };
+
   useEffect(() => {
-    const interval = setInterval(async () => {
-      const res = await getUserProfile({ username, jtoken });
-      if (res) {
-        const response = res.response[0];
-        // delete token key in user object
-        const { token, ...dataWithoutToken } = response;
-        setUser(dataWithoutToken);
-      }
-    }, 2000);
-    return () => clearInterval(interval);
+    getUserApi();
   }, [setUser]);
 
   return (
