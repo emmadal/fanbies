@@ -88,6 +88,8 @@ const Profile = () => {
         if (req.success) {
           setType("");
           setLoading1(false);
+          const iframeEle = document.getElementById("profile-preview");
+          iframeEle.contentWindow.location.reload();
         }
       }
       if (type === "UPDATE_SOCIAL_LINKS") {

@@ -95,6 +95,7 @@ function Admin() {
                 <iframe
                   className="phone phone_translate"
                   height="100%"
+                  id="profile-preview"
                   width="100%"
                   loading="eager"
                   title={`${user?.username}`}

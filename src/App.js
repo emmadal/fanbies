@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 
 // react-router components
 import { Route, useLocation, Routes } from "react-router-dom";
@@ -40,7 +40,12 @@ export default function App() {
     });
   };
 
-  useMemo(() => onAuthenticated(jtoken), [jtoken]);
+  useState(() => {
+    if (jtoken && jtoken != null) {
+      onAuthenticated(jtoken);
+    }
+    return () => null;
+  }, []);
 
   const getAllRoutes = (r) =>
     r.map((prop) => <Route exact path={prop.route} key={prop.name} element={prop.component} />);
