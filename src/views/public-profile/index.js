@@ -9,6 +9,9 @@ import MKButton from "components/MKButton";
 // Material Kit 2 PRO React base styles
 import colors from "assets/theme/base/colors";
 
+// react-router components
+import { useParams } from "react-router-dom";
+
 // Material Kit 2 PRO React helper functions
 import rgba from "assets/theme/functions/rgba";
 
@@ -27,13 +30,13 @@ const links = [
 
 function PublicProfile() {
   const { user, setUser } = useContext(AuthContext);
+  const params = useParams();
+  const jtoken = getCookie("fanbies-token");
+  const username = localStorage.getItem("fanbies-username") ?? params.username;
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      const res = await getUserProfile({
-        username: localStorage.getItem("fanbies-username") ?? "",
-        jtoken: getCookie("fanbies-token"),
-      });
+      const res = await getUserProfile({ username, jtoken });
       if (res) {
         const response = res.response[0];
         // delete token key in user object
