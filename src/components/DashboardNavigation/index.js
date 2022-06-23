@@ -12,6 +12,7 @@ import Tab from "@mui/material/Tab";
 // import custom components
 import Settings from "views/user-settings";
 import Profile from "views/user-profile";
+import UserLink from "views/user-link";
 
 function a11yProps(index) {
   return {
@@ -34,7 +35,7 @@ function DashboardNavigation() {
           <Tab label="Settings" {...a11yProps(2)} />
         </Tabs>
         <MKTabPanel value={activeTab} index={0}>
-          Links Tab
+          <UserLink />
         </MKTabPanel>
         <MKTabPanel value={activeTab} index={1}>
           <Profile />

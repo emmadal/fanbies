@@ -20,9 +20,9 @@ html,
   border: 20px solid #6a4d4d36;
   width: 440px;
   height: 804px;
-  display: block;
+  /* display: block; */
   margin: 0 auto;
-  transform-origin: bottom left;
+  /* transform-origin: bottom left; */
 }
 .phone_translate{
   transform:scale(0.536022) translateX(60%) translateY(-50%) translate3d(0px, 0px, 0px); 

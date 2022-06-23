@@ -91,7 +91,7 @@ function Admin() {
                   {`https://fanbies.com/${process.env.PUBLIC_URL}${user?.username}`}
                 </Link>
               </MKTypography>
-              <MKBox component="div">
+              <MKBox display="flex" textAlign="center" justifyContent="center">
                 <iframe
                   className="phone phone_translate"
                   height="100%"
