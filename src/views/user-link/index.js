@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 
 // Material Kit 2 React Components
@@ -18,10 +17,9 @@ import { getItems, reorder } from "components/Draggable/helpers";
 const UserLink = () => {
   const [loading, setLoading] = useState(false);
   const [links, setLinks] = useState([]);
-  const [items, setItems] = useState(getItems(10));
-  // const [currLinkId, setCurrLinkId] = useState();
-  // const [isTitle, setIsTitle] = useState(false);
-  // const [isURL, setIsURL] = useState(false);
+  const [inputLengthTitle, setInputLengthTitle] = useState(0);
+  const [inputLengthURL, setInputLengthURL] = useState(0);
+  const [items, setItems] = useState(getItems(links));
 
   const generateLink = () => {
     setLoading(!loading);
@@ -36,6 +34,8 @@ const UserLink = () => {
       data.unshift(link);
       setLinks([...links, ...data]);
       setLoading(false);
+      setInputLengthTitle(0);
+      setInputLengthURL(0);
     }, 1000);
   };
 
@@ -62,99 +62,15 @@ const UserLink = () => {
           )}
         </MKButton>
         <MKBox mt={8}>
-          <DraggableList items={links} onDragEnd={onDragEnd} setLinks={setLinks} />
-          {/* {links.map((link, key) => (
-            <MKBox
-              color="white"
-              bgColor="white"
-              borderRadius="lg"
-              shadow="lg"
-              opacity={1}
-              p={2}
-              mt={3}
-              mb={3}
-              key={link.id}
-            >
-              <Grid container>
-                <Grid item xs={9} md={9} lg={9} sm={9}>
-                  <form onSubmit={onSubmit}>
-                    <Stack direction="row" spacing={2}>
-                      <MKBox
-                        display="flex"
-                        flexDirection="row"
-                        alignItems="center"
-                        justifyContent="center"
-                        sx={{ cursor: "pointer" }}
-                        onClick={() => addTitle(link.id, key)}
-                      >
-                        <MKTypography fontWeight="bold" variant="body2">
-                          Title&nbsp;
-                        </MKTypography>
-                        <Icon>edit</Icon>
-                      </MKBox>
-                      {isTitle || (link.title && currLinkId === link.id) ? (
-                        <MKInput
-                          onBlur={() => setIsTitle(false)}
-                          onChange={(e) => handleChange(key, e)}
-                          value={link.title}
-                          type="text"
-                          variant="standard"
-                          name="title"
-                          InputProps={{
-                            disableUnderline: true,
-                          }}
-                          fullWidth
-                        />
-                      ) : null}
-                    </Stack>
-                    <Stack direction="row" spacing={2}>
-                      <MKBox
-                        display="flex"
-                        flexDirection="row"
-                        alignItems="center"
-                        justifyContent="center"
-                        sx={{ cursor: "pointer" }}
-                        onClick={() => addURL(link.id, key)}
-                      >
-                        <MKTypography fontWeight="bold" variant="body2">
-                          URL&nbsp;
-                        </MKTypography>
-                        <Icon>edit</Icon>
-                      </MKBox>
-                      {isURL || (link.url && currLinkId === link.id) ? (
-                        <MKInput
-                          type="text"
-                          variant="standard"
-                          name="url"
-                          onChange={(e) => handleChange(key, e)}
-                          value={link.url}
-                          InputProps={{
-                            disableUnderline: true,
-                            autoFocus: true,
-                          }}
-                          fullWidth
-                          onBlur={() => setIsURL(false)}
-                        />
-                      ) : null}
-                    </Stack>
-                  </form>
-                </Grid>
-                <Grid item xs={3} md={3} lg={3} sm={3}>
-                  <Stack direction="row" alignItems="flex-start" justifyContent="flex-end">
-                    <Switch />
-                    <Icon
-                      sx={{ cursor: "pointer" }}
-                      fontSize="large"
-                      color="primary"
-                      onClick={() => removeLink(key)}
-                    >
-                      delete
-                    </Icon>
-                  </Stack>
-                </Grid>
-              </Grid>
-            </MKBox>
-          ))} */}
+          <DraggableList
+            items={links}
+            onDragEnd={onDragEnd}
+            setLinks={setLinks}
+            inputLengthTitle={inputLengthTitle}
+            setInputLengthTitle={setInputLengthTitle}
+            setInputLengthURL={setInputLengthURL}
+            inputLengthURL={inputLengthURL}
+          />
         </MKBox>
       </Grid>
     </Grid>

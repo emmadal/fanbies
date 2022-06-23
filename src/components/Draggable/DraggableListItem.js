@@ -1,6 +1,6 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+
 import { Draggable } from "react-beautiful-dnd";
 
 // Material Kit 2 React Components
@@ -20,10 +20,13 @@ const DraggableListItem = ({
   removeLink,
   handleChange,
   addTitle,
-  setIsTitle,
-  setCurrLinkId,
   currLinkId,
   isTitle,
+  setInputLengthTitle,
+  inputLengthTitle,
+  inputLengthURL,
+  setInputLengthURL,
+  addURL,
 }) => (
   <Draggable draggableId={`${item.id}`} index={index}>
     {(provided, snapshot) => (
@@ -45,25 +48,15 @@ const DraggableListItem = ({
         <Grid container>
           <Grid item xs={9} md={9} lg={9} sm={9}>
             <form>
-              <Stack direction="row" spacing={2}>
-                <MKBox
-                  display="flex"
-                  flexDirection="row"
-                  alignItems="center"
-                  justifyContent="center"
-                  sx={{ cursor: "pointer" }}
-                  onClick={() => addTitle(item.id, index)}
-                >
-                  <MKTypography fontWeight="bold" variant="body2">
-                    Title&nbsp;
-                  </MKTypography>
-                  <Icon>edit</Icon>
-                </MKBox>
-                {isTitle || (item.title && currLinkId === item.id) ? (
+              <MKBox sx={{ cursor: "pointer" }} onClick={() => addTitle(item.id, index)}>
+                {(isTitle && currLinkId === item.id && inputLengthTitle > 0) ||
+                item.title.length ? (
                   <MKInput
-                    onBlur={() => ""}
                     onChange={(e) => handleChange(index, e)}
+                    onBlur={() => setInputLengthTitle(item.title.length)}
+                    value={item.title}
                     type="text"
+                    placeholder="Title"
                     variant="standard"
                     name="title"
                     InputProps={{
@@ -72,34 +65,36 @@ const DraggableListItem = ({
                     }}
                     fullWidth
                   />
-                ) : null}
-              </Stack>
-              <Stack direction="row" spacing={2}>
-                <MKBox
-                  display="flex"
-                  flexDirection="row"
-                  alignItems="center"
-                  justifyContent="center"
-                  sx={{ cursor: "pointer" }}
-                  onClick={() => ""}
-                >
+                ) : (
+                  <MKTypography fontWeight="bold" variant="body2">
+                    Title&nbsp;
+                    <Icon>edit</Icon>
+                  </MKTypography>
+                )}
+              </MKBox>
+              <MKBox sx={{ cursor: "pointer" }} onClick={() => addURL(item.id, index)}>
+                {(isTitle && currLinkId === item.id && inputLengthURL > 0) || item.url.length ? (
+                  <MKInput
+                    onChange={(e) => handleChange(index, e)}
+                    onBlur={() => setInputLengthURL(item.url.length)}
+                    value={item.url}
+                    type="text"
+                    placeholder="URL"
+                    variant="standard"
+                    name="url"
+                    InputProps={{
+                      disableUnderline: true,
+                      autoFocus: true,
+                    }}
+                    fullWidth
+                  />
+                ) : (
                   <MKTypography fontWeight="bold" variant="body2">
                     URL&nbsp;
+                    <Icon>edit</Icon>
                   </MKTypography>
-                  <Icon>edit</Icon>
-                </MKBox>
-                <MKInput
-                  type="text"
-                  variant="standard"
-                  name="url"
-                  onChange={(e) => handleChange(index, e)}
-                  InputProps={{
-                    disableUnderline: true,
-                  }}
-                  fullWidth
-                  onBlur={() => ""}
-                />
-              </Stack>
+                )}
+              </MKBox>
             </form>
           </Grid>
           <Grid item xs={3} md={3} lg={3} sm={3}>
