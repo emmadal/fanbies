@@ -12,14 +12,13 @@ import Icon from "@mui/material/Icon";
 
 // draggable components
 import DraggableList from "components/Draggable/DraggableList";
-import { getItems, reorder } from "components/Draggable/helpers";
+import { reorder } from "components/Draggable/helpers";
 
 const UserLink = () => {
   const [loading, setLoading] = useState(false);
   const [links, setLinks] = useState([]);
   const [inputLengthTitle, setInputLengthTitle] = useState(0);
   const [inputLengthURL, setInputLengthURL] = useState(0);
-  const [items, setItems] = useState(getItems(links));
 
   const generateLink = () => {
     setLoading(!loading);
@@ -42,8 +41,8 @@ const UserLink = () => {
   const onDragEnd = ({ destination, source }) => {
     // dropped outside the list
     if (!destination) return;
-    const newItems = reorder(items, source.index, destination.index);
-    setItems(newItems);
+    const newItems = reorder(links, source.index, destination.index);
+    setLinks(newItems);
   };
 
   return (
