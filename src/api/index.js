@@ -45,7 +45,7 @@ export const getUserProfile = (data) =>
       redirect: "follow",
       body: JSON.stringify({ ...data }),
     };
-    fetch(`${API}/getprofile`, params)
+    fetch(`${API}/getuserprofile`, params)
       .then((res) => res.json())
       .then((e) => resolve(e))
       .catch((err) => reject(err.message));
@@ -179,6 +179,24 @@ export const updateUserProfile = (data) =>
       body: JSON.stringify({ ...data }),
     };
     fetch(`${API}/updatedetails`, params)
+      .then((res) => res.json())
+      .then((e) => resolve(e))
+      .catch((err) => reject(err.message));
+  });
+
+/*
+Get App Config Video Message Rates
+*/
+export const getVideoMessageRates = (token, configType, configSection) =>
+  new Promise((resolve, reject) => {
+    const params = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      redirect: "follow",
+      body: JSON.stringify({ jtoken: token, name: configType, value: configSection }),
+    };
+
+    fetch(`${API}/getconfig`, params)
       .then((res) => res.json())
       .then((e) => resolve(e))
       .catch((err) => reject(err.message));

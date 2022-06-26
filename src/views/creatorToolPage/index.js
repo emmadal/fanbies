@@ -16,16 +16,14 @@ import Grid from "@mui/material/Grid";
 import AuthContext from "context/AuthContext";
 
 // api call
-// import { removeProfilePicture, getCookie, uploadProfilePicture, updateUserProfile } from "api";
-
-const shoutoutRateOptions = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
+// import { getCookie } from "api";
 
 const CreatorToolPage = () => {
-  const { user } = useContext(AuthContext);
-  const [shoutoutSlot, setShoutoutSlot] = useState(user?.available_slot);
-  const [shoutoutRate, setShoutoutRate] = useState(user?.shoutrate);
+  const { user, appVideoMessageRate } = useContext(AuthContext);
+  const [shoutoutSlot, setShoutoutSlot] = useState(user?.slots ?? 0);
+  const [shoutoutRate, setShoutoutRate] = useState(user?.video_message_fee ?? "5");
   const [loading, setLoading] = useState(false);
-  const [activeShoutout, setShoutoutStatus] = useState(user?.active > 2);
+  const [activeShoutout, setShoutoutStatus] = useState(user?.video_message_status ?? false);
 
   const handleShoutoutStatus = () => setShoutoutStatus(!activeShoutout);
 
@@ -70,7 +68,7 @@ const CreatorToolPage = () => {
           opacity={1}
           p={2}
         >
-          {user?.usertype < 2 ? (
+          {user?.usertype < 1 ? (
             <MKBox
               component="div"
               className="unlock_overlay ripple"
@@ -89,7 +87,7 @@ const CreatorToolPage = () => {
               <Grid item xs={12} md={12} lg={12} sm={12}>
                 <MKBox display="flex" alignItems="center" ml={-1} my={1}>
                   <Switch
-                    disabled={user?.active < 3}
+                    disabled={user?.usertype < 1}
                     checked={activeShoutout}
                     onChange={handleShoutoutStatus}
                   />
@@ -133,7 +131,7 @@ const CreatorToolPage = () => {
                     className: "fanbies_input_custom_v1",
                   }}
                 >
-                  {shoutoutRateOptions.map((option) => (
+                  {appVideoMessageRate.map((option) => (
                     <MenuItem key={`${option}-rate`} value={option}>
                       $ {option}
                     </MenuItem>

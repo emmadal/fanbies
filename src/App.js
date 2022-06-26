@@ -11,7 +11,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AuthContext from "context/AuthContext";
 
 // api call
-import { getUserProfile, getCookie } from "api";
+import { getUserProfile, getCookie, getVideoMessageRates } from "api";
 
 // Material Kit 2 PRO React themes
 import theme from "assets/theme";
@@ -21,6 +21,7 @@ import "./App.css";
 export default function App() {
   const { pathname } = useLocation();
   const [user, setUser] = useState(null);
+  const [appVideoMessageRate, setAppVideoMessageRate] = useState("5"); // default
   const username = localStorage.getItem("fanbies-username");
   const jtoken = getCookie("fanbies-token");
 
@@ -31,8 +32,8 @@ export default function App() {
   }, [pathname]);
 
   // Check if user is authenticated
-  const onAuthenticated = (tk) => {
-    getUserProfile({ username, jtoken: tk }).then((res) => {
+  const onAuthenticated = () => {
+    getUserProfile({ username, jtoken }).then((res) => {
       const response = res.response[0];
       // delete token key in user object
       const { token, ...dataWithoutToken } = response;
@@ -40,9 +41,20 @@ export default function App() {
     });
   };
 
+  // Get App Config Current Video Message Rate
+  const getConfigVideMessageRate = async () => {
+    const configType = "getVideoMessageRate";
+    const configSection = "value";
+    const req = await getVideoMessageRates(jtoken, configType, configSection);
+    if (req.success) {
+      setAppVideoMessageRate(req?.response[0]?.value?.split(","));
+    }
+  };
+
   useState(() => {
     if (jtoken && jtoken != null) {
-      onAuthenticated(jtoken);
+      onAuthenticated();
+      getConfigVideMessageRate();
     }
     return () => null;
   }, []);
@@ -51,7 +63,7 @@ export default function App() {
     r.map((prop) => <Route exact path={prop.route} key={prop.name} element={prop.component} />);
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, setUser, appVideoMessageRate }}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Routes>{getAllRoutes(indexRoutes)}</Routes>
