@@ -201,3 +201,20 @@ export const getVideoMessageRates = (token, configType, configSection) =>
       .then((e) => resolve(e))
       .catch((err) => reject(err.message));
   });
+
+/*
+  Update Request Form 
+*/
+export const updateRequestForm = (data) =>
+  new Promise((resolve, reject) => {
+    const params = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      redirect: "follow",
+      body: JSON.stringify({ ...data }),
+    };
+    fetch(`${API}/updaterequestform`, params)
+      .then((res) => res.json())
+      .then((e) => resolve(e))
+      .catch((err) => reject(err.message));
+  });

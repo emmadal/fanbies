@@ -16,27 +16,61 @@ import Grid from "@mui/material/Grid";
 import AuthContext from "context/AuthContext";
 
 // api call
-// import { getCookie } from "api";
+import { updateRequestForm, getCookie, getUserProfile } from "api";
 
 const CreatorToolPage = () => {
-  const { user, appVideoMessageRate } = useContext(AuthContext);
+  const { user, appVideoMessageRate, setUser } = useContext(AuthContext);
   const [shoutoutSlot, setShoutoutSlot] = useState(user?.slots ?? 0);
   const [shoutoutRate, setShoutoutRate] = useState(user?.video_message_fee ?? "5");
   const [loading, setLoading] = useState(false);
-  const [activeShoutout, setShoutoutStatus] = useState(user?.video_message_status ?? false);
+  const [activeShoutout, setShoutoutStatus] = useState(
+    Boolean(user?.video_message_status) ?? false
+  );
+  const [remarks, setRemarks] = useState(user?.remarks ?? "");
 
+  const jtoken = getCookie("fanbies-token");
+  const username = localStorage.getItem("fanbies-username");
   const handleShoutoutStatus = () => setShoutoutStatus(!activeShoutout);
+  const handleRemarksChange = (e) => setRemarks(e.target.value);
+  const handleShoutoutRateChange = (e) => setShoutoutRate(e.target.value);
 
   useEffect(() => {
     setLoading(false);
   }, []);
 
-  const handleShoutoutRateChange = (e) => {
-    setShoutoutRate(e.target.value);
-  };
-
   const handleShoutoutSlotChange = (e) => {
     setShoutoutSlot(e.target.value);
+  };
+
+  // Get latest user profile
+  const getUserDetails = () => {
+    getUserProfile({ username, jtoken }).then((res) => {
+      const response = res.response[0];
+      // delete token key in user object
+      const { token, ...dataWithoutToken } = response;
+      setUser(dataWithoutToken);
+    });
+  };
+
+  // Submit Request Form
+  const handleRequestFormSubmit = async () => {
+    setLoading(true);
+    const requestFormObj = {
+      jtoken,
+      slots: shoutoutSlot,
+      shoutrate: shoutoutRate,
+      status: activeShoutout,
+      remarks,
+    };
+
+    const res = await updateRequestForm(requestFormObj);
+    if (res?.success) {
+      setTimeout(() => {
+        // Get latest user profile
+        getUserDetails();
+        setLoading(false);
+      }, 1000);
+    }
   };
 
   return (
@@ -107,6 +141,7 @@ const CreatorToolPage = () => {
                   type="number"
                   variant="outlined"
                   value={shoutoutSlot}
+                  name="shoutoutslot"
                   onChange={handleShoutoutSlotChange}
                   label="Your Available slots?"
                   fullWidth
@@ -125,13 +160,14 @@ const CreatorToolPage = () => {
                   select
                   label="Amount you charge per request?"
                   value={shoutoutRate}
+                  name="shoutoutrate"
                   onChange={handleShoutoutRateChange}
                   className="width-100"
                   SelectProps={{
                     className: "fanbies_input_custom_v1",
                   }}
                 >
-                  {appVideoMessageRate.map((option) => (
+                  {appVideoMessageRate?.map((option) => (
                     <MenuItem key={`${option}-rate`} value={option}>
                       $ {option}
                     </MenuItem>
@@ -142,9 +178,11 @@ const CreatorToolPage = () => {
                 <MKInput
                   type="text"
                   variant="outlined"
-                  name="name"
-                  label="Charity You Support (optional)"
+                  name="remarks"
+                  label="Remarks / Charity You Support (optional)"
                   fullWidth
+                  value={remarks}
+                  onChange={handleRemarksChange}
                   className="m-b-lg fanbies_mk_input_v1"
                   InputProps={{
                     className: "fanbies_input_custom_v1",
@@ -157,7 +195,7 @@ const CreatorToolPage = () => {
               </Grid>
             </Grid>
             <MKBox mt={3}>
-              <MKButton variant="gradient" color="primary">
+              <MKButton onClick={handleRequestFormSubmit} variant="gradient" color="primary">
                 {loading ? <MKSpinner color="white" size={20} /> : "Update"}
               </MKButton>
             </MKBox>
