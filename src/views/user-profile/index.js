@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useContext, useState, useRef } from "react";
 
 // Material Kit 2 React Components
@@ -13,6 +12,10 @@ import MKSpinner from "components/MKSpinner";
 // import material components
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
 
 // form validation with Formik
 import { useFormik } from "formik";
@@ -31,6 +34,7 @@ import { removeProfilePicture, getCookie, uploadProfilePicture, updateUserProfil
 const Profile = () => {
   const { user } = useContext(AuthContext);
   const { socialMediaLinks, setSocialMediaLinks } = useContext(SocialMediaContext);
+  const [value, setValue] = React.useState("");
   const [error, setError] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [imageURL, setImageURL] = useState("");
@@ -114,6 +118,10 @@ const Profile = () => {
   };
 
   const handleOpen = () => setIsOpen(!isOpen);
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
 
   return (
     <Grid container>
@@ -258,6 +266,27 @@ const Profile = () => {
             </MKTypography>
             <MKBox mt={2}>
               <DraggableSocial onDragEnd={onDragEnd} />
+            </MKBox>
+            <MKBox mt={2}>
+              <MKTypography textAlign="start" variant="body2" fontWeight="bold">
+                Position
+              </MKTypography>
+              <MKTypography textAlign="start" variant="button">
+                Positionning social media at the :
+              </MKTypography>
+              <MKBox>
+                <FormControl>
+                  <RadioGroup
+                    aria-labelledby="demo-controlled-radio-buttons-group"
+                    name="controlled-radio-buttons-group"
+                    value={value}
+                    onChange={handleChange}
+                  >
+                    <FormControlLabel value="top" control={<Radio />} label="Top" />
+                    <FormControlLabel value="bottom" control={<Radio />} label="Bottom" />
+                  </RadioGroup>
+                </FormControl>
+              </MKBox>
             </MKBox>
             {error ? (
               <MKBox mt={2} mb={1}>
