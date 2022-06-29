@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 
 // Material Kit 2 React Components
@@ -12,35 +12,32 @@ import DialogContent from "@mui/material/DialogContent";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 
-// fake data
-import social from "data";
+import SocialMediaContext from "context/SocialMediaContext";
 
 const DeleteSocial = ({ open, item, setOpen }) => {
   const [url, setUrl] = useState(item?.url || "");
-  const [links, setLinks] = useState([]);
+  const { socialMediaLinks, setSocialMediaLinks } = useContext(SocialMediaContext);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const handleChange = (e) => setUrl(e.target.value);
 
   const handleSave = () => {
-    const arr = [];
     setLoading(!loading);
     setTimeout(() => {
-      arr.push(Object.assign(item, { url }));
-      setLinks([...social, ...links]);
+      Object.assign(item, { url });
       setLoading(false);
       setOpen(false);
+      setSocialMediaLinks([...socialMediaLinks]);
     }, 1000);
   };
 
   const handleRemove = () => {
-    const arr = [];
     setLoading2(!loading2);
     setTimeout(() => {
-      arr.push(Object.assign(item, { isAdded: false, url: "" }));
-      setLinks([...social, ...links]);
+      Object.assign(item, { isAdded: false, url: "" });
       setLoading2(false);
       setOpen(false);
+      setSocialMediaLinks([...socialMediaLinks]);
     }, 1000);
   };
 
