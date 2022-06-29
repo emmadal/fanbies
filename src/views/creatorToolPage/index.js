@@ -121,7 +121,11 @@ const CreatorToolPage = () => {
           p={2}
         >
           {user?.usertype < 1 ? (
-            <MKBox component="div" className="unlock_overlay ripple" onClick={() => setOpen(!open)}>
+            <MKBox
+              component="div"
+              className="unlock_overlay ripple"
+              onClick={() => window.console.log("Modal Open To Confirm")}
+            >
               <MKTypography variant="h5" color="white" className="overlay__message">
                 Unlock tool by requesting to be a verified user
                 <Icon fontSize="small" color="white" className="icon__paragraph">

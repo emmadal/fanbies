@@ -1,7 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 /* eslint-disable no-param-reassign */
-import { useState } from "react";
+import { useContext, useState } from "react";
 import PropTypes from "prop-types";
 
 // import material components
@@ -17,22 +15,22 @@ import MKTypography from "components/MKTypography";
 import MKButton from "components/MKButton";
 import MKSpinner from "components/MKSpinner";
 
-import social from "data";
+// Social media context
+import SocialMediaContext from "context/SocialMediaContext";
 
-function LinkModal({ item, open, setOpen, socialLinks, setSocialLinks }) {
+function LinkModal({ item, open, setOpen }) {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
+  const { socialMediaLinks, setSocialMediaLinks } = useContext(SocialMediaContext);
 
   const generateLink = () => {
     setLoading(!loading);
-    const arr = [];
     setTimeout(() => {
-      const obj = Object.assign(item, { isAdded: true, url, isShow: true });
-      arr.push(obj);
-      setSocialLinks([...socialLinks, ...arr]);
+      Object.assign(item, { isAdded: true, url });
       setLoading(false);
       setOpen(false);
       setUrl("");
+      setSocialMediaLinks([...socialMediaLinks]);
     }, 1000);
   };
 
@@ -103,6 +101,15 @@ function LinkModal({ item, open, setOpen, socialLinks, setSocialLinks }) {
 LinkModal.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
+  item: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    icon: PropTypes.string,
+    desc: PropTypes.string,
+    placeholder: PropTypes.string,
+    url: PropTypes.string,
+    isAdded: PropTypes.bool,
+  }).isRequired,
 };
 
 export default LinkModal;

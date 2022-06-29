@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useState, useRef } from "react";
 
 // Material Kit 2 React Components
@@ -6,27 +7,32 @@ import MKTypography from "components/MKTypography";
 import MKBox from "components/MKBox";
 import MKButton from "components/MKButton";
 import MKAvatar from "components/MKAvatar";
+import MKSocialModal from "components/MKSocialModal";
 import MKSpinner from "components/MKSpinner";
 
 // import material components
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
-import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
-import InputAdornment from "@mui/material/InputAdornment";
 
 // form validation with Formik
 import { useFormik } from "formik";
 
-// context user
+// App context
 import AuthContext from "context/AuthContext";
+import SocialMediaContext from "context/SocialMediaContext";
+
+// draggable components
+import DraggableSocial from "components/Draggable/DraggableSocial";
+import { reorder } from "components/Draggable/helpers";
 
 // api call
 import { removeProfilePicture, getCookie, uploadProfilePicture, updateUserProfile } from "api";
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
+  const { socialMediaLinks, setSocialMediaLinks } = useContext(SocialMediaContext);
   const [error, setError] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
   const [imageURL, setImageURL] = useState("");
   const [type, setType] = useState("");
   const [loading1, setLoading1] = useState(false);
@@ -99,8 +105,19 @@ const Profile = () => {
       }
     },
   });
+
+  const onDragEnd = ({ destination, source }) => {
+    // dropped outside the list
+    if (!destination) return;
+    const newItems = reorder(socialMediaLinks, source.index, destination.index);
+    setSocialMediaLinks(newItems);
+  };
+
+  const handleOpen = () => setIsOpen(!isOpen);
+
   return (
     <Grid container>
+      <MKSocialModal title="Add social link" setIsOpen={setIsOpen} isOpen={isOpen} />
       <Grid item xs={12} md={12} lg={12} sm={12}>
         <MKTypography textAlign="start" mt={2} mb={2}>
           About me
@@ -227,110 +244,20 @@ const Profile = () => {
           Social media
         </MKTypography>
         <MKBox color="white" bgColor="white" borderRadius="lg" shadow="lg" opacity={1} p={2}>
-          <MKBox component="form" role="form">
+          <MKBox>
+            <MKTypography textAlign="start" mb={2} variant="body2">
+              Display links to your email, social profiles, and more on your Fanbies.
+            </MKTypography>
             <MKBox mb={2}>
-              <MKInput
-                name="fb_id"
-                value={validation.values.fb_id || ""}
-                onChange={validation.handleChange}
-                type="text"
-                placeholder="Facebook name"
-                fullWidth
-                InputProps={{
-                  className: "fanbies_input_placeholder",
-                  startAdornment: (
-                    <InputAdornment position="start" sx={{ padding: "0" }}>
-                      facebook.com/
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </MKBox>
-            <MKBox mb={2}>
-              <MKInput
-                name="ig_id"
-                value={validation.values.ig_id || ""}
-                onChange={validation.handleChange}
-                type="text"
-                placeholder="Instagram name"
-                fullWidth
-                InputProps={{
-                  className: "fanbies_input_placeholder",
-                  startAdornment: (
-                    <InputAdornment position="start" sx={{ padding: "0" }}>
-                      instagram.com/
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </MKBox>
-            <MKBox mb={2}>
-              <MKInput
-                name="linkedin_id"
-                value={validation.values.linkedin_id || ""}
-                onChange={validation.handleChange}
-                type="text"
-                placeholder="Linkedin name"
-                fullWidth
-                InputProps={{
-                  className: "fanbies_input_placeholder",
-                  startAdornment: (
-                    <InputAdornment position="start" sx={{ padding: "0" }}>
-                      linkedin.com/in/
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </MKBox>
-            <MKBox mb={2}>
-              <MKInput
-                name="twitter_id"
-                value={validation.values.twitter_id || ""}
-                onChange={validation.handleChange}
-                type="text"
-                placeholder="Twitter name"
-                fullWidth
-                InputProps={{
-                  className: "fanbies_input_placeholder",
-                  startAdornment: (
-                    <InputAdornment position="start" sx={{ padding: "0" }}>
-                      twitter.com/
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </MKBox>
-            <MKBox mb={2}>
-              <MKInput
-                name="tik_id"
-                value={validation.values.tik_id || ""}
-                onChange={validation.handleChange}
-                type="text"
-                placeholder="Tiktok name"
-                fullWidth
-                InputProps={{
-                  className: "fanbies_input_placeholder",
-                  startAdornment: (
-                    <InputAdornment position="start" sx={{ padding: "0" }}>
-                      tiktok.com/@
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </MKBox>
-            <MKBox mt={3}>
-              <MKButton
-                variant="gradient"
-                onClick={(e) => {
-                  e.preventDefault();
-                  validation.handleSubmit();
-                  setType("UPDATE_SOCIAL_LINKS");
-                  return false;
-                }}
-                color="primary"
-              >
-                {loading3 ? <MKSpinner color="white" size={20} /> : "Save details"}
+              <MKButton variant="gradient" onClick={handleOpen} color="primary" fullWidth mb={2}>
+                Add Link
               </MKButton>
+            </MKBox>
+            <MKTypography textAlign="start" variant="body2">
+              Reorder links by dragging
+            </MKTypography>
+            <MKBox mt={2}>
+              <DraggableSocial onDragEnd={onDragEnd} />
             </MKBox>
             {error ? (
               <MKBox mt={2} mb={1}>

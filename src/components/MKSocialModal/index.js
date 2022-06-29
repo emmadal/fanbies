@@ -1,6 +1,4 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import PropTypes from "prop-types";
 
@@ -19,6 +17,9 @@ import LinkModal from "components/LinkModal";
 // Material Kit 2 colors
 import colors from "assets/theme/base/colors";
 
+// Social media context
+import SocialMediaContext from "context/SocialMediaContext";
+
 const { dark } = colors;
 
 const inputSearch = {
@@ -31,18 +32,19 @@ const inputSearch = {
   width: "100%",
 };
 
-function MKSocialModal({ isOpen, title, data, setIsOpen, socialLinks, setSocialLinks }) {
+function MKSocialModal({ isOpen, title, setIsOpen }) {
   const [search, setSearch] = useState("");
-  const [link, setLink] = useState();
+  const [item, setItem] = useState({});
   const [open, setOpen] = useState(false);
+  const { socialMediaLinks } = useContext(SocialMediaContext);
 
   const handleClose = () => setIsOpen(false);
 
   const handleSearch = (e) => setSearch(e.target.value);
 
-  const handleNext = (item) => {
+  const handleNext = (index) => {
     setOpen(!open);
-    setLink(item);
+    setItem(socialMediaLinks[index]);
   };
 
   return (
@@ -80,16 +82,18 @@ function MKSocialModal({ isOpen, title, data, setIsOpen, socialLinks, setSocialL
         />
         <MKBox sx={{ mt: 2, overflowY: "scroll" }} maxHeight={150}>
           {(search === ""
-            ? data
-            : data?.filter((e) => e?.name?.toLowerCase()?.includes(search.toLowerCase()))
-          ).map((item) => (
+            ? socialMediaLinks
+            : socialMediaLinks?.filter((e) =>
+                e?.name?.toLowerCase()?.includes(search.toLowerCase())
+              )
+          ).map((e, key) => (
             <MKBox
-              key={item.id}
+              key={e.id}
               sx={{ border: `0.2px solid ${dark.main}`, cursor: "pointer" }}
               p={0.5}
               mt={1}
               mb={2}
-              onClick={() => handleNext(item)}
+              onClick={() => handleNext(key)}
             >
               <Stack
                 direction="row"
@@ -98,9 +102,9 @@ function MKSocialModal({ isOpen, title, data, setIsOpen, socialLinks, setSocialL
                 spacing={0.5}
               >
                 <MKBox display="flex" justifyContent="center" alignItems="center">
-                  <Icon fontSize="large">{item.icon}</Icon>&nbsp; {item.name}
+                  <Icon fontSize="large">{e.icon}</Icon>&nbsp; {e.name}
                 </MKBox>
-                {item?.isAdded ? (
+                {e?.isAdded ? (
                   <MKTypography fontWeight="bold" color="success" variant="body2">
                     Already added
                   </MKTypography>
@@ -111,13 +115,7 @@ function MKSocialModal({ isOpen, title, data, setIsOpen, socialLinks, setSocialL
             </MKBox>
           ))}
         </MKBox>
-        <LinkModal
-          item={link}
-          open={open}
-          setOpen={setOpen}
-          socialLinks={socialLinks}
-          setSocialLinks={setSocialLinks}
-        />
+        <LinkModal item={item} open={open} setOpen={setOpen} />
       </DialogContent>
     </Dialog>
   );
@@ -126,7 +124,6 @@ function MKSocialModal({ isOpen, title, data, setIsOpen, socialLinks, setSocialL
 MKSocialModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   setIsOpen: PropTypes.func.isRequired,
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
   title: PropTypes.string.isRequired,
 };
 

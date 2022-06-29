@@ -7,8 +7,9 @@ import { Route, useLocation, Routes } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
-// user context
+// App Context
 import AuthContext from "context/AuthContext";
+import SocialMediaContext from "context/SocialMediaContext";
 
 // api call
 import { getUserProfile, getCookie, getVideoMessageRates } from "api";
@@ -18,9 +19,13 @@ import theme from "assets/theme";
 import indexRoutes from "pageRoutes";
 import "./App.css";
 
+// fake data
+import social from "data";
+
 export default function App() {
   const { pathname } = useLocation();
   const [user, setUser] = useState(null);
+  const [socialMediaLinks, setSocialMediaLinks] = useState(social);
   const [appVideoMessageRate, setAppVideoMessageRate] = useState("5"); // default
   const username = localStorage.getItem("fanbies-username");
   const jtoken = getCookie("fanbies-token");
@@ -64,10 +69,12 @@ export default function App() {
 
   return (
     <AuthContext.Provider value={{ user, setUser, appVideoMessageRate }}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Routes>{getAllRoutes(indexRoutes)}</Routes>
-      </ThemeProvider>
+      <SocialMediaContext.Provider value={{ socialMediaLinks, setSocialMediaLinks }}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Routes>{getAllRoutes(indexRoutes)}</Routes>
+        </ThemeProvider>
+      </SocialMediaContext.Provider>
     </AuthContext.Provider>
   );
 }
