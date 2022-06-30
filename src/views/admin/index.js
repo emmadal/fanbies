@@ -2,6 +2,7 @@ import { useContext } from "react";
 
 // Authentication pages components
 import DashboardLayout from "components/DashboardLayout";
+import Hidden from "@mui/material/Hidden";
 
 // Material Kit 2 PRO React components
 import MKBox from "components/MKBox";
@@ -37,13 +38,15 @@ function Admin() {
                 backgroundColor: "#fff",
                 borderRight: "1px solid #d7ddd1",
               }}
+              className="admin__sidebar"
             >
               <MKBox
                 mt={2}
                 component="img"
                 src={fanbiesLogo}
                 alt="Fanbies Logo"
-                sx={{ width: "30px" }}
+                className="dropShadow_logo side-bar__logo"
+                sx={{ width: "40px" }}
               />
             </MKBox>
           </Grid>
@@ -63,46 +66,48 @@ function Admin() {
               borderLeft: "1px solid #d7ddd1",
             }}
           >
-            <MKBox
-              minHeight="100vh"
-              display="flex"
-              flexDirection="column"
-              justifyContent="center"
-              textAlign="center"
-            >
-              <MKTypography
-                mb={6}
-                fontWeight="bold"
-                pt={2}
-                pb={1}
-                sx={{
-                  borderBottom: "1px solid #d7ddd1",
-                  fontSize: ".7em",
-                }}
+            <Hidden smDown>
+              <MKBox
+                minHeight="100vh"
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                textAlign="center"
               >
-                Your Link:{" "}
-                <Link
-                  target="_blank"
-                  rel="noreferrer"
-                  underline="always"
-                  href={`https://fanbies.com/${process.env.PUBLIC_URL}${user?.username}`}
-                  color="primary"
+                <MKTypography
+                  mb={6}
+                  fontWeight="bold"
+                  pt={2}
+                  pb={1}
+                  sx={{
+                    borderBottom: "1px solid #d7ddd1",
+                    fontSize: ".7em",
+                  }}
                 >
-                  {`https://fanbies.com/${process.env.PUBLIC_URL}${user?.username}`}
-                </Link>
-              </MKTypography>
-              <MKBox display="flex" textAlign="center" justifyContent="center">
-                <iframe
-                  className="phone phone_translate"
-                  height="100%"
-                  id="profile-preview"
-                  width="100%"
-                  loading="eager"
-                  title={`${user?.username}`}
-                  src={`${process.env.PUBLIC_URL}/john`}
-                />
+                  Your Link:{" "}
+                  <Link
+                    target="_blank"
+                    rel="noreferrer"
+                    underline="always"
+                    href={`https://fanbies.com/${process.env.PUBLIC_URL}${user?.username}`}
+                    color="primary"
+                  >
+                    {`https://fanbies.com/${process.env.PUBLIC_URL}${user?.username}`}
+                  </Link>
+                </MKTypography>
+                <MKBox display="flex" textAlign="center" justifyContent="center">
+                  <iframe
+                    className="phone phone_translate"
+                    height="100%"
+                    id="profile-preview"
+                    width="100%"
+                    loading="eager"
+                    title={`${user?.username}`}
+                    src={`${process.env.PUBLIC_URL}/john`}
+                  />
+                </MKBox>
               </MKBox>
-            </MKBox>
+            </Hidden>
           </Grid>
         </Grid>
       </MKBox>

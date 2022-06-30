@@ -7,12 +7,12 @@ import { Link, useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import InputAdornment from "@mui/material/InputAdornment";
 
-// Material Kit 2 PRO React components
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 import MKInput from "components/MKInput";
 import MKButton from "components/MKButton";
 import MKSpinner from "components/MKSpinner";
+import FooterLogoTxt from "components/utils/FooterLogoTxt";
 
 // Authentication pages components
 import BasicLayout from "pages/Authentication/components/BasicLayout";
@@ -21,8 +21,6 @@ import DefaultNavbar from "molecules/Navbars/DefaultNavbar";
 // user context
 import AuthContext from "context/AuthContext";
 
-// Images
-import fanbiesImage from "assets/images/fanbies/fanbies_white.png";
 import bgImage from "assets/images/fanbies/signin.jpg";
 
 // form validation with Formik
@@ -196,18 +194,7 @@ function SignIn() {
             </MKBox>
           </MKBox>
         </Card>
-        <MKTypography component={Link} to="/">
-          <MKBox
-            component="img"
-            src={fanbiesImage}
-            alt="fanbies logo"
-            width="125px"
-            position="relative"
-            zIndex={1}
-            display="flex"
-            mx="auto"
-          />
-        </MKTypography>
+        <FooterLogoTxt dark={false} />
       </BasicLayout>
     </>
   );

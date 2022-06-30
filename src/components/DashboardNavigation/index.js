@@ -29,21 +29,21 @@ function DashboardNavigation() {
 
   return (
     <Grid container item justifyContent="center" xs={12} mx="auto">
-      <AppBar position="static" style={{ paddingTop: 5 }}>
-        <Tabs value={activeTab} onChange={handleTabType}>
+      <AppBar position="static" style={{ paddingTop: 10 }}>
+        <Tabs value={activeTab} onChange={handleTabType} className="dash_tab_container">
           <Tab label="Links" {...a11yProps(0)} />
-          <Tab label="Profile" {...a11yProps(1)} />
-          <Tab label="Creator tools" {...a11yProps(2)} />
+          <Tab label="Creator tools" {...a11yProps(1)} />
+          <Tab label="Profile" {...a11yProps(2)} />
           <Tab label="Settings" {...a11yProps(3)} />
         </Tabs>
         <MKTabPanel value={activeTab} index={0}>
           <UserLink />
         </MKTabPanel>
         <MKTabPanel value={activeTab} index={1}>
-          <Profile />
+          <CreatorPage />
         </MKTabPanel>
         <MKTabPanel value={activeTab} index={2}>
-          <CreatorPage />
+          <Profile />
         </MKTabPanel>
         <MKTabPanel value={activeTab} index={3}>
           <Settings />

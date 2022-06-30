@@ -7,15 +7,14 @@ import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 
 // @mui icons
-import fanbiesImage from "assets/images/fanbies/fanbies_dark.png";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FavouriteIcon from "@mui/icons-material/Favorite";
 
-// Material Kit 2 PRO React components
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
+import FooterLogoTxt from "components/utils/FooterLogoTxt";
 
 function CenteredFooter({ company, links, socials, light }) {
   const { href, name } = company;
@@ -82,17 +81,7 @@ function CenteredFooter({ company, links, socials, light }) {
             </MKTypography>
             .
           </MKTypography>
-          <MKTypography component={Link} to="/">
-            <MKBox
-              component="img"
-              src={fanbiesImage}
-              alt="fanbies logo"
-              width="125px"
-              position="relative"
-              display="flex"
-              mx="auto"
-            />
-          </MKTypography>
+          <FooterLogoTxt dark />
         </Grid>
       </Grid>
     </MKBox>

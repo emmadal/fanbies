@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 
 import MKInput from "components/MKInput";
 import MKTypography from "components/MKTypography";
@@ -11,6 +11,7 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Switch from "@mui/material/Switch";
 import Grid from "@mui/material/Grid";
+import MKDeleteModal from "components/MKDeleteModal";
 
 // context user
 import AuthContext from "context/AuthContext";
@@ -27,6 +28,7 @@ const CreatorToolPage = () => {
     Boolean(user?.video_message_status) ?? false
   );
   const [remarks, setRemarks] = useState(user?.remarks ?? "");
+  const [open, setOpen] = useState(false);
 
   const jtoken = getCookie("fanbies-token");
   const username = localStorage.getItem("fanbies-username");
@@ -34,12 +36,17 @@ const CreatorToolPage = () => {
   const handleRemarksChange = (e) => setRemarks(e.target.value);
   const handleShoutoutRateChange = (e) => setShoutoutRate(e.target.value);
 
-  useEffect(() => {
-    setLoading(false);
-  }, []);
-
   const handleShoutoutSlotChange = (e) => {
-    setShoutoutSlot(e.target.value);
+    const value = e?.target.value;
+    if (value <= 0) {
+      setShoutoutSlot(0);
+      return;
+    }
+    if (value > 50) {
+      setShoutoutSlot(50);
+      return;
+    }
+    setShoutoutSlot(Number(value));
   };
 
   // Get latest user profile
@@ -73,9 +80,20 @@ const CreatorToolPage = () => {
     }
   };
 
+  const verifyRequest = async () => {
+    setOpen(false);
+  };
+
   return (
     <Grid container>
       <Grid item xs={12} md={12} lg={12} sm={12}>
+        <MKDeleteModal
+          title="Get paid and have fun recording video shoutout messages"
+          message="By been a verified user on Fanbies and unlocking this tool, your fans will have access to requesting 1 v 1 paid direct video message from you. Your fans, admirers of your hard work and followers mostly love to showoff with friends and family that personal video message you created just for them. You set your price, availability, and share your page"
+          isOpen={open}
+          confirmDelete={verifyRequest}
+          cancelAction={setOpen}
+        />
         <MKTypography variant="h5" textAlign="start" mt={2} mb={2}>
           Monetise Your Page
         </MKTypography>
@@ -86,9 +104,9 @@ const CreatorToolPage = () => {
         <MKBadge
           badgeContent="Accept video shoutout request from your fans"
           variant="contained"
-          color="success"
           container
-          sx={{ marginBottom: "6px" }}
+          sx={{ marginBottom: "10px" }}
+          className="badge__element"
         />
         <Icon fontSize="small" color="action" className="icon__paragraph">
           lockoutlined
@@ -103,11 +121,7 @@ const CreatorToolPage = () => {
           p={2}
         >
           {user?.usertype < 1 ? (
-            <MKBox
-              component="div"
-              className="unlock_overlay ripple"
-              onClick={() => console.log("Modal Open To Confirm")}
-            >
+            <MKBox component="div" className="unlock_overlay ripple" onClick={() => setOpen(!open)}>
               <MKTypography variant="h5" color="white" className="overlay__message">
                 Unlock tool by requesting to be a verified user
                 <Icon fontSize="small" color="white" className="icon__paragraph">
