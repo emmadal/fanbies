@@ -48,9 +48,11 @@ const UserLink = () => {
   return (
     <Grid container>
       <Grid item xs={12} md={12} lg={12} sm={12}>
-        <MKTypography variant="body2" fontWeight="bold">
-          Drag and drop to rearrange box links
-        </MKTypography>
+        <MKBox mt={5} mb={3}>
+          <MKTypography variant="body2" fontWeight="bold">
+            Drag and drop to rearrange box links
+          </MKTypography>
+        </MKBox>
         <MKButton onClick={generateLink} variant="gradient" color="primary" sx={{ marginTop: 2 }}>
           {loading ? (
             <MKSpinner color="white" size={20} />
@@ -60,16 +62,22 @@ const UserLink = () => {
             </>
           )}
         </MKButton>
-        <MKBox mt={8}>
-          <DraggableList
-            items={links}
-            onDragEnd={onDragEnd}
-            setLinks={setLinks}
-            inputLengthTitle={inputLengthTitle}
-            setInputLengthTitle={setInputLengthTitle}
-            setInputLengthURL={setInputLengthURL}
-            inputLengthURL={inputLengthURL}
-          />
+        <MKBox mt={3}>
+          {!links.length ? (
+            <MKTypography sx={{ marginTop: 20 }} variant="h3" color="placeholder" fontWeight="bold">
+              Create your custom links with the above button
+            </MKTypography>
+          ) : (
+            <DraggableList
+              items={links}
+              onDragEnd={onDragEnd}
+              setLinks={setLinks}
+              inputLengthTitle={inputLengthTitle}
+              setInputLengthTitle={setInputLengthTitle}
+              setInputLengthURL={setInputLengthURL}
+              inputLengthURL={inputLengthURL}
+            />
+          )}
         </MKBox>
       </Grid>
     </Grid>
