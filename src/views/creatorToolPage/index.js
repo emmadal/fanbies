@@ -46,7 +46,7 @@ const CreatorToolPage = () => {
       setShoutoutSlot(50);
       return;
     }
-    setShoutoutSlot(Number(e.target.value));
+    setShoutoutSlot(Number(value));
   };
 
   // Get latest user profile
