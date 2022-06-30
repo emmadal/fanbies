@@ -51,12 +51,12 @@ const UserLink = () => {
         <MKTypography variant="body2" fontWeight="bold">
           Drag and drop to rearrange box links
         </MKTypography>
-        <MKButton onClick={generateLink} sx={{ marginTop: 3 }} variant="gradient" color="primary">
+        <MKButton onClick={generateLink} variant="gradient" color="primary" sx={{ marginTop: 2 }}>
           {loading ? (
             <MKSpinner color="white" size={20} />
           ) : (
             <>
-              <Icon>add_plus</Icon>&nbsp; Add new link to top
+              <Icon>add_plus</Icon>&nbsp; Custom Link
             </>
           )}
         </MKButton>
