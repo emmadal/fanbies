@@ -24,7 +24,8 @@ const Settings = () => {
   const [open, setOpen] = useState(false);
   const { user } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
-  const { rand_: userId } = user;
+  // eslint-disable-next-line dot-notation
+  const userId = user["rand_"];
   const navigate = useNavigate();
 
   const getCookieByName = (cookieName) => {

@@ -22,16 +22,16 @@ import { updateRequestForm, getCookie, getUserProfile } from "api";
 const CreatorToolPage = () => {
   const { user, appVideoMessageRate, setUser } = useContext(AuthContext);
   const [shoutoutSlot, setShoutoutSlot] = useState(user?.slots ?? 0);
-  const [shoutoutRate, setShoutoutRate] = useState(user?.video_message_fee ?? "5");
+  const [shoutoutRate, setShoutoutRate] = useState(user?.video_message_fee ?? ["5"]);
   const [loading, setLoading] = useState(false);
   const [activeShoutout, setShoutoutStatus] = useState(
     Boolean(user?.video_message_status) ?? false
   );
   const [remarks, setRemarks] = useState(user?.remarks ?? "");
   const [open, setOpen] = useState(false);
-
   const jtoken = getCookie("fanbies-token");
   const username = localStorage.getItem("fanbies-username");
+
   const handleShoutoutStatus = () => setShoutoutStatus(!activeShoutout);
   const handleRemarksChange = (e) => setRemarks(e.target.value);
   const handleShoutoutRateChange = (e) => setShoutoutRate(e.target.value);

@@ -187,13 +187,14 @@ export const updateUserProfile = (data) =>
 /*
 Get App Config Video Message Rates
 */
-export const getVideoMessageRates = (token, configType, configSection) =>
+export const getInAppConfig = (jtoken, name) =>
   new Promise((resolve, reject) => {
+    const value = "value";
     const params = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       redirect: "follow",
-      body: JSON.stringify({ jtoken: token, name: configType, value: configSection }),
+      body: JSON.stringify({ jtoken, name, value }),
     };
 
     fetch(`${API}/getconfig`, params)
