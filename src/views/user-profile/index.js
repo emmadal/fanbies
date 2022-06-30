@@ -11,6 +11,8 @@ import MKSpinner from "components/MKSpinner";
 // import material components
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import InputAdornment from "@mui/material/InputAdornment";
 
 // form validation with Formik
@@ -117,11 +119,27 @@ const Profile = () => {
             <MKBox mx={1} alignSelf="center">
               <Stack direction="row" spacing={2}>
                 <input type="file" accept="image/*" id="input_file" ref={ref} hidden />
-                <MKButton variant="gradient" color="primary" size="small" onClick={uploadPicture}>
-                  {loading3 ? <MKSpinner color="white" size={20} /> : "Upload an image"}
+                <MKButton
+                  variant="outlined"
+                  color="primary"
+                  onClick={uploadPicture}
+                  size="large"
+                  iconOnly
+                  className="border-none"
+                >
+                  <FileUploadOutlinedIcon />
+                  {loading3 && <MKSpinner color="info" size={20} />}
                 </MKButton>
-                <MKButton variant="outlined" color="error" size="small" onClick={removePicture}>
-                  {loading2 ? <MKSpinner color="error" size={20} /> : "Remove image"}
+                <MKButton
+                  iconOnly
+                  variant="outlined"
+                  color="error"
+                  size="large"
+                  className="border-none"
+                  onClick={removePicture}
+                >
+                  <DeleteForeverOutlinedIcon />
+                  {loading2 && <MKSpinner color="error" size={20} />}
                 </MKButton>
               </Stack>
 

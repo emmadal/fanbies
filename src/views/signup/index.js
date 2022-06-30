@@ -7,8 +7,6 @@ import { Link, useNavigate } from "react-router-dom";
 // @mui material components
 import Card from "@mui/material/Card";
 
-// import DefaultNavbar from "molecules/Navbars/DefaultNavbar";
-
 // user context
 import AuthContext from "context/AuthContext";
 
@@ -18,6 +16,7 @@ import MKTypography from "components/MKTypography";
 import MKInput from "components/MKInput";
 import MKButton from "components/MKButton";
 import MKSpinner from "components/MKSpinner";
+import FooterLogoTxt from "components/utils/FooterLogoTxt";
 
 // Authentication layout components
 import BasicLayout from "pages/Authentication/components/BasicLayout";
@@ -27,7 +26,6 @@ import InputAdornment from "@mui/material/InputAdornment";
 
 // Images
 import bgImage from "assets/images/vr-bg.jpg";
-import fanbiesImage from "assets/images/fanbies/fanbies_white.png";
 
 // Form validation
 import * as Yup from "yup";
@@ -263,20 +261,7 @@ function SignUp() {
             </MKBox>
           </MKBox>
         </Card>
-        <MKTypography component={Link} to="/">
-          <MKBox
-            component="img"
-            src={fanbiesImage}
-            alt="fanbies logo"
-            width="125px"
-            position="relative"
-            zIndex={1}
-            display="flex"
-            mb={10}
-            mt={3}
-            mx="auto"
-          />
-        </MKTypography>
+        <FooterLogoTxt dark={false} />
       </BasicLayout>
     </>
   );

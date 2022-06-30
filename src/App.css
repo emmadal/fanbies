@@ -8,8 +8,16 @@ html,
   width: 100% !important;
 }
 
+.width-50 {
+  width: 50% !important;
+}
+
 .m-b-lg {
  margin-bottom: 15px !important;
+}
+
+.border-none {
+  border: 0 none !important;
 }
 
 .fanbies_input_placeholder div {
@@ -28,12 +36,11 @@ html,
   border: 20px solid #6a4d4d36;
   width: 440px;
   height: 804px;
-  /* display: block; */
   margin: 0 auto;
-  /* transform-origin: bottom left; */
 }
+
 .phone_translate{
-  transform:scale(0.536022) translateX(60%) translateY(-50%) translate3d(0px, 0px, 0px); 
+  transform:scale(0.536022) translateX(0%) translateY(-30%) translate3d(0, 0, 0); 
 }
 
 .unlock_overlay {
@@ -74,6 +81,16 @@ html,
   align-items: center;
 }
 
+#fanbies .dropShadow_logo {
+  filter: drop-shadow(2px 2px 2px black);
+}
+
+.badge__element span {
+  font-size: .6em !important;
+  background: #3b4b5f !important;
+  color: #ffffff !important;
+}
+
 .ripple {
 	overflow: hidden;
 }
@@ -95,3 +112,21 @@ html,
 	from{transform:scale(0); opacity:1;}
 	to{transform:scale(3);opacity:0;}
 }
+
+.admin__sidebar .side-bar__logo {
+    padding: 5px 0;
+    margin: 0
+}
+
+@media only screen and (min-width: 992px) {
+  .admin__sidebar {
+    max-width: 75%;
+  }
+
+  .dash_tab_container {
+    left: -15px;
+  }
+}
+
+/* Extra small devices (phones, 600px and down) */
+/* @media only screen and (max-width: 600px) {...} */
