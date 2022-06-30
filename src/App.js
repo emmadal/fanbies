@@ -12,7 +12,7 @@ import AuthContext from "context/AuthContext";
 import SocialMediaContext from "context/SocialMediaContext";
 
 // api call
-import { getUserProfile, getCookie, getVideoMessageRates } from "api";
+import { getUserProfile, getCookie, getInAppConfig } from "api";
 
 // Material Kit 2 PRO React themes
 import theme from "assets/theme";
@@ -26,7 +26,8 @@ export default function App() {
   const { pathname } = useLocation();
   const [user, setUser] = useState(null);
   const [socialMediaLinks, setSocialMediaLinks] = useState(social);
-  const [appVideoMessageRate, setAppVideoMessageRate] = useState("5"); // default
+  const [appDefinedLinks, setAppDefinedLinks] = useState([]);
+  const [appVideoMessageRate, setAppVideoMessageRate] = useState(["5"]); // default
   const username = localStorage.getItem("fanbies-username");
   const jtoken = getCookie("fanbies-token");
 
@@ -37,29 +38,38 @@ export default function App() {
   }, [pathname]);
 
   // Check if user is authenticated
-  const onAuthenticated = () => {
-    getUserProfile({ username, jtoken }).then((res) => {
-      const response = res.response[0];
-      // delete token key in user object
-      const { token, ...dataWithoutToken } = response;
-      setUser(dataWithoutToken);
-    });
+  const onAuthenticated = async () => {
+    try {
+      const responseProfile = await getUserProfile({ username, jtoken });
+      if (!responseProfile.success) return;
+
+      setUser(responseProfile?.response[0]);
+    } catch (e) {
+      console.warn("Error", e);
+    }
   };
 
   // Get App Config Current Video Message Rate
-  const getConfigVideMessageRate = async () => {
-    const configType = "getVideoMessageRate";
-    const configSection = "value";
-    const req = await getVideoMessageRates(jtoken, configType, configSection);
+  const getConfigVideMessageRate = async (configType) => {
+    const req = await getInAppConfig(jtoken, configType);
     if (req.success) {
       setAppVideoMessageRate(req?.response[0]?.value?.split(","));
+    }
+  };
+
+  // Get App Config Supported Social Links
+  const getConfigSocialMedia = async (configType) => {
+    const req = await getInAppConfig(jtoken, configType);
+    if (req.success) {
+      setAppDefinedLinks(req?.response[0]?.value?.split(","));
     }
   };
 
   useState(() => {
     if (jtoken && jtoken != null) {
       onAuthenticated();
-      getConfigVideMessageRate();
+      getConfigVideMessageRate("getVideoMessageRate");
+      getConfigSocialMedia("getSupportedSocialMedia");
     }
     return () => null;
   }, []);
@@ -68,7 +78,7 @@ export default function App() {
     r.map((prop) => <Route exact path={prop.route} key={prop.name} element={prop.component} />);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, appVideoMessageRate }}>
+    <AuthContext.Provider value={{ user, setUser, appVideoMessageRate, appDefinedLinks }}>
       <SocialMediaContext.Provider value={{ socialMediaLinks, setSocialMediaLinks }}>
         <ThemeProvider theme={theme}>
           <CssBaseline />

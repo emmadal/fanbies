@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 
 // react-router-dom components
 import { Link, useNavigate } from "react-router-dom";
@@ -18,9 +18,6 @@ import FooterLogoTxt from "components/utils/FooterLogoTxt";
 import BasicLayout from "pages/Authentication/components/BasicLayout";
 import DefaultNavbar from "molecules/Navbars/DefaultNavbar";
 
-// user context
-import AuthContext from "context/AuthContext";
-
 import bgImage from "assets/images/fanbies/signin.jpg";
 
 // form validation with Formik
@@ -33,7 +30,6 @@ import { loginUser } from "api";
 function SignIn() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const validation = useFormik({
@@ -62,7 +58,6 @@ function SignIn() {
         // Redirect on user profile after signin. if success and remove error message
         localStorage.setItem("fanbies-username", dataWithoutToken.username);
         document.cookie = `fanbies-token=${token}; path="/admin; Secure; SameSite=true"`;
-        setUser(dataWithoutToken);
         navigate("/admin", { replace: true });
       }
     },

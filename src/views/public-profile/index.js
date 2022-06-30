@@ -38,9 +38,7 @@ function PublicProfile() {
     const res = await getUserProfile({ username, jtoken });
     if (res) {
       const response = res.response[0];
-      // delete token key in user object
-      const { token, ...dataWithoutToken } = response;
-      setUser(dataWithoutToken);
+      setUser(response);
     }
   };
 
