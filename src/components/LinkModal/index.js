@@ -18,7 +18,7 @@ import MKSpinner from "components/MKSpinner";
 // Social media context
 import SocialMediaContext from "context/SocialMediaContext";
 
-function LinkModal({ item, open, setOpen }) {
+function LinkModal({ item, open, setOpen, setIsOpen, setSearch }) {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const { socialMediaLinks, setSocialMediaLinks } = useContext(SocialMediaContext);
@@ -29,7 +29,9 @@ function LinkModal({ item, open, setOpen }) {
       Object.assign(item, { isAdded: true, url });
       setLoading(false);
       setOpen(false);
+      setIsOpen(false);
       setUrl("");
+      setSearch("");
       setSocialMediaLinks([...socialMediaLinks]);
     }, 1000);
   };
@@ -75,9 +77,7 @@ function LinkModal({ item, open, setOpen }) {
           name="url"
           value={url}
           variant="filled"
-          onChange={(e) => {
-            setUrl(e.target.value);
-          }}
+          onChange={(e) => setUrl(e.target.value)}
           type="text"
           placeholder={`${item?.placeholder}`}
           fullWidth
@@ -101,6 +101,8 @@ function LinkModal({ item, open, setOpen }) {
 LinkModal.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
+  setIsOpen: PropTypes.func.isRequired,
+  setSearch: PropTypes.func.isRequired,
   item: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,

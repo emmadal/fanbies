@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import { useState, useContext } from "react";
 
 import PropTypes from "prop-types";
@@ -8,6 +9,8 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import Stack from "@mui/material/Stack";
 import Icon from "@mui/material/Icon";
+import IconButton from "@mui/material/IconButton";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 // Material Kit 2 React Components
 import MKBox from "components/MKBox";
@@ -22,16 +25,6 @@ import SocialMediaContext from "context/SocialMediaContext";
 
 const { dark } = colors;
 
-const inputSearch = {
-  bgcolor: dark.main,
-  borderRadius: 20,
-  border: `1px solid ${dark.main}`,
-  boxShadow: 24,
-  padding: 12,
-  marginTop: 15,
-  width: "100%",
-};
-
 function MKSocialModal({ isOpen, title, setIsOpen }) {
   const [search, setSearch] = useState("");
   const [item, setItem] = useState({});
@@ -42,9 +35,9 @@ function MKSocialModal({ isOpen, title, setIsOpen }) {
 
   const handleSearch = (e) => setSearch(e.target.value);
 
-  const handleNext = (index) => {
+  const handleNext = (element) => {
     setOpen(!open);
-    setItem(socialMediaLinks[index]);
+    setItem(element);
   };
 
   return (
@@ -72,28 +65,44 @@ function MKSocialModal({ isOpen, title, setIsOpen }) {
         </Icon>
       </DialogTitle>
       <DialogContent>
-        <input
-          type="text"
-          name="search"
-          value={search}
-          onChange={handleSearch}
-          placeholder="Search..."
-          style={inputSearch}
-        />
+        <form style={{ position: "relative" }}>
+          <input
+            type="text"
+            name="search"
+            value={search}
+            onChange={handleSearch}
+            placeholder="Search..."
+            className="inputSearch"
+          />
+          {search.length ? (
+            <IconButton
+              onClick={() => setSearch("")}
+              sx={{
+                position: "absolute",
+                top: 15,
+                bottom: 0,
+                right: 5,
+                margin: "auto",
+              }}
+            >
+              <HighlightOffIcon color="action" fontSize="medium" />
+            </IconButton>
+          ) : null}
+        </form>
         <MKBox sx={{ mt: 2, overflowY: "scroll" }} maxHeight={150}>
-          {(search === ""
+          {(!search.length
             ? socialMediaLinks
             : socialMediaLinks?.filter((e) =>
                 e?.name?.toLowerCase()?.includes(search.toLowerCase())
               )
-          ).map((e, key) => (
+          ).map((e) => (
             <MKBox
               key={e.id}
               sx={{ border: `0.2px solid ${dark.main}`, cursor: "pointer" }}
               p={0.5}
               mt={1}
               mb={2}
-              onClick={() => handleNext(key)}
+              onClick={() => (!e?.isAdded ? handleNext(e) : "")}
             >
               <Stack
                 direction="row"
@@ -115,7 +124,13 @@ function MKSocialModal({ isOpen, title, setIsOpen }) {
             </MKBox>
           ))}
         </MKBox>
-        <LinkModal item={item} open={open} setOpen={setOpen} />
+        <LinkModal
+          item={item}
+          open={open}
+          setOpen={setOpen}
+          setIsOpen={setIsOpen}
+          setSearch={setSearch}
+        />
       </DialogContent>
     </Dialog>
   );

@@ -128,5 +128,19 @@ html,
   }
 }
 
+.inputSearch{
+  border-radius: 20px;
+  border: 1px solid #adb5bd;
+  box-shadow: 24px;
+  padding: 12px;
+  margin-top: 15px;
+  width: 100%;
+}
+
+.inputSearch:focus {
+  outline: none !important;
+  box-shadow: 0 0 10px #adb5bd;
+}
+
 /* Extra small devices (phones, 600px and down) */
 /* @media only screen and (max-width: 600px) {...} */
