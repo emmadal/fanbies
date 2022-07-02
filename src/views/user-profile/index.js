@@ -34,7 +34,7 @@ import { reorder } from "components/Draggable/helpers";
 import { removeProfilePicture, getCookie, uploadProfilePicture, updateUserProfile } from "api";
 
 const Profile = () => {
-  const { user, appDefinedLinks } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const { socialMediaLinks, setSocialMediaLinks } = useContext(SocialMediaContext);
   const [value, setValue] = React.useState("");
   const [error, setError] = useState("");
@@ -46,7 +46,9 @@ const Profile = () => {
   const [loading3, setLoading3] = useState(false);
   const ref = useRef();
   // For Demo only; please remove later
-  console.log("appDefinedLinks", appDefinedLinks);
+  const socialLinks = localStorage.getItem("fanbies-social-links");
+  console.log("appDefinedLinks", socialLinks);
+
   const removePicture = async () => {
     if (navigator.onLine) {
       setLoading2(!loading2);

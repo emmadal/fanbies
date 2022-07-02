@@ -8,7 +8,8 @@ import MKSpinner from "components/MKSpinner";
 
 // import material components
 import Grid from "@mui/material/Grid";
-import Icon from "@mui/material/Icon";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import InsertLinkOutlinedIcon from "@mui/icons-material/InsertLinkOutlined";
 
 // draggable components
 import DraggableList from "components/Draggable/DraggableList";
@@ -58,15 +59,22 @@ const UserLink = () => {
             <MKSpinner color="white" size={20} />
           ) : (
             <>
-              <Icon>add_plus</Icon>&nbsp; Custom Link
+              <AddOutlinedIcon />
+              Custom Link
             </>
           )}
         </MKButton>
         <MKBox mt={3}>
           {!links.length ? (
-            <MKTypography sx={{ marginTop: 20 }} variant="h3" color="placeholder" fontWeight="bold">
-              Create your custom links with the above button
-            </MKTypography>
+            <MKBox display="flex" alignItems="center" flexDirection="column">
+              <InsertLinkOutlinedIcon sx={{ height: "3rem", width: "3rem", color: "#c9c2c5" }} />
+              <MKTypography variant="h3" fontWeight="bold" className="text__placeholder_color">
+                No Links.
+              </MKTypography>
+              <MKTypography variant="h3" fontWeight="bold" className="text__placeholder_color">
+                Start with the above button.
+              </MKTypography>
+            </MKBox>
           ) : (
             <DraggableList
               items={links}

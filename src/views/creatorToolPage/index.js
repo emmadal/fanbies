@@ -20,7 +20,7 @@ import AuthContext from "context/AuthContext";
 import { updateRequestForm, getCookie, getUserProfile } from "api";
 
 const CreatorToolPage = () => {
-  const { user, appVideoMessageRate, setUser } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const [shoutoutSlot, setShoutoutSlot] = useState(user?.slots ?? 0);
   const [shoutoutRate, setShoutoutRate] = useState(user?.video_message_fee ?? ["5"]);
   const [loading, setLoading] = useState(false);
@@ -31,6 +31,7 @@ const CreatorToolPage = () => {
   const [open, setOpen] = useState(false);
   const jtoken = getCookie("fanbies-token");
   const username = localStorage.getItem("fanbies-username");
+  const appVideoMessageRate = JSON.parse(localStorage.getItem("fanbies-tool-request-rates"));
 
   const handleShoutoutStatus = () => setShoutoutStatus(!activeShoutout);
   const handleRemarksChange = (e) => setRemarks(e.target.value);
@@ -108,9 +109,11 @@ const CreatorToolPage = () => {
           sx={{ marginBottom: "10px" }}
           className="badge__element"
         />
-        <Icon fontSize="small" color="action" className="icon__paragraph">
-          lockoutlined
-        </Icon>
+        {user?.usertype < 1 && (
+          <Icon fontSize="small" color="action" className="icon__paragraph">
+            lockoutlined
+          </Icon>
+        )}
         <MKBox
           color="white"
           bgColor="white"
