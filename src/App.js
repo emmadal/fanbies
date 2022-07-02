@@ -66,7 +66,7 @@ export default function App() {
   };
 
   useState(() => {
-    if (jtoken && jtoken != null) {
+    if (jtoken && jtoken != null && user == null) {
       onAuthenticated();
       getConfigVideMessageRate("getVideoMessageRate");
       getConfigSocialMedia("getSupportedSocialMedia");

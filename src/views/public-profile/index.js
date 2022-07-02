@@ -44,6 +44,7 @@ function PublicProfile() {
 
   useEffect(() => {
     getUserApi();
+    return () => null;
   }, [setUser]);
 
   return (
