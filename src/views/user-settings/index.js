@@ -22,7 +22,7 @@ import { deleteAccount } from "api";
 const Settings = () => {
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   // eslint-disable-next-line dot-notation
   const userId = user["rand_"];
@@ -39,6 +39,17 @@ const Settings = () => {
     return token === undefined ? "" : token;
   };
 
+  const clearCache = () => {
+    document.cookie = `fanbies-token=; Max-Age=0; path=/; domain=${
+      process.env.PUBLIC_URL
+    };expires=${new Date().toLocaleDateString()}`;
+    localStorage.removeItem("fanbies-username");
+    localStorage.removeItem("fanbies-social-links");
+    localStorage.removeItem("fanbies-tool-request-rates");
+    setUser(null);
+    navigate("/", { replace: true });
+  };
+
   const deleteUserAccount = async () => {
     if (navigator.onLine) {
       setOpen(!open);
@@ -46,12 +57,7 @@ const Settings = () => {
       const req = await deleteAccount(token, userId);
       if (req.success) {
         setOpen(false);
-        localStorage.removeItem("fanbies-username");
-        document.cookie = `fanbies-token=; Max-Age=0; path=/; domain=${
-          process.env.PUBLIC_URL
-        };expires=${new Date().toLocaleDateString()}`;
-        setOpen(false);
-        navigate("/", { replace: true });
+        clearCache();
       } else {
         setOpen(false);
         setError("Something went wrong. Please try again.");
@@ -67,13 +73,7 @@ const Settings = () => {
       setIsLoading(!isLoading);
       setTimeout(() => {
         setIsLoading(false);
-        document.cookie = `fanbies-token=; Max-Age=0; path=/; domain=${
-          process.env.PUBLIC_URL
-        };expires=${new Date().toLocaleDateString()}`;
-        localStorage.removeItem("fanbies-username");
-        localStorage.removeItem("fanbies-social-links");
-        localStorage.removeItem("fanbies-tool-request-rates");
-        navigate("/", { replace: true });
+        clearCache();
       }, 2000);
     } else {
       setError("You're offline. Please check your network connection...");

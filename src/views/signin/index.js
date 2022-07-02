@@ -59,6 +59,7 @@ function SignIn() {
         localStorage.setItem("fanbies-username", dataWithoutToken.username);
         document.cookie = `fanbies-token=${token}; path="/admin; Secure; SameSite=true"`;
         navigate("/admin", { replace: true });
+        window.location.reload();
       }
     },
     validateOnChange: true,

@@ -101,6 +101,7 @@ function SignUp() {
           document.cookie = `fanbies-token=${token}; path="/admin; Secure; SameSite=true"`;
           setUser(dataWithoutToken);
           navigate("/admin", { replace: true });
+          window.location.reload();
         }
       }
     },
