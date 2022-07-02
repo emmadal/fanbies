@@ -26,8 +26,6 @@ export default function App() {
   const { pathname } = useLocation();
   const [user, setUser] = useState(null);
   const [socialMediaLinks, setSocialMediaLinks] = useState(social);
-  const [appDefinedLinks, setAppDefinedLinks] = useState([]);
-  const [appVideoMessageRate, setAppVideoMessageRate] = useState(["5"]); // default
   const username = localStorage.getItem("fanbies-username");
   const jtoken = getCookie("fanbies-token");
 
@@ -53,7 +51,8 @@ export default function App() {
   const getConfigVideMessageRate = async (configType) => {
     const req = await getInAppConfig(jtoken, configType);
     if (req.success) {
-      setAppVideoMessageRate(req?.response[0]?.value?.split(","));
+      const videoRates = req?.response[0]?.value?.split(",");
+      localStorage.setItem("fanbies-tool-request-rates", JSON.stringify(videoRates));
     }
   };
 
@@ -61,7 +60,8 @@ export default function App() {
   const getConfigSocialMedia = async (configType) => {
     const req = await getInAppConfig(jtoken, configType);
     if (req.success) {
-      setAppDefinedLinks(req?.response[0]?.value?.split(","));
+      const links = req?.response[0]?.value?.split(",");
+      localStorage.setItem("fanbies-social-links", links);
     }
   };
 
@@ -78,7 +78,7 @@ export default function App() {
     r.map((prop) => <Route exact path={prop.route} key={prop.name} element={prop.component} />);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, appVideoMessageRate, appDefinedLinks }}>
+    <AuthContext.Provider value={{ user, setUser }}>
       <SocialMediaContext.Provider value={{ socialMediaLinks, setSocialMediaLinks }}>
         <ThemeProvider theme={theme}>
           <CssBaseline />

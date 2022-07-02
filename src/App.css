@@ -20,6 +20,9 @@ html,
   border: 0 none !important;
 }
 
+#fanbies .text__placeholder_color {
+  color: #c9c2c5;
+}
 .fanbies_input_placeholder div {
   margin-right: 1px;
 }

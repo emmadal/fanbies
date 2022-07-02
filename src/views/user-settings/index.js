@@ -71,6 +71,8 @@ const Settings = () => {
           process.env.PUBLIC_URL
         };expires=${new Date().toLocaleDateString()}`;
         localStorage.removeItem("fanbies-username");
+        localStorage.removeItem("fanbies-social-links");
+        localStorage.removeItem("fanbies-tool-request-rates");
         navigate("/", { replace: true });
       }, 2000);
     } else {
