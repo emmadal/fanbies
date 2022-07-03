@@ -121,6 +121,12 @@ html,
     margin: 0
 }
 
+.snackBar_container > div {
+  background-color: rgb(77 110 128);
+  color: #fff;
+  font-weight: bold;
+}
+
 @media only screen and (min-width: 992px) {
   .admin__sidebar {
     max-width: 75%;
@@ -146,4 +152,8 @@ html,
 }
 
 /* Extra small devices (phones, 600px and down) */
-/* @media only screen and (max-width: 600px) {...} */
+@media only screen and (max-width: 600px) {
+  .dashboard_preview_panel {
+    display: none !important;
+  }
+}
