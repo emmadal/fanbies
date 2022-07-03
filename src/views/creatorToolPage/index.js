@@ -11,19 +11,23 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Switch from "@mui/material/Switch";
 import Grid from "@mui/material/Grid";
-import MKDeleteModal from "components/MKDeleteModal";
+import MKModal from "components/MKModal";
+import Snackbar from "@mui/material/Snackbar";
+import Fade from "@mui/material/Fade";
 
 // context user
 import AuthContext from "context/AuthContext";
 
 // api call
-import { updateRequestForm, getCookie, getUserProfile } from "api";
+import { updateRequestForm, getCookie, getUserProfile, askVerifyRequestTool } from "api";
 
 const CreatorToolPage = () => {
   const { user, setUser } = useContext(AuthContext);
   const [shoutoutSlot, setShoutoutSlot] = useState(user?.slots ?? 0);
   const [shoutoutRate, setShoutoutRate] = useState(user?.video_message_fee ?? ["5"]);
   const [loading, setLoading] = useState(false);
+  const [openToolSnack, setOpenToolSnack] = useState({ open: false, Transition: Fade });
+  const [responseMssg, setResponseMssg] = useState("");
   const [activeShoutout, setShoutoutStatus] = useState(
     Boolean(user?.video_message_status) ?? false
   );
@@ -83,18 +87,45 @@ const CreatorToolPage = () => {
 
   const verifyRequest = async () => {
     setOpen(false);
+    const res = await askVerifyRequestTool(jtoken);
+
+    setResponseMssg(res.message);
+    setOpenToolSnack({
+      open: true,
+      Fade,
+    });
+  };
+
+  const handleClose = () => {
+    setOpenToolSnack({
+      ...openToolSnack,
+      open: false,
+    });
+    setResponseMssg("");
   };
 
   return (
     <Grid container>
       <Grid item xs={12} md={12} lg={12} sm={12}>
-        <MKDeleteModal
-          title="Get paid and have fun recording video shoutout messages"
-          message="By been a verified user on Fanbies and unlocking this tool, your fans will have access to requesting 1 v 1 paid direct video message from you. Your fans, admirers of your hard work and followers mostly love to showoff with friends and family that personal video message you created just for them. You set your price, availability, and share your page"
-          isOpen={open}
-          confirmDelete={verifyRequest}
-          cancelAction={setOpen}
+        <Snackbar
+          open={openToolSnack.open}
+          onClose={handleClose}
+          TransitionComponent={openToolSnack.Transition}
+          message={responseMssg}
+          className="snackBar_container"
         />
+        <MKModal
+          title="Get paid and have fun recording video shoutout messages"
+          isOpen={open}
+          confirm={verifyRequest}
+          cancel={setOpen}
+        >
+          <MKTypography variant="text" textAlign="start" mt={2} mb={2}>
+            By been a verified user on Fanbies and unlocking this tool, your fans will have access
+            to requesting a paid direct video message from you. You set your price and availability.
+            Earn while you make your fans happy
+          </MKTypography>
+        </MKModal>
         <MKTypography variant="h5" textAlign="start" mt={2} mb={2}>
           Monetise Your Page
         </MKTypography>
@@ -124,11 +155,7 @@ const CreatorToolPage = () => {
           p={2}
         >
           {user?.usertype < 1 ? (
-            <MKBox
-              component="div"
-              className="unlock_overlay ripple"
-              onClick={() => window.console.log("Modal Open To Confirm")}
-            >
+            <MKBox component="div" className="unlock_overlay ripple" onClick={() => setOpen(!open)}>
               <MKTypography variant="h5" color="white" className="overlay__message">
                 Unlock tool by requesting to be a verified user
                 <Icon fontSize="small" color="white" className="icon__paragraph">

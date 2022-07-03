@@ -219,3 +219,20 @@ export const updateRequestForm = (data) =>
       .then((e) => resolve(e))
       .catch((err) => reject(err.message));
   });
+
+/*
+ Ask to join Fanbies Request tool
+*/
+export const askVerifyRequestTool = (jtoken) =>
+  new Promise((resolve, reject) => {
+    const params = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      redirect: "follow",
+      body: JSON.stringify({ jtoken }),
+    };
+    fetch(`${API}/verifyrequest`, params)
+      .then((res) => res.json())
+      .then((e) => resolve(e))
+      .catch((err) => reject(err.message));
+  });

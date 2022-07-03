@@ -68,10 +68,15 @@ const UserLink = () => {
           {!links.length ? (
             <MKBox display="flex" alignItems="center" flexDirection="column">
               <InsertLinkOutlinedIcon sx={{ height: "3rem", width: "3rem", color: "#c9c2c5" }} />
-              <MKTypography variant="h3" fontWeight="bold" className="text__placeholder_color">
+              <MKTypography
+                variant="h4"
+                mb={2}
+                fontWeight="bold"
+                className="text__placeholder_color"
+              >
                 No Links.
               </MKTypography>
-              <MKTypography variant="h3" fontWeight="bold" className="text__placeholder_color">
+              <MKTypography variant="h4" fontWeight="bold" className="text__placeholder_color">
                 Start with the above button.
               </MKTypography>
             </MKBox>
