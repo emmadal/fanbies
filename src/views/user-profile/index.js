@@ -8,6 +8,7 @@ import MKButton from "components/MKButton";
 import MKAvatar from "components/MKAvatar";
 import MKSocialModal from "components/MKSocialModal";
 import MKSpinner from "components/MKSpinner";
+import Popover from "@mui/material/Popover";
 
 // import material components
 import Grid from "@mui/material/Grid";
@@ -32,31 +33,44 @@ import { reorder } from "components/Draggable/helpers";
 
 // api call
 import { removeProfilePicture, getCookie, uploadProfilePicture, updateUserProfile } from "api";
+import { defaultProfilePic } from "utils";
 
 const Profile = () => {
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const { socialMediaLinks, setSocialMediaLinks } = useContext(SocialMediaContext);
   const [value, setValue] = React.useState("");
   const [error, setError] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [imageURL, setImageURL] = useState("");
+  const [imageURL, setImageURL] = useState(user?.picture ?? defaultProfilePic);
   const [type, setType] = useState("");
   const [loading1, setLoading1] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [loading3, setLoading3] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [popno, setPopno] = useState(-1);
   const ref = useRef();
   // For Demo only; please remove later
-  const socialLinks = localStorage.getItem("fanbies-social-links");
-  console.log("appDefinedLinks", socialLinks);
+  // const socialLinks = localStorage.getItem("fanbies-social-links");
+  // console.log("appDefinedLinks", socialLinks);
+
+  const reFreshIFrame = () => {
+    const iframeEle = document.getElementById("profile-preview");
+    iframeEle.contentWindow.location.reload();
+  };
 
   const removePicture = async () => {
+    const currentPic = user?.picture;
+
     if (navigator.onLine) {
+      if (currentPic === defaultProfilePic) return;
       setLoading2(!loading2);
       const tk = getCookie("fanbies-token");
-      const req = await removeProfilePicture(tk);
-      if (req.success) {
+      const res = await removeProfilePicture(tk);
+      if (res.success) {
         setLoading2(false);
-        setImageURL("");
+        setImageURL(res.response);
+        setUser({ ...user, picture: res.response });
+        reFreshIFrame();
       }
     } else {
       setError("You're offline. Please check your network connection...");
@@ -76,6 +90,8 @@ const Profile = () => {
         if (res.success) {
           setLoading3(false);
           setImageURL(res.response);
+          setUser({ ...user, picture: res.response });
+          reFreshIFrame();
         }
       } else {
         setLoading3(false);
@@ -90,23 +106,18 @@ const Profile = () => {
       name: user?.name ?? "",
       useremail: user?.email ?? "",
       bio: user?.bio ?? "",
-      fb_id: "",
-      ig_id: "",
-      linkedin_id: "",
-      twitter_id: "",
-      tik_id: "",
     },
     onSubmit: async (values) => {
       if (type === "UPDATE_PROFILE") {
         setLoading1(!loading1);
         const { name, useremail, bio } = values;
         const jtoken = getCookie("fanbies-token");
-        const req = await updateUserProfile({ name, useremail, bio, jtoken });
-        if (req.success) {
+        const res = await updateUserProfile({ name, useremail, bio, jtoken });
+        if (res.success) {
           setType("");
           setLoading1(false);
-          const iframeEle = document.getElementById("profile-preview");
-          iframeEle.contentWindow.location.reload();
+          reFreshIFrame();
+          setUser({ ...user, ...res.response });
         }
       }
       if (type === "UPDATE_SOCIAL_LINKS") {
@@ -128,6 +139,19 @@ const Profile = () => {
     setValue(event.target.value);
   };
 
+  const handlePopoverOpen = (event, _popno) => {
+    setAnchorEl(event.currentTarget);
+    setPopno(_popno);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+    setPopno(-1);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
   return (
     <Grid container>
       <MKSocialModal title="Add social link" setIsOpen={setIsOpen} isOpen={isOpen} />
@@ -142,7 +166,7 @@ const Profile = () => {
                 alt="user image"
                 variant="circular"
                 size="xxl"
-                src={imageURL.length ? imageURL : user?.picture}
+                src={imageURL}
                 sx={{ border: "2px solid rgba(0, 0, 0, 0.05)", cursor: "pointer" }}
               />
             </MKBox>
@@ -156,10 +180,39 @@ const Profile = () => {
                   size="large"
                   iconOnly
                   className="border-none"
+                  onMouseEnter={(e) => handlePopoverOpen(e, 1)}
+                  onMouseLeave={handlePopoverClose}
+                  aria-describedby={id}
+                  aria-owns={open ? "mouse-over-popover" : undefined}
                 >
                   <FileUploadOutlinedIcon />
                   {loading3 && <MKSpinner color="info" size={20} />}
                 </MKButton>
+                <Popover
+                  id={id}
+                  sx={{
+                    pointerEvents: "none",
+                  }}
+                  open={open}
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  onClose={handlePopoverClose}
+                  disableRestoreFocus
+                >
+                  {popno === 1 && (
+                    <MKTypography variant="caption">Upload Profile Picture</MKTypography>
+                  )}
+                  {popno === 2 && (
+                    <MKTypography variant="caption">Remove Profile Picture</MKTypography>
+                  )}
+                </Popover>
                 <MKButton
                   iconOnly
                   variant="outlined"
@@ -167,6 +220,9 @@ const Profile = () => {
                   size="large"
                   className="border-none"
                   onClick={removePicture}
+                  onMouseEnter={(e) => handlePopoverOpen(e, 2)}
+                  onMouseLeave={handlePopoverClose}
+                  aria-describedby={id}
                 >
                   <DeleteForeverOutlinedIcon />
                   {loading2 && <MKSpinner color="error" size={20} />}
