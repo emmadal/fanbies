@@ -27,6 +27,7 @@ const style = {
   border: `1px solid ${light.main}`,
   boxShadow: 24,
   p: 4,
+  minWidth: "480px",
 };
 
 function MKModal({ isOpen, confirm, title, children, cancel }) {
