@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 /*
  * username validation
  * accepted: letters & numbers, without space
@@ -17,3 +18,5 @@ export const email = /^[^\s@]+@[^\s@]+\.([^\s@]{2,})+$/;
  * (?=.*[!@#$%^&*]): at least one special characters
  */
 export const password = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+export const url =
+  /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;

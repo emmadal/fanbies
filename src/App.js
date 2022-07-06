@@ -43,7 +43,7 @@ export default function App() {
 
       setUser(responseProfile?.response[0]);
     } catch (e) {
-      console.warn("Error", e);
+      window.console.warn("Error", e);
     }
   };
 

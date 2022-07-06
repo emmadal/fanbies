@@ -253,3 +253,73 @@ export const updateUserPasswordById = (data) =>
       .then((e) => resolve(e))
       .catch((err) => reject(err.message));
   });
+
+/*
+ Create a custom link
+*/
+export const createCustomLink = (data) =>
+  new Promise((resolve, reject) => {
+    const params = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      redirect: "follow",
+      body: JSON.stringify({ ...data }),
+    };
+    fetch(`${API}/createuserlink`, params)
+      .then((res) => res.json())
+      .then((e) => resolve(e))
+      .catch((err) => reject(err.message));
+  });
+
+/*
+ Get all custom links
+*/
+export const getCustomLinks = (username) =>
+  new Promise((resolve, reject) => {
+    const params = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      redirect: "follow",
+      body: JSON.stringify({ username }),
+    };
+    fetch(`${API}/owneredlinks`, params)
+      .then((res) => res.json())
+      .then((e) => resolve(e?.response))
+      .catch((err) => reject(err.message));
+  });
+
+/*
+ Delete custom link
+*/
+export const deleteCustomLink = (data) =>
+  new Promise((resolve, reject) => {
+    const params = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      body: JSON.stringify({ ...data }),
+    };
+    fetch(`${API}/deletelink`, params)
+      .then((res) => res.json())
+      .then((e) => resolve(e))
+      .catch((err) => reject(err.message));
+  });
+
+/*
+ Update custom link
+*/
+export const updateCustomLink = (jtoken, item) =>
+  new Promise((resolve, reject) => {
+    const params = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      redirect: "follow",
+      body: JSON.stringify({ jtoken, item: { ...item } }),
+    };
+    fetch(`${API}/updatelink`, params)
+      .then((res) => res.json())
+      .then((e) => resolve(e))
+      .catch((err) => reject(err.message));
+  });
