@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // Material Kit 2 React Components
 import MKTypography from "components/MKTypography";
@@ -15,11 +15,22 @@ import InsertLinkOutlinedIcon from "@mui/icons-material/InsertLinkOutlined";
 import DraggableList from "components/Draggable/DraggableList";
 import { reorder } from "components/Draggable/helpers";
 
+// API call
+import { getCustomLinks } from "api";
+
 const UserLink = () => {
   const [loading, setLoading] = useState(false);
   const [links, setLinks] = useState([]);
   const [inputLengthTitle, setInputLengthTitle] = useState(0);
   const [inputLengthURL, setInputLengthURL] = useState(0);
+
+  useEffect(() => {
+    const getLinks = async () => {
+      const rlinks = await getCustomLinks(localStorage.getItem("fanbies-username"));
+      setLinks([...rlinks]);
+    };
+    getLinks();
+  }, []);
 
   const generateLink = () => {
     setLoading(!loading);
@@ -27,8 +38,8 @@ const UserLink = () => {
     const link = {
       id: new Date().getTime(),
       title: "",
-      url: "",
-      isShow: false,
+      link_ref: "",
+      visible: 0,
     };
     setTimeout(() => {
       data.unshift(link);
