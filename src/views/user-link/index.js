@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 // Material Kit 2 React Components
 import MKTypography from "components/MKTypography";
@@ -8,29 +8,26 @@ import MKSpinner from "components/MKSpinner";
 
 // import material components
 import Grid from "@mui/material/Grid";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import InsertLinkOutlinedIcon from "@mui/icons-material/InsertLinkOutlined";
 
 // draggable components
 import DraggableList from "components/Draggable/DraggableList";
 import { reorder } from "components/Draggable/helpers";
 
-// API call
-import { getCustomLinks } from "api";
+// context
+import AuthContext from "context/AuthContext";
 
 const UserLink = () => {
+  const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  const [links, setLinks] = useState([]);
+  const [links, setLinks] = useState(user?.custom_links ?? []);
   const [inputLengthTitle, setInputLengthTitle] = useState(0);
   const [inputLengthURL, setInputLengthURL] = useState(0);
 
   useEffect(() => {
-    const getLinks = async () => {
-      const rlinks = await getCustomLinks(localStorage.getItem("fanbies-username"));
-      setLinks([...rlinks]);
-    };
-    getLinks();
-  }, []);
+    if (user == null) return;
+    setLinks(user?.custom_links);
+  }, [user]);
 
   const generateLink = () => {
     setLoading(!loading);
@@ -66,14 +63,7 @@ const UserLink = () => {
           </MKTypography>
         </MKBox>
         <MKButton onClick={generateLink} variant="gradient" color="primary" sx={{ marginTop: 2 }}>
-          {loading ? (
-            <MKSpinner color="white" size={20} />
-          ) : (
-            <>
-              <AddOutlinedIcon />
-              Custom Link
-            </>
-          )}
+          {loading ? <MKSpinner color="white" size={20} /> : "Create Your Link"}
         </MKButton>
         <MKBox mt={3}>
           {!links.length ? (

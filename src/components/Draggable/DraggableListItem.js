@@ -18,13 +18,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 // API call
-import {
-  deleteCustomLink,
-  getCookie,
-  getCustomLinks,
-  createCustomLink,
-  updateCustomLink,
-} from "api";
+import { deleteCustomLink, getCookie, createCustomLink, updateCustomLink } from "api";
 
 // Regex validation
 import * as regex from "regex";
@@ -79,8 +73,7 @@ const DraggableListItem = ({
         linkvisible: 1,
       });
       if (newLink?.success) {
-        const rlinks = await getCustomLinks(localStorage.getItem("fanbies-username"));
-        setLinks([...rlinks]);
+        setLinks(newLink.response);
         setInputLengthTitle(0);
         setInputLengthURL(0);
       }
@@ -90,8 +83,7 @@ const DraggableListItem = ({
       const jtoken = getCookie("fanbies-token");
       const updateLink = await updateCustomLink(jtoken, item);
       if (updateLink?.success) {
-        const rlinks = await getCustomLinks(localStorage.getItem("fanbies-username"));
-        setLinks([...rlinks]);
+        setLinks(updateLink.response);
       }
     }
   };
@@ -118,8 +110,7 @@ const DraggableListItem = ({
     const jtoken = getCookie("fanbies-token");
     const req = await deleteCustomLink({ jtoken, id });
     if (req?.success) {
-      const rlinks = await getCustomLinks(localStorage.getItem("fanbies-username"));
-      setLinks(rlinks);
+      setLinks(req.response);
     }
   };
 
