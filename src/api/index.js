@@ -310,13 +310,13 @@ export const deleteCustomLink = (data) =>
 /*
  Update custom link
 */
-export const updateCustomLink = (jtoken, link) =>
+export const updateCustomLink = (jtoken, item) =>
   new Promise((resolve, reject) => {
     const params = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       redirect: "follow",
-      body: JSON.stringify({ jtoken, ...link }),
+      body: JSON.stringify({ jtoken, item: { ...item } }),
     };
     fetch(`${API}/updatelink`, params)
       .then((res) => res.json())

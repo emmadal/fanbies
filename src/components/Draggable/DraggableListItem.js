@@ -1,3 +1,4 @@
+/* eslint-disable no-unneeded-ternary */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/prop-types */
 import { useState } from "react";
@@ -41,9 +42,9 @@ const DraggableListItem = ({
   const [currLinkId, setCurrLinkId] = useState();
   const [isTitle, setIsTitle] = useState(false);
   const [isURL, setIsURL] = useState(false);
+  const data = [...items];
 
   const handleChange = async (i, event) => {
-    const data = [...items];
     if (event.target.name === "title") {
       data[i][event.target.name] = event.target.value;
       setInputLengthTitle(event.target.value.length);
@@ -55,10 +56,21 @@ const DraggableListItem = ({
       setLinks(data);
     }
     if (event.target.name === "visible") {
-      data[i][event.target.name] = 1;
-      setLinks(data);
+      if (event.target.checked) {
+        data[i][event.target.name] = 1;
+        setLinks(data);
+      } else {
+        data[i][event.target.name] = 0;
+        setLinks(data);
+      }
     }
-    if (regex.url.test(item?.link_ref) && item?.title.length >= 5 && event.target.checked) {
+    // for add a custom link
+    if (
+      regex.url.test(item?.link_ref) &&
+      item?.title.length >= 5 &&
+      !item?.owner_id &&
+      event.target.checked
+    ) {
       const jtoken = getCookie("fanbies-token");
       const newLink = await createCustomLink({
         jtoken,
@@ -68,27 +80,18 @@ const DraggableListItem = ({
       });
       if (newLink?.success) {
         const rlinks = await getCustomLinks(localStorage.getItem("fanbies-username"));
-        window.console.log(rlinks);
         setLinks([...rlinks]);
         setInputLengthTitle(0);
         setInputLengthURL(0);
       }
     }
-
-    // For updating
-    if (
-      (regex.url.test(item?.link_ref) && item?.title.length >= 5 && item?.visible) ||
-      item?.owner_id
-    ) {
+    // for updating
+    if (Object.keys(item).length && item.owner_id) {
       const jtoken = getCookie("fanbies-token");
-      const newLink = await updateCustomLink(jtoken, item);
-      if (newLink?.success) {
+      const updateLink = await updateCustomLink(jtoken, item);
+      if (updateLink?.success) {
         const rlinks = await getCustomLinks(localStorage.getItem("fanbies-username"));
-        window.console.log("update");
-        window.console.log(rlinks);
         setLinks([...rlinks]);
-        setInputLengthTitle(0);
-        setInputLengthURL(0);
       }
     }
   };
@@ -193,7 +196,7 @@ const DraggableListItem = ({
               <Grid item xs={3} md={3} lg={3} sm={3}>
                 <Stack direction="row" alignItems="flex-start" justifyContent="flex-end">
                   <Switch
-                    checked={!!item?.visible}
+                    checked={item?.visible === 1 ? true : false}
                     name="visible"
                     onChange={(e) => handleChange(index, e)}
                     title="Show/Hide custom link"
