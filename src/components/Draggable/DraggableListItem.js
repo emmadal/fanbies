@@ -77,7 +77,6 @@ const DraggableListItem = ({
         linkvisible: 1,
       });
       if (newLink?.success) {
-        // setLinks(newLink.response);
         setUser({ ...user, ...{ custom_links: newLink.response } });
         setInputLengthTitle(0);
         setInputLengthURL(0);
@@ -88,9 +87,8 @@ const DraggableListItem = ({
       const jtoken = getCookie("fanbies-token");
       const updateLink = await updateCustomLink(jtoken, item);
       if (updateLink?.success && updateLink?.message === "updated") {
-        // setLinks(updateLink.response);
         if (updateLink?.success) {
-          setUser({ ...user, ...{ custom_links: updateLink?.response } });
+          setUser({ ...user, ...{ custom_links: updateLink.response } });
         }
       }
     }
