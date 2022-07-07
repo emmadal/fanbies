@@ -87,9 +87,7 @@ const DraggableListItem = ({
       const jtoken = getCookie("fanbies-token");
       const updateLink = await updateCustomLink(jtoken, item);
       if (updateLink?.success && updateLink?.message === "updated") {
-        if (updateLink?.success) {
-          setUser({ ...user, ...{ custom_links: updateLink.response } });
-        }
+        setUser({ ...user, ...{ custom_links: updateLink.response } });
       }
     }
   };
