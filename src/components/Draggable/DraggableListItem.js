@@ -1,7 +1,7 @@
 /* eslint-disable no-unneeded-ternary */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Draggable } from "react-beautiful-dnd";
 
 // Material Kit 2 React Components
@@ -16,6 +16,9 @@ import Icon from "@mui/material/Icon";
 import Switch from "@mui/material/Switch";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+
+// context
+import AuthContext from "context/AuthContext";
 
 // API call
 import { deleteCustomLink, getCookie, createCustomLink, updateCustomLink } from "api";
@@ -34,6 +37,7 @@ const DraggableListItem = ({
   index,
 }) => {
   const [currLinkId, setCurrLinkId] = useState();
+  const { setUser, user } = useContext(AuthContext);
   const [isTitle, setIsTitle] = useState(false);
   const [isURL, setIsURL] = useState(false);
   const data = [...items];
@@ -73,17 +77,17 @@ const DraggableListItem = ({
         linkvisible: 1,
       });
       if (newLink?.success) {
-        setLinks(newLink.response);
+        setUser({ ...user, ...{ custom_links: newLink.response } });
         setInputLengthTitle(0);
         setInputLengthURL(0);
       }
     }
     // for updating
-    if (Object.keys(item).length && item.owner_id) {
+    if (Object.keys(data[i]).length && data[i]?.id === item?.id) {
       const jtoken = getCookie("fanbies-token");
       const updateLink = await updateCustomLink(jtoken, item);
-      if (updateLink?.success) {
-        setLinks(updateLink.response);
+      if (updateLink?.success && updateLink?.message === "updated") {
+        setUser({ ...user, ...{ custom_links: updateLink.response } });
       }
     }
   };
@@ -109,8 +113,11 @@ const DraggableListItem = ({
   const removeLink = async (id) => {
     const jtoken = getCookie("fanbies-token");
     const req = await deleteCustomLink({ jtoken, id });
-    if (req?.success) {
-      setLinks(req.response);
+    if (req?.success && req?.message === "deleted") {
+      setUser({ ...user, ...{ custom_links: req.response } });
+    }
+    if (!req?.success && req?.message === "No Links.") {
+      setUser({ ...user, ...{ custom_links: [] } });
     }
   };
 
