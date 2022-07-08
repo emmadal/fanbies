@@ -11,9 +11,6 @@ import MKInput from "components/MKInput";
 import Snackbar from "@mui/material/Snackbar";
 import Fade from "@mui/material/Fade";
 
-// react router components
-import { useNavigate } from "react-router-dom";
-
 // import material components
 import { Grid } from "@mui/material";
 
@@ -28,27 +25,15 @@ import { useFormik } from "formik";
 import { deleteAccount, updateUserPasswordById, getCookie } from "api";
 
 const Settings = () => {
+  const { state, dispatch } = useContext(AuthContext);
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
   const [openResetModal, setOpenResetModal] = useState(false);
-  const { user, setUser } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [responseMssg, setResponseMssg] = useState("");
   const [openToolSnack, setOpenToolSnack] = useState({ open: false, Transition: Fade });
   // eslint-disable-next-line dot-notation
-  const userId = user["rand_"];
-  const navigate = useNavigate();
-
-  const clearCache = () => {
-    document.cookie = `fanbies-token=; Max-Age=0; path=/; domain=${
-      process.env.PUBLIC_URL
-    };expires=${new Date().toLocaleDateString()}`;
-    localStorage.removeItem("fanbies-username");
-    localStorage.removeItem("fanbies-social-links");
-    localStorage.removeItem("fanbies-tool-request-rates");
-    setUser(null);
-    navigate("/", { replace: true });
-  };
+  const { rand_: userId } = state.userProfile;
 
   const deleteUserAccount = async () => {
     if (navigator.onLine) {
@@ -57,7 +42,7 @@ const Settings = () => {
       const req = await deleteAccount(token, userId);
       if (req.success) {
         setOpen(false);
-        clearCache();
+        dispatch.signOut();
       } else {
         setOpen(false);
         setError("Something went wrong. Please try again.");
@@ -73,7 +58,7 @@ const Settings = () => {
       setIsLoading(!isLoading);
       setTimeout(() => {
         setIsLoading(false);
-        clearCache();
+        dispatch.signOut();
       }, 2000);
     } else {
       setError("You're offline. Please check your network connection...");

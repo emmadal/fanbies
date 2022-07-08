@@ -1,13 +1,7 @@
 import { useContext } from "react";
 
-// Authentication pages components
-import DashboardLayout from "components/DashboardLayout";
-
-// Material Kit 2 PRO React components
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
-
-// @mui material components
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 
@@ -15,13 +9,14 @@ import Link from "@mui/material/Link";
 import AuthContext from "context/AuthContext";
 
 // Stats page components
+import DashboardLayout from "components/DashboardLayout";
 import DashboardNavigation from "components/DashboardNavigation";
 
 // Images
 import fanbiesLogo from "assets/images/favicon.png";
 
 function Admin() {
-  const { user } = useContext(AuthContext);
+  const { state } = useContext(AuthContext);
   return (
     <DashboardLayout>
       <MKBox height="100vh">
@@ -83,10 +78,10 @@ function Admin() {
                   target="_blank"
                   rel="noreferrer"
                   underline="always"
-                  href={`https://fanbies.com/${process.env.PUBLIC_URL}${user?.username}`}
+                  href={`https://fanbies.com/${process.env.PUBLIC_URL}${state.userProfile?.username}`}
                   color="primary"
                 >
-                  {`https://fanbies.com/${process.env.PUBLIC_URL}${user?.username}`}
+                  {`https://fanbies.com/${process.env.PUBLIC_URL}${state.userProfile?.username}`}
                 </Link>
               </MKTypography>
               <MKBox display="flex" textAlign="center" justifyContent="center">
@@ -96,8 +91,8 @@ function Admin() {
                   id="profile-preview"
                   width="100%"
                   loading="eager"
-                  title={`${user?.username}`}
-                  src={`${process.env.PUBLIC_URL}/john`}
+                  title={`${state.userProfile?.username}`}
+                  src={`${process.env.PUBLIC_URL}/${state.userProfile?.username}`}
                 />
               </MKBox>
             </MKBox>

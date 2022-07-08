@@ -1,12 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 // react-router-dom components
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
 import InputAdornment from "@mui/material/InputAdornment";
-
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 import MKInput from "components/MKInput";
@@ -14,10 +13,8 @@ import MKButton from "components/MKButton";
 import MKSpinner from "components/MKSpinner";
 import FooterLogoTxt from "components/utils/FooterLogoTxt";
 
-// Authentication pages components
 import BasicLayout from "pages/Authentication/components/BasicLayout";
 import DefaultNavbar from "molecules/Navbars/DefaultNavbar";
-
 import bgImage from "assets/images/fanbies/signin.jpg";
 
 // form validation with Formik
@@ -27,10 +24,13 @@ import * as Yup from "yup";
 // api call
 import { loginUser } from "api";
 
+// context
+import AuthContext from "context/AuthContext";
+
 function SignIn() {
+  const { dispatch } = useContext(AuthContext);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
 
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
@@ -46,20 +46,15 @@ function SignIn() {
     onSubmit: async (values) => {
       setIsLoading(!isLoading);
       const res = await loginUser(values);
-      // window.console.log(cookies);
       if (!res.success) {
         setIsLoading(false);
         setError(res.message);
       } else {
         setIsLoading(false);
+
         const obj = res.response[0];
-        // delete token key in user object
-        const { token, ...dataWithoutToken } = obj;
-        // Redirect on user profile after signin. if success and remove error message
-        localStorage.setItem("fanbies-username", dataWithoutToken.username);
-        document.cookie = `fanbies-token=${token}; path="/admin; Secure; SameSite=true"`;
-        navigate("/admin", { replace: true });
-        window.location.reload();
+        // Dispatch Login
+        dispatch.logIn(obj);
       }
     },
     validateOnChange: true,

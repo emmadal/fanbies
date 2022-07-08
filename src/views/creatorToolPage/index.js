@@ -22,20 +22,20 @@ import AuthContext from "context/AuthContext";
 import { updateRequestForm, getCookie, getUserProfile, askVerifyRequestTool } from "api";
 
 const CreatorToolPage = () => {
-  const { user, setUser } = useContext(AuthContext);
-  const [shoutoutSlot, setShoutoutSlot] = useState(user?.slots ?? 0);
-  const [shoutoutRate, setShoutoutRate] = useState(user?.video_message_fee ?? ["5"]);
+  const { state, dispatch } = useContext(AuthContext);
+  const [shoutoutSlot, setShoutoutSlot] = useState(state.userProfile.slots ?? 0);
+  const [shoutoutRate, setShoutoutRate] = useState(state.userProfile.video_message_fee ?? ["5"]);
   const [loading, setLoading] = useState(false);
   const [openToolSnack, setOpenToolSnack] = useState({ open: false, Transition: Fade });
   const [responseMssg, setResponseMssg] = useState("");
   const [activeShoutout, setShoutoutStatus] = useState(
-    Boolean(user?.video_message_status) ?? false
+    Boolean(state.userProfile.video_message_status) ?? false
   );
-  const [remarks, setRemarks] = useState(user?.remarks ?? "");
+  const [remarks, setRemarks] = useState(state.userProfile.remarks ?? "");
   const [open, setOpen] = useState(false);
   const jtoken = getCookie("fanbies-token");
   const username = localStorage.getItem("fanbies-username");
-  const appVideoMessageRate = JSON.parse(localStorage.getItem("fanbies-tool-request-rates"));
+  const appVideoMessageRate = JSON.parse(state.fanbiesMessageToolrates);
 
   const handleShoutoutStatus = () => setShoutoutStatus(!activeShoutout);
   const handleRemarksChange = (e) => setRemarks(e.target.value);
@@ -55,14 +55,14 @@ const CreatorToolPage = () => {
   };
 
   // Get latest user profile
-  const getUserDetails = () => {
-    getUserProfile({ username, jtoken }).then((res) => {
-      const response = res.response[0];
-      // delete token key in user object
-      const { token, ...dataWithoutToken } = response;
-      setUser(dataWithoutToken);
-    });
-  };
+  // const getUserDetails = () => {
+  //   getUserProfile({ username, jtoken }).then((res) => {
+  //     const response = res.response[0];
+  //     // delete token key in user object
+  //     const { token, ...dataWithoutToken } = response;
+  //     setUser(dataWithoutToken);
+  //   });
+  // };
 
   // Submit Request Form
   const handleRequestFormSubmit = async () => {
@@ -77,9 +77,14 @@ const CreatorToolPage = () => {
 
     const res = await updateRequestForm(requestFormObj);
     if (res?.success) {
-      setTimeout(() => {
-        // Get latest user profile
-        getUserDetails();
+      setTimeout(async () => {
+        // dispatch
+        const resDetails = await getUserProfile({ username, jtoken });
+        if (resDetails.success) {
+          const response = resDetails.response[0];
+
+          dispatch.getDetails(response);
+        }
         setLoading(false);
       }, 1000);
     }
@@ -140,7 +145,7 @@ const CreatorToolPage = () => {
           sx={{ marginBottom: "10px" }}
           className="badge__element"
         />
-        {user?.usertype < 1 && (
+        {state.userProfile.usertype < 1 && (
           <Icon fontSize="small" color="action" className="icon__paragraph">
             lockoutlined
           </Icon>
@@ -154,7 +159,7 @@ const CreatorToolPage = () => {
           opacity={1}
           p={2}
         >
-          {user?.usertype < 1 ? (
+          {state.userProfile.usertype < 1 ? (
             <MKBox component="div" className="unlock_overlay ripple" onClick={() => setOpen(!open)}>
               <MKTypography variant="h5" color="white" className="overlay__message">
                 Unlock tool by requesting to be a verified user
@@ -169,7 +174,7 @@ const CreatorToolPage = () => {
               <Grid item xs={12} md={12} lg={12} sm={12}>
                 <MKBox display="flex" alignItems="center" ml={-1} my={1}>
                   <Switch
-                    disabled={user?.usertype < 1}
+                    disabled={state.userProfile.usertype < 1}
                     checked={activeShoutout}
                     onChange={handleShoutoutStatus}
                   />

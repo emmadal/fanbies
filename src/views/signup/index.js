@@ -1,29 +1,20 @@
-/* eslint-disable no-unused-vars */
 import { useState, useContext } from "react";
 
 // react-router-dom component
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-// @mui material components
 import Card from "@mui/material/Card";
-
-// user context
-import AuthContext from "context/AuthContext";
-
-// Material Kit 2 PRO React components
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 import MKInput from "components/MKInput";
 import MKButton from "components/MKButton";
 import MKSpinner from "components/MKSpinner";
 import FooterLogoTxt from "components/utils/FooterLogoTxt";
-
-// Authentication layout components
 import BasicLayout from "pages/Authentication/components/BasicLayout";
-
-// @mui material components
 import InputAdornment from "@mui/material/InputAdornment";
 
+// user context
+import AuthContext from "context/AuthContext";
 // Images
 import bgImage from "assets/images/vr-bg.jpg";
 
@@ -40,8 +31,7 @@ import { registerUser } from "api";
 function SignUp() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  const { setUser } = useContext(AuthContext);
+  const { dispatch } = useContext(AuthContext);
 
   const validation = useFormik({
     enableReinitialize: true,
@@ -94,14 +84,10 @@ function SignUp() {
         }
         if (res.success) {
           setIsLoading(false);
-          const obj = res.response;
-          // delete token key in user object
-          const { token, ...dataWithoutToken } = obj;
-          localStorage.setItem("fanbies-username", dataWithoutToken.username);
-          document.cookie = `fanbies-token=${token}; path="/admin; Secure; SameSite=true"`;
-          setUser(dataWithoutToken);
-          navigate("/admin", { replace: true });
-          window.location.reload();
+          const userobj = res.response;
+
+          // Dispatch Sign Up / Register
+          dispatch.signUp(userobj);
         }
       }
     },
