@@ -1,12 +1,9 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useCallback, useEffect } from "react";
 
-// Material Kit 2 React Components
 import MKTypography from "components/MKTypography";
 import MKBox from "components/MKBox";
 import MKButton from "components/MKButton";
 import MKSpinner from "components/MKSpinner";
-
-// import material components
 import Grid from "@mui/material/Grid";
 import InsertLinkOutlinedIcon from "@mui/icons-material/InsertLinkOutlined";
 
@@ -15,23 +12,34 @@ import DraggableList from "components/Draggable/DraggableList";
 import { reorder } from "components/Draggable/helpers";
 
 // context
+import { getUserProfile, getCookie } from "api";
 import AuthContext from "context/AuthContext";
 
 const UserLink = () => {
-  const { user } = useContext(AuthContext);
+  const { state, dispatch } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  const [links, setLinks] = useState(user?.custom_links ?? []);
   const [inputLengthTitle, setInputLengthTitle] = useState(0);
   const [inputLengthURL, setInputLengthURL] = useState(0);
+  const jtoken = getCookie("fanbies-token");
+  const username = localStorage.getItem("fanbies-username");
+  const getUserDetails = useCallback(async () => {
+    const res = await getUserProfile({ username, jtoken });
+    if (res.success) {
+      const response = res.response[0];
+
+      dispatch.getDetails(response);
+    }
+  }, [dispatch]);
 
   useEffect(() => {
-    if (user == null) return;
-    setLinks(user?.custom_links);
-  }, [user]);
+    // Fetch User details onces
+    getUserDetails();
+    return () => null;
+  }, []);
 
   const generateLink = () => {
     setLoading(!loading);
-    const data = [];
+    // const data = [];
     const link = {
       id: new Date().getTime(),
       title: "",
@@ -39,8 +47,7 @@ const UserLink = () => {
       visible: 0,
     };
     setTimeout(() => {
-      data.unshift(link);
-      setLinks([...links, ...data]);
+      state.userProfile?.custom_links.unshift(link);
       setLoading(false);
       setInputLengthTitle(0);
       setInputLengthURL(0);
@@ -50,8 +57,9 @@ const UserLink = () => {
   const onDragEnd = ({ destination, source }) => {
     // dropped outside the list
     if (!destination) return;
-    const newItems = reorder(links, source.index, destination.index);
-    setLinks(newItems);
+    const newItems = reorder(state.userProfile?.custom_links, source.index, destination.index);
+    // dispatch here
+    dispatch.updateCustomLinks(newItems);
   };
 
   return (
@@ -66,7 +74,7 @@ const UserLink = () => {
           {loading ? <MKSpinner color="white" size={20} /> : "Create Your Link"}
         </MKButton>
         <MKBox mt={3}>
-          {!links.length ? (
+          {!state.userProfile?.custom_links?.length ? (
             <MKBox display="flex" alignItems="center" flexDirection="column">
               <InsertLinkOutlinedIcon sx={{ height: "3rem", width: "3rem", color: "#c9c2c5" }} />
               <MKTypography
@@ -83,9 +91,8 @@ const UserLink = () => {
             </MKBox>
           ) : (
             <DraggableList
-              items={links}
+              items={state.userProfile?.custom_links}
               onDragEnd={onDragEnd}
-              setLinks={setLinks}
               inputLengthTitle={inputLengthTitle}
               setInputLengthTitle={setInputLengthTitle}
               setInputLengthURL={setInputLengthURL}

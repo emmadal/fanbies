@@ -33,11 +33,10 @@ const DraggableListItem = ({
   inputLengthTitle,
   inputLengthURL,
   setInputLengthURL,
-  setLinks,
   index,
 }) => {
   const [currLinkId, setCurrLinkId] = useState();
-  const { setUser, user } = useContext(AuthContext);
+  const { dispatch } = useContext(AuthContext);
   const [isTitle, setIsTitle] = useState(false);
   const [isURL, setIsURL] = useState(false);
   const data = [...items];
@@ -46,20 +45,20 @@ const DraggableListItem = ({
     if (event.target.name === "title") {
       data[i][event.target.name] = event.target.value;
       setInputLengthTitle(event.target.value.length);
-      setLinks(data);
+      dispatch.updateCustomLinks(data);
     }
     if (event.target.name === "link_ref") {
       data[i][event.target.name] = event.target.value;
       setInputLengthURL(event.target.value.length);
-      setLinks(data);
+      dispatch.updateCustomLinks(data);
     }
     if (event.target.name === "visible") {
       if (event.target.checked) {
         data[i][event.target.name] = 1;
-        setLinks(data);
+        dispatch.updateCustomLinks(data);
       } else {
         data[i][event.target.name] = 0;
-        setLinks(data);
+        dispatch.updateCustomLinks(data);
       }
     }
     // for add a custom link
@@ -77,7 +76,8 @@ const DraggableListItem = ({
         linkvisible: 1,
       });
       if (newLink?.success) {
-        setUser({ ...user, ...{ custom_links: newLink.response } });
+        // dispatch here
+        dispatch.updateCustomLinks(newLink.response);
         setInputLengthTitle(0);
         setInputLengthURL(0);
       }
@@ -87,7 +87,9 @@ const DraggableListItem = ({
       const jtoken = getCookie("fanbies-token");
       const updateLink = await updateCustomLink(jtoken, item);
       if (updateLink?.success && updateLink?.message === "updated") {
-        setUser({ ...user, ...{ custom_links: updateLink.response } });
+        // dispatch here
+        dispatch.updateCustomLinks(updateLink.response);
+        console.log("user", updateLink.response);
       }
     }
   };
@@ -113,11 +115,9 @@ const DraggableListItem = ({
   const removeLink = async (id) => {
     const jtoken = getCookie("fanbies-token");
     const req = await deleteCustomLink({ jtoken, id });
-    if (req?.success && req?.message === "deleted") {
-      setUser({ ...user, ...{ custom_links: req.response } });
-    }
-    if (!req?.success && req?.message === "No Links.") {
-      setUser({ ...user, ...{ custom_links: [] } });
+    if (req?.success) {
+      // dispatch
+      dispatch.updateCustomLinks(req.response);
     }
   };
 

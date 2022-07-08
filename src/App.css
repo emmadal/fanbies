@@ -59,6 +59,10 @@ html,
   backdrop-filter: blur(2px);
 }
 
+#fanbies .link_btn {
+  margin: 10px 0;
+}
+
 .fanbies_input_custom_v1 input,
 #fanbies .fanbies_input_custom_v1 > div {
   font-size: 1.5em !important;

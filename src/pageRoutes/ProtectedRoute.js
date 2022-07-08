@@ -3,8 +3,7 @@ import AuthContext from "context/AuthContext";
 import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
-  const { user } = useContext(AuthContext);
-
+  const { state } = useContext(AuthContext);
   const getCookieByName = (tokenName) => {
     let token;
     if (document.cookie) {
@@ -16,7 +15,11 @@ const ProtectedRoute = ({ children }) => {
     return token;
   };
 
-  if (!user && !getCookieByName("fanbies-token")) {
+  if (
+    state.isSignout ||
+    getCookieByName("fanbies-token") === undefined ||
+    getCookieByName("fanbies-token") === null
+  ) {
     return <Navigate to="/" replace />;
   }
   return children;

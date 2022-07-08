@@ -1,6 +1,5 @@
 import React, { useContext, useState, useRef } from "react";
 
-// Material Kit 2 React Components
 import MKInput from "components/MKInput";
 import MKTypography from "components/MKTypography";
 import MKBox from "components/MKBox";
@@ -9,8 +8,6 @@ import MKAvatar from "components/MKAvatar";
 import MKSocialModal from "components/MKSocialModal";
 import MKSpinner from "components/MKSpinner";
 import Popover from "@mui/material/Popover";
-
-// import material components
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Radio from "@mui/material/Radio";
@@ -36,12 +33,11 @@ import { removeProfilePicture, getCookie, uploadProfilePicture, updateUserProfil
 import { defaultProfilePic } from "utils";
 
 const Profile = () => {
-  const { user, setUser } = useContext(AuthContext);
+  const { state, dispatch } = useContext(AuthContext);
   const { socialMediaLinks, setSocialMediaLinks } = useContext(SocialMediaContext);
   const [value, setValue] = React.useState("");
   const [error, setError] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [imageURL, setImageURL] = useState(user?.picture ?? defaultProfilePic);
   const [type, setType] = useState("");
   const [loading1, setLoading1] = useState(false);
   const [loading2, setLoading2] = useState(false);
@@ -59,7 +55,7 @@ const Profile = () => {
   };
 
   const removePicture = async () => {
-    const currentPic = user?.picture;
+    const currentPic = state.userProfile?.picture;
 
     if (navigator.onLine) {
       if (currentPic === defaultProfilePic) return;
@@ -68,8 +64,7 @@ const Profile = () => {
       const res = await removeProfilePicture(tk);
       if (res.success) {
         setLoading2(false);
-        setImageURL(res.response);
-        setUser({ ...user, picture: res.response });
+        dispatch.updatePicture(res.response);
         reFreshIFrame();
       }
     } else {
@@ -78,7 +73,7 @@ const Profile = () => {
   };
 
   const uploadPicture = () => {
-    const { rand_: userId } = user;
+    const { rand_: userId } = state.userProfile;
     document.getElementById("input_file").click();
     document.getElementById("input_file").addEventListener("change", async () => {
       const data = new FormData();
@@ -89,8 +84,7 @@ const Profile = () => {
         const res = await uploadProfilePicture(data);
         if (res.success) {
           setLoading3(false);
-          setImageURL(res.response);
-          setUser({ ...user, picture: res.response });
+          dispatch.updatePicture(res.response);
           reFreshIFrame();
         }
       } else {
@@ -103,9 +97,9 @@ const Profile = () => {
   const validation = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: user?.name ?? "",
-      useremail: user?.email ?? "",
-      bio: user?.bio ?? "",
+      name: state.userProfile.name ?? "",
+      useremail: state.userProfile.email ?? "",
+      bio: state.userProfile.bio ?? "",
     },
     onSubmit: async (values) => {
       if (type === "UPDATE_PROFILE") {
@@ -116,8 +110,8 @@ const Profile = () => {
         if (res.success) {
           setType("");
           setLoading1(false);
+          dispatch.getDetails(res.response);
           reFreshIFrame();
-          setUser({ ...user, ...res.response });
         }
       }
       if (type === "UPDATE_SOCIAL_LINKS") {
@@ -166,7 +160,7 @@ const Profile = () => {
                 alt="user image"
                 variant="circular"
                 size="xxl"
-                src={imageURL}
+                src={state.userProfile.picture}
                 sx={{ border: "2px solid rgba(0, 0, 0, 0.05)", cursor: "pointer" }}
               />
             </MKBox>
