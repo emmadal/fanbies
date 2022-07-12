@@ -9,11 +9,12 @@ const DraggableList = memo(
   ({
     items,
     onDragEnd,
-    setLinks,
     setInputLengthTitle,
     inputLengthTitle,
     setInputLengthURL,
     inputLengthURL,
+    linkForm,
+    setLinkForm,
   }) => (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="droppable-list">
@@ -21,9 +22,9 @@ const DraggableList = memo(
           <div ref={provided.innerRef} {...provided.droppableProps}>
             {items.map((item, index) => (
               <DraggableListItem
+                linkForm={linkForm}
+                setLinkForm={setLinkForm}
                 item={item}
-                items={items}
-                setLinks={setLinks}
                 index={index}
                 key={item.id}
                 setInputLengthTitle={setInputLengthTitle}
