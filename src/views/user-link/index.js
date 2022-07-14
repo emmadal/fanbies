@@ -33,6 +33,11 @@ const UserLink = () => {
     }
   }, [dispatch]);
 
+  const reFreshIFrame = () => {
+    const iframeEle = document.getElementById("profile-preview");
+    iframeEle.contentWindow.location.reload();
+  };
+
   useEffect(() => {
     // Fetch User details onces
     getUserDetails();
@@ -56,6 +61,7 @@ const UserLink = () => {
     const newItems = reorder(state.userProfile?.custom_links, source.index, destination.index);
     // dispatch here
     dispatch.updateCustomLinks(newItems);
+    reFreshIFrame();
   };
 
   return (

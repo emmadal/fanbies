@@ -69,6 +69,7 @@ const DraggableListItem = ({
           setLinkForm({ title: "", link_ref: "", visible: false });
           setInputLengthTitle(0);
           setInputLengthURL(0);
+          reFreshIFrame();
         }
       }
     }
