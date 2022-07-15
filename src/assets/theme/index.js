@@ -14,11 +14,12 @@ Coded by www.creative-tim.com
 */
 
 // @mui material components
-import { createTheme } from "@mui/material/styles";
+// import { createTheme } from "@mui/material/styles";
 // import Fade from "@mui/material/Fade";
 
 // Material Kit 2 PRO React base styles
 import colors from "assets/theme/base/colors";
+import dark from "assets/theme/custom-colors/dark";
 import breakpoints from "assets/theme/base/breakpoints";
 import typography from "assets/theme/base/typography";
 import boxShadows from "assets/theme/base/boxShadows";
@@ -85,8 +86,7 @@ import dialogContentText from "assets/theme/components/dialog/dialogContentText"
 import dialogActions from "assets/theme/components/dialog/dialogActions";
 import swiper from "assets/theme/components/swiper";
 
-export default createTheme({
-  breakpoints: { ...breakpoints },
+export const LightTheme = {
   palette: { ...colors },
   typography: { ...typography },
   boxShadows: { ...boxShadows },
@@ -98,7 +98,6 @@ export default createTheme({
     pxToRem,
     rgba,
   },
-
   components: {
     MuiCssBaseline: {
       styleOverrides: {
@@ -157,4 +156,10 @@ export default createTheme({
     MuiDialogContentText: { ...dialogContentText },
     MuiDialogActions: { ...dialogActions },
   },
-});
+  breakpoints: { ...breakpoints },
+};
+
+export const DarkTheme = {
+  palette: { ...dark },
+  ...LightTheme,
+};

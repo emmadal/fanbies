@@ -8,6 +8,7 @@ import MKTypography from "components/MKTypography";
 import MKButton from "components/MKButton";
 import MKProgressAccordion from "components/MKProgressAccordion";
 import MKSpinner from "components/MKSpinner";
+import dark from "assets/theme/custom-colors/dark";
 import colors from "assets/theme/base/colors";
 import rgba from "assets/theme/functions/rgba";
 
@@ -17,7 +18,8 @@ import { getUserProfile, getCookie } from "api";
 // context
 import AuthContext from "context/AuthContext";
 
-const { primary } = colors;
+const { background } = colors;
+const { dark: darkColor } = dark;
 
 function PublicProfile() {
   const { state, dispatch } = useContext(AuthContext);
@@ -54,6 +56,16 @@ function PublicProfile() {
       getUserDetails={getUserDetails}
     />
   );
+  const getTheme = (theme) => {
+    switch (theme) {
+      case "DARK":
+        return rgba(darkColor?.background, 1);
+      case "LIGHT":
+        return rgba(background?.default, 1);
+      default:
+        return rgba(darkColor?.background, 1);
+    }
+  };
 
   const profileLinks = (items) => {
     const links = items
@@ -68,7 +80,7 @@ function PublicProfile() {
           target="_blank"
           rel="noreferrer"
           variant="outlined"
-          color="white"
+          color={state?.userProfile?.theme === "DEFAULT" ? "white" : "primary"}
           fullWidth
           size="large"
           circular
@@ -79,7 +91,12 @@ function PublicProfile() {
       ));
     if (!links.length)
       return (
-        <MKTypography my={3} variant="h6" color="white" fontWeight="bold">
+        <MKTypography
+          my={3}
+          variant="h6"
+          fontWeight="bold"
+          color={state?.userProfile?.theme === "DEFAULT" ? "white" : "dark"}
+        >
           No active links at the moment.
         </MKTypography>
       );
@@ -91,9 +108,7 @@ function PublicProfile() {
     <MKBox
       width="100%"
       height="100vh"
-      sx={{
-        backgroundColor: rgba(primary.main, 1),
-      }}
+      sx={{ backgroundColor: getTheme(state?.userProfile?.theme) }}
       display="flex"
       justifyContent="center"
       alignItems="center"
@@ -107,13 +122,23 @@ function PublicProfile() {
             <MKAvatar variant="circular" size="xxl" src={`${state.userProfile?.picture}`} />
           </MKBox>
           <MKBox textAlign="center" mx={2}>
-            <MKTypography variant="h5" color="white" fontWeight="bold">
+            <MKTypography
+              variant="h5"
+              fontWeight="bold"
+              color={state?.userProfile?.theme === "DEFAULT" ? "white" : "dark"}
+            >
               @{state.userProfile?.username}
             </MKTypography>
-            <MKTypography variant="caption" color="white">
+            <MKTypography
+              variant="caption"
+              color={state?.userProfile?.theme === "DEFAULT" ? "white" : "dark"}
+            >
               {state.userProfile?.name ?? ""}
             </MKTypography>
-            <MKTypography variant="caption" color="white">
+            <MKTypography
+              variant="caption"
+              color={state?.userProfile?.theme === "DEFAULT" ? "white" : "dark"}
+            >
               {state.userProfile?.bio ?? ""}
             </MKTypography>
             {publicProfile?.active >= 1 &&

@@ -3,7 +3,7 @@ import { useEffect, useState, useReducer, useMemo } from "react";
 // react-router components
 import { Route, useLocation, Routes, useNavigate } from "react-router-dom";
 // @mui material components
-import { ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
 // App Context
@@ -12,7 +12,7 @@ import SocialMediaContext from "context/SocialMediaContext";
 
 // api call
 import { getCookie, getInAppConfig } from "api";
-import theme from "assets/theme";
+import { DarkTheme, LightTheme } from "assets/theme";
 import indexRoutes from "pageRoutes";
 import "./App.css";
 
@@ -29,6 +29,7 @@ export const FANBIES_DISPATCH = {
   FETCH_INAPP_VIDEO_RATES: "FETCH_INAPP_VIDEO_RATES",
   FETCH_INAPP_SOCIAL_MEDIA: "FETCH_INAPP_SOCIAL_MEDIA",
   UPDATE_PROFILE_PICTURE: "UPDATE_PROFILE_PICTURE",
+  CHANGE_THEME: "CHANGE_THEME",
 };
 
 const fanbiesStore = "FANBIES_STORE";
@@ -112,6 +113,11 @@ export default function App() {
             ...prevState,
             fanbiesSupportedSocials: action.payload,
           };
+        case FANBIES_DISPATCH.CHANGE_THEME:
+          return {
+            ...prevState,
+            userProfile: { ...prevState.userProfile, theme: action.payload },
+          };
         default:
           return { ...prevState };
       }
@@ -192,6 +198,12 @@ export default function App() {
             payload: data,
           });
         },
+        changeTheme: (data) => {
+          dispatch({
+            type: FANBIES_DISPATCH.CHANGE_THEME,
+            payload: data,
+          });
+        },
       },
     }),
     [state]
@@ -233,6 +245,11 @@ export default function App() {
 
   const getAllRoutes = (r) =>
     r.map((prop) => <Route exact path={prop.route} key={prop.name} element={prop.component} />);
+
+  const theme = useMemo(() => {
+    const color = state?.userProfile?.theme === "DEFAULT" ? DarkTheme : LightTheme;
+    return createTheme({ ...color });
+  }, [state?.userProfile?.theme]);
 
   return (
     <AuthContext.Provider value={authContext}>

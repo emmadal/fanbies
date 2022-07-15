@@ -45,6 +45,10 @@ const Profile = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [popno, setPopno] = useState(-1);
   const ref = useRef();
+  const appearance = [
+    { mode: "LIGHT", backgroundColor: "#f0f2f5", label: "Light Mode" },
+    { mode: "DEFAULT", backgroundColor: "#263238", label: "Dark Mode" },
+  ];
   // For Demo only; please remove later
   // const socialLinks = localStorage.getItem("fanbies-social-links");
   // console.log("appDefinedLinks", socialLinks);
@@ -141,6 +145,17 @@ const Profile = () => {
   const handlePopoverClose = () => {
     setAnchorEl(null);
     setPopno(-1);
+  };
+
+  const changeTheme = async (theme) => {
+    const jtoken = getCookie("fanbies-token");
+    const { name, email, bio } = state?.userProfile;
+    const res = await updateUserProfile({ name, useremail: email, bio, theme, jtoken });
+    if (res.success) {
+      dispatch.getDetails(res.response);
+      dispatch.changeTheme(theme);
+      reFreshIFrame();
+    }
   };
 
   const open = Boolean(anchorEl);
@@ -351,6 +366,46 @@ const Profile = () => {
               </MKBox>
             ) : null}
           </MKBox>
+        </MKBox>
+        <MKTypography textAlign="start" mt={2} mb={1}>
+          Themes
+        </MKTypography>
+        <MKTypography textAlign="start" mb={2} variant="body2">
+          Customize your Fanbies profile. Change your app background with colours.
+        </MKTypography>
+        <MKBox
+          color="white"
+          bgColor="white"
+          borderRadius="lg"
+          shadow="lg"
+          opacity={1}
+          p={2}
+          display="flex"
+          flexDirection="row"
+          flexWrap="wrap"
+        >
+          {appearance.map((item) => (
+            <MKBox
+              key={item?.mode}
+              mx={2}
+              mb={2}
+              mt={2}
+              sx={{ cursor: "pointer" }}
+              onClick={() => changeTheme(item?.mode)}
+            >
+              <MKBox
+                sx={{
+                  backgroundColor: item.backgroundColor,
+                  borderRadius: 2,
+                  height: 170,
+                  width: 120,
+                }}
+              />
+              <MKTypography fontWeight="bold" textAlign="center" variant="body2" mt={1}>
+                {item?.label}
+              </MKTypography>
+            </MKBox>
+          ))}
         </MKBox>
       </Grid>
     </Grid>
