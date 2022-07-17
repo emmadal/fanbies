@@ -58,6 +58,7 @@ function PublicProfile() {
   const profileLinks = (items) => {
     const links = items
       ?.filter((i) => i.visible)
+      .sort((prev, next) => prev?.link_order - next?.link_order)
       .map((i) => (
         <MKButton
           key={i.id}

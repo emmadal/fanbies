@@ -21,14 +21,15 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AuthContext from "context/AuthContext";
 
 // API call
-import { deleteCustomLink, getCookie, createCustomLink, updateCustomLink } from "api";
+import { deleteCustomLink, getCookie, createCustomLink } from "api";
 
 // Regex validation
 import * as regex from "regex";
 
 const DraggableListItem = ({
   item,
-  items,
+  linkForm,
+  setLinkForm,
   setInputLengthTitle,
   inputLengthTitle,
   inputLengthURL,
@@ -36,93 +37,76 @@ const DraggableListItem = ({
   index,
 }) => {
   const [currLinkId, setCurrLinkId] = useState();
-  const { dispatch } = useContext(AuthContext);
+  const { state, dispatch } = useContext(AuthContext);
   const [isTitle, setIsTitle] = useState(false);
   const [isURL, setIsURL] = useState(false);
-  const data = [...items];
+  const jtoken = getCookie("fanbies-token");
 
-  const handleChange = async (i, event) => {
-    if (event.target.name === "title") {
-      data[i][event.target.name] = event.target.value;
+  const reFreshIFrame = () => {
+    const iframeEle = document.getElementById("profile-preview");
+    iframeEle.contentWindow.location.reload();
+  };
+
+  const handleChange = (event) => {
+    if (state.userProfile?.custom_links[index] === item && currLinkId === index) {
+      const { target } = event;
+      const value = target.type === "checkbox" ? target.checked : target.value;
+      const { name } = target;
+      setLinkForm({ ...linkForm, [name]: value });
       setInputLengthTitle(event.target.value.length);
-      dispatch.updateCustomLinks(data);
-    }
-    if (event.target.name === "link_ref") {
-      data[i][event.target.name] = event.target.value;
       setInputLengthURL(event.target.value.length);
-      dispatch.updateCustomLinks(data);
-    }
-    if (event.target.name === "visible") {
-      if (event.target.checked) {
-        data[i][event.target.name] = 1;
-        dispatch.updateCustomLinks(data);
-      } else {
-        data[i][event.target.name] = 0;
-        dispatch.updateCustomLinks(data);
-      }
-    }
-    // for add a custom link
-    if (
-      regex.url.test(item?.link_ref) &&
-      item?.title.length >= 5 &&
-      !item?.owner_id &&
-      event.target.checked
-    ) {
-      const jtoken = getCookie("fanbies-token");
-      const newLink = await createCustomLink({
-        jtoken,
-        linktitle: item.title,
-        linkref: item.link_ref,
-        linkvisible: 1,
-      });
-      if (newLink?.success) {
-        // dispatch here
-        dispatch.updateCustomLinks(newLink.response);
-        setInputLengthTitle(0);
-        setInputLengthURL(0);
-      }
-    }
-    // for updating
-    if (Object.keys(data[i]).length && data[i]?.id === item?.id) {
-      const jtoken = getCookie("fanbies-token");
-      const updateLink = await updateCustomLink(jtoken, item);
-      if (updateLink?.success && updateLink?.message === "updated") {
-        // dispatch here
-        dispatch.updateCustomLinks(updateLink.response);
-        console.log("user", updateLink.response);
+
+      // Create a new custom link
+      if (target.checked && regex.url.test(linkForm?.link_ref) && linkForm?.title.length >= 3) {
+        const newLink = createCustomLink({
+          jtoken,
+          linktitle: linkForm?.title,
+          linkref: linkForm?.link_ref,
+          linkvisible: 1,
+        });
+        if (newLink?.success) {
+          dispatch.updateCustomLinks(newLink.response);
+          setLinkForm({ title: "", link_ref: "", visible: false });
+          setInputLengthTitle(0);
+          setInputLengthURL(0);
+          reFreshIFrame();
+        }
       }
     }
   };
 
-  const addTitle = (id, key) => {
-    const u = items.find((e) => e.id === id);
-    if (items[key]?.id === u.id) {
-      setInputLengthTitle(1);
-      setCurrLinkId(u?.id);
+  const addTitle = (id) => {
+    if (item?.id === id) {
+      setCurrLinkId(index);
+      setInputLengthTitle(item?.title.length || 1);
       setIsTitle(true);
     }
   };
 
-  const addURL = (id, key) => {
-    const u = items.find((e) => e.id === id);
-    if (items[key]?.id === u.id) {
-      setInputLengthURL(1);
-      setCurrLinkId(u?.id);
+  const addURL = (id) => {
+    if (item?.id === id) {
+      setCurrLinkId(index);
+      setInputLengthURL(item?.link_ref.length || 1);
       setIsURL(true);
     }
   };
 
   const removeLink = async (id) => {
-    const jtoken = getCookie("fanbies-token");
     const req = await deleteCustomLink({ jtoken, id });
     if (req?.success) {
       // dispatch
       dispatch.updateCustomLinks(req.response);
+      reFreshIFrame();
+    }
+    if (req?.message === "No Links.") {
+      setLinkForm({ title: "", link_ref: "", visible: false });
+      dispatch.updateCustomLinks([]);
+      reFreshIFrame();
     }
   };
 
   return (
-    <Draggable draggableId={`${item.id}`} index={index}>
+    <Draggable draggableId={String(item.id)} index={index}>
       {(provided, snapshot) => (
         <MKBox
           color="white"
@@ -137,18 +121,20 @@ const DraggableListItem = ({
           p={2}
           mt={3}
           mb={3}
-          key={item.id}
+          key={linkForm.id}
         >
-          <MKBox component="form">
+          <form>
             <Grid container>
               <Grid item xs={9} md={9} lg={9} sm={9}>
-                <MKBox sx={{ cursor: "pointer" }} onClick={() => addTitle(item.id, index)}>
-                  {(isTitle && currLinkId === item.id && inputLengthTitle > 0) ||
-                  item.title.length ? (
+                <MKBox sx={{ cursor: "pointer" }} onClick={() => addTitle(item.id)}>
+                  {(isTitle && inputLengthTitle > 0 && currLinkId === index) ||
+                  item?.title.length ? (
                     <MKInput
-                      onChange={(e) => handleChange(index, e)}
-                      onBlur={() => setInputLengthTitle(item.title.length)}
-                      value={item.title}
+                      onChange={(e) => handleChange(e)}
+                      onBlur={() =>
+                        setInputLengthTitle(item?.title.length || linkForm?.title.length)
+                      }
+                      value={item?.title || linkForm?.title}
                       type="text"
                       placeholder="Title"
                       variant="standard"
@@ -166,13 +152,14 @@ const DraggableListItem = ({
                     </MKTypography>
                   )}
                 </MKBox>
-                <MKBox sx={{ cursor: "pointer" }} onClick={() => addURL(item.id, index)}>
-                  {(isURL && currLinkId === item.id && inputLengthURL > 0) ||
-                  item.link_ref.length ? (
+                <MKBox sx={{ cursor: "pointer" }} onClick={() => addURL(item.id)}>
+                  {(isURL && inputLengthURL > 0 && currLinkId === index) || item.link_ref.length ? (
                     <MKInput
-                      onChange={(e) => handleChange(index, e)}
-                      onBlur={() => setInputLengthURL(item.link_ref.length)}
-                      value={item.link_ref}
+                      onChange={(e) => handleChange(e)}
+                      onBlur={() =>
+                        setInputLengthURL(item?.link_ref.length || linkForm.link_ref.length)
+                      }
+                      value={item?.link_ref || linkForm.link_ref}
                       type="text"
                       placeholder="URL"
                       variant="standard"
@@ -194,9 +181,9 @@ const DraggableListItem = ({
               <Grid item xs={3} md={3} lg={3} sm={3}>
                 <Stack direction="row" alignItems="flex-start" justifyContent="flex-end">
                   <Switch
-                    checked={item?.visible === 1 ? true : false}
+                    checked={item?.visible === 1 || linkForm?.visible ? true : false}
                     name="visible"
-                    onChange={(e) => handleChange(index, e)}
+                    onChange={(e) => handleChange(e)}
                     title="Show/Hide custom link"
                   />
                   <IconButton color="primary" component="span" onClick={() => removeLink(item?.id)}>
@@ -205,7 +192,7 @@ const DraggableListItem = ({
                 </Stack>
               </Grid>
             </Grid>
-          </MKBox>
+          </form>
         </MKBox>
       )}
     </Draggable>

@@ -3,17 +3,18 @@
 
 import { memo } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import DraggableListItem from "./DraggableListItem";
+import DraggableListItem from "components/Draggable/DraggableListItem";
 
 const DraggableList = memo(
   ({
     items,
     onDragEnd,
-    setLinks,
     setInputLengthTitle,
     inputLengthTitle,
     setInputLengthURL,
     inputLengthURL,
+    linkForm,
+    setLinkForm,
   }) => (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="droppable-list">
@@ -21,11 +22,11 @@ const DraggableList = memo(
           <div ref={provided.innerRef} {...provided.droppableProps}>
             {items.map((item, index) => (
               <DraggableListItem
+                linkForm={linkForm}
+                setLinkForm={setLinkForm}
                 item={item}
-                items={items}
-                setLinks={setLinks}
                 index={index}
-                key={item.id}
+                key={item?.id}
                 setInputLengthTitle={setInputLengthTitle}
                 inputLengthTitle={inputLengthTitle}
                 inputLengthURL={inputLengthURL}

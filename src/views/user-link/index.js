@@ -18,10 +18,12 @@ import AuthContext from "context/AuthContext";
 const UserLink = () => {
   const { state, dispatch } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
+  const [linkForm, setLinkForm] = useState({ title: "", link_ref: "", visible: false });
   const [inputLengthTitle, setInputLengthTitle] = useState(0);
   const [inputLengthURL, setInputLengthURL] = useState(0);
   const jtoken = getCookie("fanbies-token");
   const username = localStorage.getItem("fanbies-username");
+
   const getUserDetails = useCallback(async () => {
     const res = await getUserProfile({ username, jtoken });
     if (res.success) {
@@ -31,6 +33,11 @@ const UserLink = () => {
     }
   }, [dispatch]);
 
+  const reFreshIFrame = () => {
+    const iframeEle = document.getElementById("profile-preview");
+    iframeEle.contentWindow.location.reload();
+  };
+
   useEffect(() => {
     // Fetch User details onces
     getUserDetails();
@@ -39,18 +46,12 @@ const UserLink = () => {
 
   const generateLink = () => {
     setLoading(!loading);
-    // const data = [];
-    const link = {
-      id: new Date().getTime(),
-      title: "",
-      link_ref: "",
-      visible: 0,
-    };
     setTimeout(() => {
-      state.userProfile?.custom_links.unshift(link);
+      state.userProfile?.custom_links.unshift({ id: String(Date.now()), ...linkForm });
       setLoading(false);
       setInputLengthTitle(0);
       setInputLengthURL(0);
+      setLinkForm({ title: "", link_ref: "", visible: false });
     }, 1000);
   };
 
@@ -60,6 +61,7 @@ const UserLink = () => {
     const newItems = reorder(state.userProfile?.custom_links, source.index, destination.index);
     // dispatch here
     dispatch.updateCustomLinks(newItems);
+    reFreshIFrame();
   };
 
   return (
@@ -92,6 +94,8 @@ const UserLink = () => {
           ) : (
             <DraggableList
               items={state.userProfile?.custom_links}
+              linkForm={linkForm}
+              setLinkForm={setLinkForm}
               onDragEnd={onDragEnd}
               inputLengthTitle={inputLengthTitle}
               setInputLengthTitle={setInputLengthTitle}
