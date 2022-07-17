@@ -9,6 +9,8 @@ export const username = /^([a-zA-Z0-9\-_])*[^\s]\1*$/;
  */
 export const email = /^[^\s@]+@[^\s@]+\.([^\s@]{2,})+$/;
 
+export const number = /[0-9]|\./;
+
 /*
  * password validation, should contain:
  * (?=.*\d): at least one digit

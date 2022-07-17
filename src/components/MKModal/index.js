@@ -30,7 +30,7 @@ const style = {
   minWidth: "480px",
 };
 
-function MKModal({ isOpen, confirm, title, children, cancel }) {
+function MKModal({ isOpen, confirm, title, children, cancel, hideConfirm }) {
   return (
     <div>
       <Modal
@@ -50,11 +50,13 @@ function MKModal({ isOpen, confirm, title, children, cancel }) {
           <Divider variant="fullWidth" />
           <Stack direction="row" spacing={2} justifyContent="flex-end">
             <MKButton variant="outlined" color="secondary" onClick={() => cancel(false)}>
-              Cancel
+              {hideConfirm ? "OK" : "Cancel"}
             </MKButton>
-            <MKButton variant="gradient" color="primary" onClick={confirm}>
-              Confirm
-            </MKButton>
+            {!hideConfirm && (
+              <MKButton variant="gradient" color="primary" onClick={confirm}>
+                Confirm
+              </MKButton>
+            )}
           </Stack>
         </MKBox>
       </Modal>
@@ -62,12 +64,18 @@ function MKModal({ isOpen, confirm, title, children, cancel }) {
   );
 }
 
+MKModal.defaultProps = {
+  confirm: PropTypes.func,
+  hideConfirm: false,
+};
+
 MKModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  confirm: PropTypes.func.isRequired,
+  confirm: PropTypes.func,
   cancel: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
+  hideConfirm: PropTypes.bool,
 };
 
 export default MKModal;
