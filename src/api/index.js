@@ -323,3 +323,20 @@ export const updateCustomLink = (jtoken, item) =>
       .then((e) => resolve(e))
       .catch((err) => reject(err.message));
   });
+
+/*
+ Shoutout Booking
+*/
+export const bookingShoutoutRequest = (jtoken, item) =>
+  new Promise((resolve, reject) => {
+    const params = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      redirect: "follow",
+      body: JSON.stringify({ jtoken, ...item }),
+    };
+    fetch(`${API}/v2/paymentRegister`, params)
+      .then((res) => res.json())
+      .then((e) => resolve(e))
+      .catch((err) => reject(err.message));
+  });

@@ -63,6 +63,18 @@ html,
   margin: 10px 0;
 }
 
+.datapicker > div {
+  width: 100%;
+}
+
+#fanbies .checkbox_formcontrol span {
+  font-weight: normal;
+}
+
+#fanbies .flatpickr-day.today {
+  background-color: transparent;
+}
+
 .fanbies_input_custom_v1 input,
 #fanbies .fanbies_input_custom_v1 > div {
   font-size: 1.5em !important;
@@ -150,6 +162,42 @@ html,
   width: 100%;
 }
 
+.centerItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+#fanbies .fanbies_btn:disabled {
+  visibility: hidden;
+}
+
+#fanbies .mk_accordion {
+  background-color: transparent !important;
+  border-radius: 20px;
+  border: 1px solid white;
+}
+
+.mk_accordion_header > div {
+  border-radius: 20px;
+  min-width: 2rem;
+  justify-content: center;
+  margin: 0;
+}
+
+.mk_accordion_header > div > span {
+  font-size: .75em;
+  text-transform: capitalize;
+}
+
+#fanbies .mk_accordion_content {
+  background-color: white;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+  padding-bottom: 5px;
+}
+
 .inputSearch:focus {
   outline: none !important;
   box-shadow: 0 0 10px #adb5bd;
@@ -161,3 +209,14 @@ html,
     display: none !important;
   }
 }
+
+/* "default",
+    "white",
+    "primary",
+    "secondary",
+    "info",
+    "success",
+    "warning",
+    "error",
+    "light",
+    "dark", */
