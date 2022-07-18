@@ -59,6 +59,7 @@ export default function App() {
       rand_: 0,
       remarks: "",
       slots: 0,
+      theme: "DEFAULT",
       username: "",
       usertype: 0,
       video_message_fee: 0,

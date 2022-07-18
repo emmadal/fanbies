@@ -16,6 +16,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
+import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 
 // form validation with Formik
 import { useFormik } from "formik";
@@ -392,6 +393,7 @@ const Profile = () => {
               mt={2}
               sx={{ cursor: "pointer" }}
               onClick={() => changeTheme(item?.mode)}
+              position="relative"
             >
               <MKBox
                 sx={{
@@ -400,7 +402,15 @@ const Profile = () => {
                   height: 170,
                   width: 120,
                 }}
-              />
+              >
+                {state?.userProfile?.theme === item?.mode ? (
+                  <CheckCircleOutlinedIcon
+                    fontSize="medium"
+                    color="success"
+                    sx={{ top: 5, right: 5, position: "absolute" }}
+                  />
+                ) : null}
+              </MKBox>
               <MKTypography fontWeight="bold" textAlign="center" variant="body2" mt={1}>
                 {item?.label}
               </MKTypography>
