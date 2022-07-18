@@ -33,6 +33,9 @@ import { reorder } from "components/Draggable/helpers";
 import { removeProfilePicture, getCookie, uploadProfilePicture, updateUserProfile } from "api";
 import { defaultProfilePic } from "utils";
 
+// appearance color
+import appearance from "assets/theme/appearance";
+
 const Profile = () => {
   const { state, dispatch } = useContext(AuthContext);
   const { socialMediaLinks, setSocialMediaLinks } = useContext(SocialMediaContext);
@@ -46,10 +49,7 @@ const Profile = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [popno, setPopno] = useState(-1);
   const ref = useRef();
-  const appearance = [
-    { mode: "LIGHT", backgroundColor: "#f0f2f5", label: "Light Mode" },
-    { mode: "DEFAULT", backgroundColor: "#263238", label: "Dark Mode" },
-  ];
+
   // For Demo only; please remove later
   // const socialLinks = localStorage.getItem("fanbies-social-links");
   // console.log("appDefinedLinks", socialLinks);
@@ -151,10 +151,17 @@ const Profile = () => {
   const changeTheme = async (theme) => {
     const jtoken = getCookie("fanbies-token");
     const { name, email, bio } = state?.userProfile;
-    const res = await updateUserProfile({ name, useremail: email, bio, theme, jtoken });
+    const res = await updateUserProfile({
+      name,
+      useremail: email,
+      bio,
+      theme: theme?.mode,
+      jtoken,
+    });
     if (res.success) {
       dispatch.getDetails(res.response);
-      dispatch.changeTheme(theme);
+      dispatch.changeTheme(theme?.mode);
+      localStorage.setItem("FANBIES_THEME", JSON.stringify({ ...theme }));
       reFreshIFrame();
     }
   };
@@ -392,7 +399,7 @@ const Profile = () => {
               mb={2}
               mt={2}
               sx={{ cursor: "pointer" }}
-              onClick={() => changeTheme(item?.mode)}
+              onClick={() => changeTheme(item)}
               position="relative"
             >
               <MKBox

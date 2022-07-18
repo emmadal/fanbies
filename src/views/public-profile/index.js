@@ -1,25 +1,29 @@
-import { useContext, useCallback, useEffect, useState } from "react";
+import { useContext, useCallback, useEffect, useState, useMemo } from "react";
+
 // react-router components
 import { useParams } from "react-router-dom";
 
 import MKBox from "components/MKBox";
 import MKAvatar from "components/MKAvatar";
 import MKTypography from "components/MKTypography";
-import MKButton from "components/MKButton";
 import MKProgressAccordion from "components/MKProgressAccordion";
 import MKSpinner from "components/MKSpinner";
+import rgba from "assets/theme/functions/rgba";
+
+// Assets colors
 import dark from "assets/theme/custom-colors/dark";
 import colors from "assets/theme/base/colors";
-import rgba from "assets/theme/functions/rgba";
+import sky from "assets/theme/custom-colors/sky";
 
 // api call
 import { getUserProfile, getCookie } from "api";
 
+// @mui material components
+import { styled } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+
 // context
 import AuthContext from "context/AuthContext";
-
-const { background } = colors;
-const { dark: darkColor } = dark;
 
 function PublicProfile() {
   const { state, dispatch } = useContext(AuthContext);
@@ -28,6 +32,7 @@ function PublicProfile() {
   const username = params?.username;
   const [isLoading, setLoading] = useState(true);
   const [publicProfile, setPublicProfile] = useState({});
+  const [style, setStyle] = useState({});
 
   const getUserDetails = useCallback(async () => {
     setLoading(true);
@@ -45,6 +50,8 @@ function PublicProfile() {
     return () => null;
   }, []);
 
+  useMemo(() => setStyle(JSON.parse(localStorage.getItem("FANBIES_THEME"))), []);
+
   const videoRequestButton = () => (
     <MKProgressAccordion
       title="Book video message"
@@ -56,14 +63,31 @@ function PublicProfile() {
       getUserDetails={getUserDetails}
     />
   );
+
+  const CustomButtom = styled(Button)(() => ({
+    color: style?.textColor,
+    backgroundColor: style?.transparent ? "transparent" : style?.backgroundColor,
+    borderRadius: 20,
+    padding: 15,
+    width: "50%",
+    borderColor: style?.textColor,
+    "&:hover": {
+      backgroundColor: style?.textColor,
+      color: style?.backgroundColor,
+      borderColor: style?.textColor,
+    },
+  }));
+
   const getTheme = (theme) => {
     switch (theme) {
       case "DARK":
-        return rgba(darkColor?.background, 1);
+        return rgba(dark.dark?.background, 1);
       case "LIGHT":
-        return rgba(background?.default, 1);
+        return rgba(colors.background?.default, 1);
+      case "SKY":
+        return rgba(sky.sky?.background, 0.9);
       default:
-        return rgba(darkColor?.background, 1);
+        return rgba(dark.dark?.background, 1);
     }
   };
 
@@ -72,7 +96,7 @@ function PublicProfile() {
       ?.filter((i) => i.visible)
       .sort((prev, next) => prev?.link_order - next?.link_order)
       .map((i) => (
-        <MKButton
+        <CustomButtom
           key={i.id}
           mb={3}
           component="a"
@@ -80,23 +104,16 @@ function PublicProfile() {
           target="_blank"
           rel="noreferrer"
           variant="outlined"
-          color={state?.userProfile?.theme === "DEFAULT" ? "white" : "primary"}
           fullWidth
           size="large"
-          circular
           className="link_btn"
         >
           {i.title}
-        </MKButton>
+        </CustomButtom>
       ));
     if (!links.length)
       return (
-        <MKTypography
-          my={3}
-          variant="h6"
-          fontWeight="bold"
-          color={state?.userProfile?.theme === "DEFAULT" ? "white" : "dark"}
-        >
+        <MKTypography my={3} variant="h6" fontWeight="bold">
           No active links at the moment.
         </MKTypography>
       );
@@ -122,23 +139,14 @@ function PublicProfile() {
             <MKAvatar variant="circular" size="xxl" src={`${state.userProfile?.picture}`} />
           </MKBox>
           <MKBox textAlign="center" mx={2}>
-            <MKTypography
-              variant="h5"
-              fontWeight="bold"
-              color={state?.userProfile?.theme === "DEFAULT" ? "white" : "dark"}
-            >
+            <MKTypography variant="h4" fontWeight="bold" color={style?.textColor}>
               @{state.userProfile?.username}
             </MKTypography>
-            <MKTypography
-              variant="caption"
-              color={state?.userProfile?.theme === "DEFAULT" ? "white" : "dark"}
-            >
+            <MKTypography variant="button" color={style?.textColor}>
               {state.userProfile?.name ?? ""}
             </MKTypography>
-            <MKTypography
-              variant="caption"
-              color={state?.userProfile?.theme === "DEFAULT" ? "white" : "dark"}
-            >
+            <br />
+            <MKTypography variant="body2" color={style?.textColor}>
               {state.userProfile?.bio ?? ""}
             </MKTypography>
             {publicProfile?.active >= 1 &&
@@ -146,8 +154,8 @@ function PublicProfile() {
             publicProfile?.slots >= 1
               ? videoRequestButton()
               : null}
-            {profileLinks(state.userProfile?.custom_links)}
           </MKBox>
+          {profileLinks(state.userProfile?.custom_links)}
         </>
       )}
     </MKBox>

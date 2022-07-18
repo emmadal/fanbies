@@ -20,6 +20,7 @@ Coded by www.creative-tim.com
 // Material Kit 2 PRO React base styles
 import colors from "assets/theme/base/colors";
 import dark from "assets/theme/custom-colors/dark";
+import sky from "assets/theme/custom-colors/sky";
 import breakpoints from "assets/theme/base/breakpoints";
 import typography from "assets/theme/base/typography";
 import boxShadows from "assets/theme/base/boxShadows";
@@ -161,5 +162,10 @@ export const LightTheme = {
 
 export const DarkTheme = {
   palette: { ...dark },
+  ...LightTheme,
+};
+
+export const SkyTheme = {
+  palette: { ...sky },
   ...LightTheme,
 };

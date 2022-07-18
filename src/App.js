@@ -12,7 +12,7 @@ import SocialMediaContext from "context/SocialMediaContext";
 
 // api call
 import { getCookie, getInAppConfig } from "api";
-import { DarkTheme, LightTheme } from "assets/theme";
+import { DarkTheme, LightTheme, SkyTheme } from "assets/theme";
 import indexRoutes from "pageRoutes";
 import "./App.css";
 
@@ -248,8 +248,16 @@ export default function App() {
     r.map((prop) => <Route exact path={prop.route} key={prop.name} element={prop.component} />);
 
   const theme = useMemo(() => {
-    const color = state?.userProfile?.theme === "DEFAULT" ? DarkTheme : LightTheme;
-    return createTheme({ ...color });
+    switch (state?.userProfile?.theme) {
+      case "LIGHT":
+        return createTheme({ ...LightTheme });
+      case "SKY":
+        return createTheme({ ...SkyTheme });
+      case "DEFAULT":
+        return createTheme({ ...DarkTheme });
+      default:
+        return createTheme({ ...DarkTheme });
+    }
   }, [state?.userProfile?.theme]);
 
   return (
