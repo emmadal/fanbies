@@ -2,6 +2,7 @@ import { useEffect, useState, useReducer, useMemo } from "react";
 
 // react-router components
 import { Route, useLocation, Routes, useNavigate } from "react-router-dom";
+
 // @mui material components
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,9 +13,13 @@ import SocialMediaContext from "context/SocialMediaContext";
 
 // api call
 import { getCookie, getInAppConfig } from "api";
-import { DarkTheme, LightTheme, SkyTheme } from "assets/theme";
+
+// routes
 import indexRoutes from "pageRoutes";
 import "./App.css";
+
+// Themes app
+import { DarkTheme, LightTheme, SkyTheme, BlurTheme } from "assets/theme";
 
 // fake data
 import social from "data";
@@ -255,6 +260,8 @@ export default function App() {
         return createTheme({ ...SkyTheme });
       case "DEFAULT":
         return createTheme({ ...DarkTheme });
+      case "BLURED":
+        return createTheme({ ...BlurTheme });
       default:
         return createTheme({ ...DarkTheme });
     }

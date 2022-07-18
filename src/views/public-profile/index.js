@@ -66,28 +66,37 @@ function PublicProfile() {
 
   const CustomButtom = styled(Button)(() => ({
     color: style?.textColor,
-    backgroundColor: style?.transparent ? "transparent" : style?.backgroundColor,
+    backgroundColor: style?.backgroundColor ?? "transparent",
     borderRadius: 20,
     padding: 15,
     width: "50%",
-    borderColor: style?.textColor,
+    borderColor: style?.textColor ?? style?.backgroundColor,
     "&:hover": {
-      backgroundColor: style?.textColor,
-      color: style?.backgroundColor,
-      borderColor: style?.textColor,
+      backgroundColor: style?.textColor ?? style?.backgroundColor,
+      color: style?.textColor ?? "#ffffff",
+      borderColor: style?.textColor ?? style?.backgroundColor,
     },
   }));
 
   const getTheme = (theme) => {
     switch (theme) {
       case "DARK":
-        return rgba(dark.dark?.background, 1);
+        return { backgroundColor: dark.dark?.background };
       case "LIGHT":
-        return rgba(colors.background?.default, 1);
+        return { backgroundColor: colors.background?.default };
       case "SKY":
-        return rgba(sky.sky?.background, 0.9);
+        return { backgroundColor: rgba(sky.sky?.background, 0.9) };
+      case "BLURED":
+        return {
+          backgroundImage: `url(${state?.userProfile?.picture})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          boxShadow: "inset 0 0 0 50vw rgba(0, 0, 0, 0.8)",
+          // filter: "blur(47px)",
+        };
       default:
-        return rgba(dark.dark?.background, 1);
+        return { backgroundColor: dark.dark?.background };
     }
   };
 
@@ -122,42 +131,43 @@ function PublicProfile() {
   };
 
   return (
-    <MKBox
-      width="100%"
-      height="100vh"
-      sx={{ backgroundColor: getTheme(state?.userProfile?.theme) }}
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      flexDirection="column"
-    >
-      {isLoading ? (
-        <MKSpinner color="white" size={50} />
-      ) : (
-        <>
-          <MKBox mb={1}>
-            <MKAvatar variant="circular" size="xxl" src={`${state.userProfile?.picture}`} />
-          </MKBox>
-          <MKBox textAlign="center" mx={2}>
-            <MKTypography variant="h4" fontWeight="bold" color={style?.textColor}>
-              @{state.userProfile?.username}
-            </MKTypography>
-            <MKTypography variant="button" color={style?.textColor}>
-              {state.userProfile?.name ?? ""}
-            </MKTypography>
-            <br />
-            <MKTypography variant="body2" color={style?.textColor}>
-              {state.userProfile?.bio ?? ""}
-            </MKTypography>
-            {publicProfile?.active >= 1 &&
-            publicProfile?.video_message_status &&
-            publicProfile?.slots >= 1
-              ? videoRequestButton()
-              : null}
-          </MKBox>
-          {profileLinks(state.userProfile?.custom_links)}
-        </>
-      )}
+    <MKBox sx={getTheme(state?.userProfile?.theme)}>
+      <MKBox
+        width="100%"
+        height="100vh"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        flexDirection="column"
+      >
+        {isLoading ? (
+          <MKSpinner color="white" size={50} />
+        ) : (
+          <>
+            <MKBox mb={1}>
+              <MKAvatar variant="circular" size="xxl" src={`${state.userProfile?.picture}`} />
+            </MKBox>
+            <MKBox textAlign="center" mx={2}>
+              <MKTypography variant="h4" fontWeight="bold" color={style?.textColor ?? "light"}>
+                @{state.userProfile?.username}
+              </MKTypography>
+              <MKTypography variant="button" color={style?.textColor ?? "light"}>
+                {state.userProfile?.name ?? ""}
+              </MKTypography>
+              <br />
+              <MKTypography variant="body2" color={style?.textColor ?? "light"}>
+                {state.userProfile?.bio ?? ""}
+              </MKTypography>
+              {publicProfile?.active >= 1 &&
+              publicProfile?.video_message_status &&
+              publicProfile?.slots >= 1
+                ? videoRequestButton()
+                : null}
+            </MKBox>
+            {profileLinks(state.userProfile?.custom_links)}
+          </>
+        )}
+      </MKBox>
     </MKBox>
   );
 }

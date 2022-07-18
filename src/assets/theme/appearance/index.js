@@ -5,7 +5,7 @@ const appearance = [
     label: "Light Mode",
     textColor: "dark",
     borderColor: "white",
-    transparent: false,
+    transparent: true,
   },
   {
     mode: "DEFAULT",
@@ -13,7 +13,7 @@ const appearance = [
     label: "Dark Mode",
     textColor: "white",
     borderColor: "#263238",
-    transparent: false,
+    transparent: true,
   },
   {
     mode: "SKY",
@@ -22,6 +22,15 @@ const appearance = [
     textColor: "white",
     borderColor: "white",
     transparent: true,
+  },
+  {
+    mode: "BLURED",
+    label: "Image Overlay",
+    borderColor: "#000000",
+    backgroundColor: "#000000",
+    transparent: false,
+    backgroundImage:
+      "https://fanbiesapp.s3.eu-west-2.amazonaws.com/2019-03-13/1552479858884_209.png",
   },
 ];
 export default appearance;

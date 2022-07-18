@@ -21,6 +21,7 @@ Coded by www.creative-tim.com
 import colors from "assets/theme/base/colors";
 import dark from "assets/theme/custom-colors/dark";
 import sky from "assets/theme/custom-colors/sky";
+import blured from "assets/theme/custom-colors/blured";
 import breakpoints from "assets/theme/base/breakpoints";
 import typography from "assets/theme/base/typography";
 import boxShadows from "assets/theme/base/boxShadows";
@@ -167,5 +168,10 @@ export const DarkTheme = {
 
 export const SkyTheme = {
   palette: { ...sky },
+  ...LightTheme,
+};
+
+export const BlurTheme = {
+  palette: { ...blured },
   ...LightTheme,
 };
