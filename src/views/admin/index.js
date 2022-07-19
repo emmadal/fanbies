@@ -61,7 +61,13 @@ function Admin() {
             }}
             className="dashboard_preview_panel"
           >
-            <MKBox display="flex" flexDirection="column" justifyContent="center" textAlign="center">
+            <MKBox
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              textAlign="center"
+              position="fixed"
+            >
               <MKTypography
                 mb={2}
                 fontWeight="bold"

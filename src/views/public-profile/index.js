@@ -73,7 +73,7 @@ function PublicProfile() {
     borderColor: style?.textColor ?? style?.backgroundColor,
     "&:hover": {
       backgroundColor: style?.textColor ?? style?.backgroundColor,
-      color: style?.textColor ?? "#ffffff",
+      color: style?.textHovered,
       borderColor: style?.textColor ?? style?.backgroundColor,
     },
   }));
