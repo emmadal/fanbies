@@ -16,6 +16,7 @@ import dark from "assets/theme/custom-colors/dark";
 import colors from "assets/theme/base/colors";
 import sky from "assets/theme/custom-colors/sky";
 import sunset from "assets/theme/custom-colors/sunset";
+import nature from "assets/theme/custom-colors/nature";
 
 // api call
 import { getUserProfile, getCookie } from "api";
@@ -100,6 +101,8 @@ function PublicProfile() {
         };
       case "SUNSET":
         return { backgroundColor: sunset?.sunset?.background };
+      case "NATURE":
+        return { backgroundColor: nature?.nature?.background };
       default:
         return { backgroundColor: dark.dark?.background };
     }

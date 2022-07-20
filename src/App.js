@@ -19,7 +19,7 @@ import indexRoutes from "pageRoutes";
 import "./App.css";
 
 // Themes app
-import { DarkTheme, LightTheme, SkyTheme, BlurTheme, SunsetTheme } from "assets/theme";
+import { DarkTheme, LightTheme, SkyTheme, BlurTheme, SunsetTheme, NatureTheme } from "assets/theme";
 
 // fake data
 import social from "data";
@@ -264,6 +264,8 @@ export default function App() {
         return createTheme({ ...BlurTheme });
       case "SUNSET":
         return createTheme({ ...SunsetTheme });
+      case "NATURE":
+        return createTheme({ ...NatureTheme });
       default:
         return createTheme({ ...DarkTheme });
     }

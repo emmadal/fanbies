@@ -50,5 +50,15 @@ const appearance = [
     btnHovered: "#ffeee2",
     transparent: true,
   },
+  {
+    mode: "NATURE",
+    backgroundColor: "#e0faee",
+    label: "NATURE Mode",
+    textColor: "#000000",
+    textHovered: "#000000",
+    borderColor: "#b3c8be",
+    btnHovered: "#e0faee",
+    transparent: true,
+  },
 ];
 export default appearance;
