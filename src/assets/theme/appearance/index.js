@@ -87,5 +87,16 @@ const appearance = [
     btnHovered: "#ffffff",
     transparent: true,
   },
+  {
+    mode: "MINERAL",
+    backgroundColor: "#fff8e0",
+    btnBackground: "transparent",
+    label: "MINERAL Mode",
+    textColor: "#000000",
+    textHovered: "#000000",
+    borderColor: "#ccc6b3",
+    btnHovered: "transparent",
+    transparent: true,
+  },
 ];
 export default appearance;

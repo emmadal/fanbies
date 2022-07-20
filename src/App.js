@@ -28,6 +28,7 @@ import {
   NatureTheme,
   SnowTheme,
   CheeseTheme,
+  MineralTheme,
 } from "assets/theme";
 
 // fake data
@@ -279,6 +280,8 @@ export default function App() {
         return createTheme({ ...SnowTheme });
       case "CHEESE":
         return createTheme({ ...CheeseTheme });
+      case "MINERAL":
+        return createTheme({ ...MineralTheme });
       default:
         return createTheme({ ...DarkTheme });
     }

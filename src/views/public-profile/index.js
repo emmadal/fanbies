@@ -19,6 +19,7 @@ import sunset from "assets/theme/custom-colors/sunset";
 import nature from "assets/theme/custom-colors/nature";
 import snow from "assets/theme/custom-colors/snow";
 import cheese from "assets/theme/custom-colors/cheese";
+import mineral from "assets/theme/custom-colors/mineral";
 
 // api call
 import { getUserProfile, getCookie } from "api";
@@ -109,6 +110,8 @@ function PublicProfile() {
         return { backgroundColor: snow?.snow?.background };
       case "CHEESE":
         return { backgroundColor: cheese?.cheese?.background };
+      case "MINERAL":
+        return { backgroundColor: mineral?.mineral?.background };
       default:
         return { backgroundColor: dark.dark?.background };
     }
