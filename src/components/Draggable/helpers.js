@@ -1,4 +1,4 @@
-import { updateCustomLink, getCookie } from "api";
+import { updateCustomLinksItem, getCookie } from "api";
 
 const jtoken = getCookie("fanbies-token");
 
@@ -15,7 +15,7 @@ export const reorder = (list, startIndex, endIndex) => {
       const { link_order, ...rest } = obj;
       const newObj = { ...rest, link_order: i };
       // eslint-disable-next-line no-loop-func
-      updateCustomLink(jtoken, newObj).then(() => {});
+      updateCustomLinksItem(jtoken, newObj).then(() => {});
     }
   }
   return result;

@@ -310,7 +310,7 @@ export const deleteCustomLink = (data) =>
 /*
  Update custom link
 */
-export const updateCustomLink = (jtoken, item) =>
+export const updateCustomLinksItem = (jtoken, item) =>
   new Promise((resolve, reject) => {
     const params = {
       method: "POST",

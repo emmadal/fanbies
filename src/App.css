@@ -209,13 +209,8 @@ html,
     display: none !important;
   }
 }
-.blur {
-	  /* backdrop-filter: blur(25px); blur effect to the backdrop */
-    filter: blur(25px);
-    z-index: 1;
-	}
 .unblur{
-  filter: blur(0px)
+  backdrop-filter: blur(30px);
 }
 /* "default",
     "white",

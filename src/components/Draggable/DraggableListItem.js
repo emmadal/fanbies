@@ -47,7 +47,7 @@ const DraggableListItem = ({
     iframeEle.contentWindow.location.reload();
   };
 
-  const handleChange = (event) => {
+  const handleChange = async (event) => {
     if (state.userProfile?.custom_links[index] === item && currLinkId === index) {
       const { target } = event;
       const value = target.type === "checkbox" ? target.checked : target.value;
@@ -58,7 +58,7 @@ const DraggableListItem = ({
 
       // Create a new custom link
       if (target.checked && regex.url.test(linkForm?.link_ref) && linkForm?.title.length >= 3) {
-        const newLink = createCustomLink({
+        const newLink = await createCustomLink({
           jtoken,
           linktitle: linkForm?.title,
           linkref: linkForm?.link_ref,

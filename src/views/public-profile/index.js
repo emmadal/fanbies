@@ -1,4 +1,4 @@
-import { useContext, useCallback, useEffect, useState, useMemo } from "react";
+import { useCallback, useEffect, useState, useMemo } from "react";
 
 // react-router components
 import { useParams } from "react-router-dom";
@@ -28,11 +28,7 @@ import { getUserProfile, getCookie } from "api";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 
-// context
-import AuthContext from "context/AuthContext";
-
 function PublicProfile() {
-  const { state, dispatch } = useContext(AuthContext);
   const params = useParams();
   const jtoken = getCookie("fanbies-token");
   const username = params?.username;
@@ -49,7 +45,7 @@ function PublicProfile() {
       setPublicProfile({ ...response });
       setLoading(false);
     }
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     getUserDetails();
@@ -95,7 +91,7 @@ function PublicProfile() {
         return { backgroundColor: rgba(sky.sky?.background, 0.9) };
       case "OVERLAY":
         return {
-          backgroundImage: `url(${state?.userProfile?.picture})`,
+          backgroundImage: `url(${publicProfile?.picture})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -113,11 +109,11 @@ function PublicProfile() {
         return { backgroundColor: mineral?.mineral?.background };
       case "BLURED":
         return {
-          background: `url(${state?.userProfile?.picture})`,
+          background: `url(${publicProfile?.picture})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          filter: "blur(30px)",
+          // filter: "blur(30px)",
           height: "100%",
         };
       default:
@@ -128,7 +124,6 @@ function PublicProfile() {
   const profileLinks = (items) => {
     const links = items
       ?.filter((i) => i.visible)
-      .sort((prev, next) => prev?.link_order - next?.link_order)
       .map((i) => (
         <CustomButton
           key={i.id}
@@ -156,10 +151,10 @@ function PublicProfile() {
   };
 
   return (
-    <MKBox sx={getTheme(state?.userProfile?.theme)}>
+    <MKBox sx={getTheme(publicProfile?.theme)}>
       <MKBox
         width="100%"
-        className={style?.isBlur ? "unblur" : ""}
+        className={style?.isBlur && "unblur"}
         height="100vh"
         display="flex"
         justifyContent="center"
@@ -171,18 +166,18 @@ function PublicProfile() {
         ) : (
           <>
             <MKBox mb={1}>
-              <MKAvatar variant="circular" size="xxl" src={`${state.userProfile?.picture}`} />
+              <MKAvatar variant="circular" size="xxl" src={`${publicProfile?.picture}`} />
             </MKBox>
             <MKBox textAlign="center" mx={2}>
               <MKTypography variant="h4" fontWeight="bold" sx={{ color: style?.textColor }}>
-                @{state.userProfile?.username}
+                @{publicProfile?.username}
               </MKTypography>
               <MKTypography variant="button" sx={{ color: style?.textColor }}>
-                {state.userProfile?.name ?? ""}
+                {publicProfile?.name ?? ""}
               </MKTypography>
               <br />
               <MKTypography variant="body2" sx={{ color: style?.textColor }}>
-                {state.userProfile?.bio ?? ""}
+                {publicProfile?.bio ?? ""}
               </MKTypography>
               {publicProfile?.active >= 1 &&
               publicProfile?.video_message_status &&
@@ -190,11 +185,11 @@ function PublicProfile() {
                 ? videoRequestButton()
                 : null}
             </MKBox>
-            {profileLinks(state.userProfile?.custom_links)}
+            {profileLinks(publicProfile?.custom_links)}
           </>
         )}
+        <FooterLogoTxt dark={false} />
       </MKBox>
-      <FooterLogoTxt dark={false} />
     </MKBox>
   );
 }
