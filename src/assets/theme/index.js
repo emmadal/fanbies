@@ -24,6 +24,7 @@ import sky from "assets/theme/custom-colors/sky";
 import blured from "assets/theme/custom-colors/blured";
 import sunset from "assets/theme/custom-colors/sunset";
 import nature from "assets/theme/custom-colors/nature";
+import snow from "assets/theme/custom-colors/snow";
 import breakpoints from "assets/theme/base/breakpoints";
 import typography from "assets/theme/base/typography";
 import boxShadows from "assets/theme/base/boxShadows";
@@ -185,5 +186,10 @@ export const SunsetTheme = {
 
 export const NatureTheme = {
   palette: { ...nature },
+  ...LightTheme,
+};
+
+export const SnowTheme = {
+  palette: { ...snow },
   ...LightTheme,
 };

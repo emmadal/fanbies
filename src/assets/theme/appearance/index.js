@@ -2,6 +2,7 @@ const appearance = [
   {
     mode: "LIGHT",
     backgroundColor: "#f0f2f5",
+    btnBackground: "tansparent",
     label: "Light Mode",
     textColor: "#000000",
     textHovered: "#000000",
@@ -12,6 +13,7 @@ const appearance = [
   {
     mode: "DEFAULT",
     backgroundColor: "#000000",
+    btnBackground: "#000000",
     label: "Dark Mode",
     textColor: "white",
     textHovered: "white",
@@ -22,6 +24,7 @@ const appearance = [
   {
     mode: "SKY",
     backgroundColor: "#74b9ff",
+    btnBackground: "transparent",
     label: "SKY Mode",
     textColor: "white",
     textHovered: "#74b9ff",
@@ -43,6 +46,7 @@ const appearance = [
   {
     mode: "SUNSET",
     backgroundColor: "#ffeee2",
+    btnBackground: "transparent",
     label: "SUNSET Mode",
     textColor: "#000000",
     textHovered: "#000000",
@@ -53,11 +57,23 @@ const appearance = [
   {
     mode: "NATURE",
     backgroundColor: "#e0faee",
+    btnBackground: "transparent",
     label: "NATURE Mode",
     textColor: "#000000",
     textHovered: "#000000",
     borderColor: "#b3c8be",
     btnHovered: "#e0faee",
+    transparent: true,
+  },
+  {
+    mode: "SNOW",
+    backgroundColor: "#ffffff",
+    btnBackground: "#000000",
+    label: "SNOW Mode",
+    textColor: "#ffffff",
+    textHovered: "#ffffff",
+    borderColor: "#000000",
+    btnHovered: "black",
     transparent: true,
   },
 ];

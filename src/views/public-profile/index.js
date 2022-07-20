@@ -17,6 +17,7 @@ import colors from "assets/theme/base/colors";
 import sky from "assets/theme/custom-colors/sky";
 import sunset from "assets/theme/custom-colors/sunset";
 import nature from "assets/theme/custom-colors/nature";
+import snow from "assets/theme/custom-colors/snow";
 
 // api call
 import { getUserProfile, getCookie } from "api";
@@ -69,7 +70,7 @@ function PublicProfile() {
 
   const CustomButtom = styled(Button)(() => ({
     color: style?.textColor,
-    backgroundColor: style?.backgroundColor ?? "transparent",
+    backgroundColor: style?.btnBackground,
     borderRadius: 45,
     borderWidth: 2,
     padding: 15,
@@ -103,6 +104,8 @@ function PublicProfile() {
         return { backgroundColor: sunset?.sunset?.background };
       case "NATURE":
         return { backgroundColor: nature?.nature?.background };
+      case "SNOW":
+        return { backgroundColor: snow?.snow?.background };
       default:
         return { backgroundColor: dark.dark?.background };
     }
