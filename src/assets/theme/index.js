@@ -14,11 +14,20 @@ Coded by www.creative-tim.com
 */
 
 // @mui material components
-import { createTheme } from "@mui/material/styles";
+// import { createTheme } from "@mui/material/styles";
 // import Fade from "@mui/material/Fade";
 
 // Material Kit 2 PRO React base styles
 import colors from "assets/theme/base/colors";
+import dark from "assets/theme/custom-colors/dark";
+import sky from "assets/theme/custom-colors/sky";
+import overlay from "assets/theme/custom-colors/overlay";
+import sunset from "assets/theme/custom-colors/sunset";
+import nature from "assets/theme/custom-colors/nature";
+import snow from "assets/theme/custom-colors/snow";
+import cheese from "assets/theme/custom-colors/cheese";
+import mineral from "assets/theme/custom-colors/mineral";
+import blured from "assets/theme/custom-colors/blured";
 import breakpoints from "assets/theme/base/breakpoints";
 import typography from "assets/theme/base/typography";
 import boxShadows from "assets/theme/base/boxShadows";
@@ -85,8 +94,7 @@ import dialogContentText from "assets/theme/components/dialog/dialogContentText"
 import dialogActions from "assets/theme/components/dialog/dialogActions";
 import swiper from "assets/theme/components/swiper";
 
-export default createTheme({
-  breakpoints: { ...breakpoints },
+export const LightTheme = {
   palette: { ...colors },
   typography: { ...typography },
   boxShadows: { ...boxShadows },
@@ -98,7 +106,6 @@ export default createTheme({
     pxToRem,
     rgba,
   },
-
   components: {
     MuiCssBaseline: {
       styleOverrides: {
@@ -157,4 +164,50 @@ export default createTheme({
     MuiDialogContentText: { ...dialogContentText },
     MuiDialogActions: { ...dialogActions },
   },
-});
+  breakpoints: { ...breakpoints },
+};
+
+export const DarkTheme = {
+  palette: { ...dark },
+  ...LightTheme,
+};
+
+export const SkyTheme = {
+  palette: { ...sky },
+  ...LightTheme,
+};
+
+export const OverlayTheme = {
+  palette: { ...overlay },
+  ...LightTheme,
+};
+
+export const SunsetTheme = {
+  palette: { ...sunset },
+  ...LightTheme,
+};
+
+export const NatureTheme = {
+  palette: { ...nature },
+  ...LightTheme,
+};
+
+export const SnowTheme = {
+  palette: { ...snow },
+  ...LightTheme,
+};
+
+export const CheeseTheme = {
+  palette: { ...cheese },
+  ...LightTheme,
+};
+
+export const MineralTheme = {
+  palette: { ...mineral },
+  ...LightTheme,
+};
+
+export const BluredTheme = {
+  palette: { ...blured },
+  ...LightTheme,
+};

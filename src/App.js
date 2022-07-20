@@ -2,8 +2,9 @@ import { useEffect, useState, useReducer, useMemo } from "react";
 
 // react-router components
 import { Route, useLocation, Routes, useNavigate } from "react-router-dom";
+
 // @mui material components
-import { ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
 // App Context
@@ -12,9 +13,24 @@ import SocialMediaContext from "context/SocialMediaContext";
 
 // api call
 import { getCookie, getInAppConfig } from "api";
-import theme from "assets/theme";
+
+// routes
 import indexRoutes from "pageRoutes";
 import "./App.css";
+
+// Themes app
+import {
+  DarkTheme,
+  LightTheme,
+  SkyTheme,
+  OverlayTheme,
+  SunsetTheme,
+  NatureTheme,
+  SnowTheme,
+  CheeseTheme,
+  MineralTheme,
+  BluredTheme,
+} from "assets/theme";
 
 // fake data
 import social from "data";
@@ -29,6 +45,7 @@ export const FANBIES_DISPATCH = {
   FETCH_INAPP_VIDEO_RATES: "FETCH_INAPP_VIDEO_RATES",
   FETCH_INAPP_SOCIAL_MEDIA: "FETCH_INAPP_SOCIAL_MEDIA",
   UPDATE_PROFILE_PICTURE: "UPDATE_PROFILE_PICTURE",
+  CHANGE_THEME: "CHANGE_THEME",
 };
 
 const fanbiesStore = "FANBIES_STORE";
@@ -58,6 +75,7 @@ export default function App() {
       rand_: 0,
       remarks: "",
       slots: 0,
+      theme: "DEFAULT",
       username: "",
       usertype: 0,
       video_message_fee: 0,
@@ -111,6 +129,11 @@ export default function App() {
           return {
             ...prevState,
             fanbiesSupportedSocials: action.payload,
+          };
+        case FANBIES_DISPATCH.CHANGE_THEME:
+          return {
+            ...prevState,
+            userProfile: { ...prevState.userProfile, theme: action.payload },
           };
         default:
           return { ...prevState };
@@ -192,6 +215,12 @@ export default function App() {
             payload: data,
           });
         },
+        changeTheme: (data) => {
+          dispatch({
+            type: FANBIES_DISPATCH.CHANGE_THEME,
+            payload: data,
+          });
+        },
       },
     }),
     [state]
@@ -233,6 +262,33 @@ export default function App() {
 
   const getAllRoutes = (r) =>
     r.map((prop) => <Route exact path={prop.route} key={prop.name} element={prop.component} />);
+
+  const theme = useMemo(() => {
+    switch (state?.userProfile?.theme) {
+      case "LIGHT":
+        return createTheme({ ...LightTheme });
+      case "SKY":
+        return createTheme({ ...SkyTheme });
+      case "DEFAULT":
+        return createTheme({ ...DarkTheme });
+      case "OVERLAY":
+        return createTheme({ ...OverlayTheme });
+      case "SUNSET":
+        return createTheme({ ...SunsetTheme });
+      case "NATURE":
+        return createTheme({ ...NatureTheme });
+      case "SNOW":
+        return createTheme({ ...SnowTheme });
+      case "CHEESE":
+        return createTheme({ ...CheeseTheme });
+      case "MINERAL":
+        return createTheme({ ...MineralTheme });
+      case "BLURED":
+        return createTheme({ ...BluredTheme });
+      default:
+        return createTheme({ ...DarkTheme });
+    }
+  }, [state?.userProfile?.theme]);
 
   return (
     <AuthContext.Provider value={authContext}>

@@ -16,6 +16,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
+import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 
 // form validation with Formik
 import { useFormik } from "formik";
@@ -32,6 +33,9 @@ import { reorder } from "components/Draggable/helpers";
 import { removeProfilePicture, getCookie, uploadProfilePicture, updateUserProfile } from "api";
 import { defaultProfilePic } from "utils";
 
+// appearance color
+import appearance from "assets/theme/appearance";
+
 const Profile = () => {
   const { state, dispatch } = useContext(AuthContext);
   const { socialMediaLinks, setSocialMediaLinks } = useContext(SocialMediaContext);
@@ -45,6 +49,7 @@ const Profile = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [popno, setPopno] = useState(-1);
   const ref = useRef();
+
   // For Demo only; please remove later
   // const socialLinks = localStorage.getItem("fanbies-social-links");
   // console.log("appDefinedLinks", socialLinks);
@@ -141,6 +146,24 @@ const Profile = () => {
   const handlePopoverClose = () => {
     setAnchorEl(null);
     setPopno(-1);
+  };
+
+  const changeTheme = async (theme) => {
+    const jtoken = getCookie("fanbies-token");
+    const { name, email, bio } = state?.userProfile;
+    const res = await updateUserProfile({
+      name,
+      useremail: email,
+      bio,
+      theme: theme?.mode,
+      jtoken,
+    });
+    if (res.success) {
+      dispatch.getDetails(res.response);
+      dispatch.changeTheme(theme?.mode);
+      localStorage.setItem("FANBIES_THEME", JSON.stringify({ ...theme }));
+      reFreshIFrame();
+    }
   };
 
   const open = Boolean(anchorEl);
@@ -351,6 +374,59 @@ const Profile = () => {
               </MKBox>
             ) : null}
           </MKBox>
+        </MKBox>
+        <MKTypography textAlign="start" mt={2} mb={1}>
+          Themes
+        </MKTypography>
+        <MKTypography textAlign="start" mb={2} variant="body2">
+          Customize your Fanbies profile. Change your app background with colours.
+        </MKTypography>
+        <MKBox
+          color="white"
+          bgColor="white"
+          borderRadius="lg"
+          shadow="lg"
+          opacity={1}
+          p={2}
+          display="flex"
+          flexDirection="row"
+          flexWrap="wrap"
+        >
+          {appearance.map((item) => (
+            <MKBox
+              key={item?.mode}
+              mx={2}
+              mb={2}
+              mt={2}
+              sx={{ cursor: "pointer" }}
+              onClick={() => changeTheme(item)}
+              position="relative"
+            >
+              <MKBox
+                sx={{
+                  backgroundColor: item.backgroundColor ?? "transparent",
+                  backgroundImage: `url(${item?.demo})` ?? "",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  borderRadius: 2,
+                  height: 170,
+                  width: 120,
+                }}
+              >
+                {state?.userProfile?.theme === item?.mode ? (
+                  <CheckCircleOutlinedIcon
+                    fontSize="medium"
+                    color="success"
+                    sx={{ top: 5, right: 5, position: "absolute" }}
+                  />
+                ) : null}
+              </MKBox>
+              <MKTypography fontWeight="bold" textAlign="center" variant="body2" mt={1}>
+                {item?.label}
+              </MKTypography>
+            </MKBox>
+          ))}
         </MKBox>
       </Grid>
     </Grid>
