@@ -21,7 +21,7 @@ Coded by www.creative-tim.com
 import colors from "assets/theme/base/colors";
 import dark from "assets/theme/custom-colors/dark";
 import sky from "assets/theme/custom-colors/sky";
-import blured from "assets/theme/custom-colors/blured";
+import overlay from "assets/theme/custom-colors/overlay";
 import sunset from "assets/theme/custom-colors/sunset";
 import nature from "assets/theme/custom-colors/nature";
 import snow from "assets/theme/custom-colors/snow";
@@ -176,8 +176,8 @@ export const SkyTheme = {
   ...LightTheme,
 };
 
-export const BlurTheme = {
-  palette: { ...blured },
+export const OverlayTheme = {
+  palette: { ...overlay },
   ...LightTheme,
 };
 

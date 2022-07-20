@@ -23,7 +23,7 @@ import {
   DarkTheme,
   LightTheme,
   SkyTheme,
-  BlurTheme,
+  OverlayTheme,
   SunsetTheme,
   NatureTheme,
   SnowTheme,
@@ -270,8 +270,8 @@ export default function App() {
         return createTheme({ ...SkyTheme });
       case "DEFAULT":
         return createTheme({ ...DarkTheme });
-      case "BLURED":
-        return createTheme({ ...BlurTheme });
+      case "OVERLAY":
+        return createTheme({ ...OverlayTheme });
       case "SUNSET":
         return createTheme({ ...SunsetTheme });
       case "NATURE":

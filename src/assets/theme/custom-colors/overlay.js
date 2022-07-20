@@ -1,5 +1,5 @@
 export default {
-  blured: {
+  overlay: {
     background: "#000000",
     focus: "#000000",
   },

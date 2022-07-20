@@ -93,14 +93,13 @@ function PublicProfile() {
         return { backgroundColor: colors.background?.default };
       case "SKY":
         return { backgroundColor: rgba(sky.sky?.background, 0.9) };
-      case "BLURED":
+      case "OVERLAY":
         return {
           backgroundImage: `url(${state?.userProfile?.picture})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           boxShadow: "inset 0 0 0 50vw rgba(0, 0, 0, 0.8)",
-          // filter: "blur(47px)",
         };
       case "SUNSET":
         return { backgroundColor: sunset?.sunset?.background };

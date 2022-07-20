@@ -33,8 +33,9 @@ const appearance = [
     transparent: true,
   },
   {
-    mode: "BLURED",
+    mode: "OVERLAY",
     label: "Image Overlay",
+    btnBackground: "#000000",
     borderColor: "#000000",
     backgroundColor: "#000000",
     textHovered: "#ffffff",
