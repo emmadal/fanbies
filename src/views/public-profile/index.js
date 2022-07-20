@@ -70,7 +70,7 @@ function PublicProfile() {
     />
   );
 
-  const CustomButtom = styled(Button)(() => ({
+  const CustomButton = styled(Button)(() => ({
     color: style?.textColor,
     backgroundColor: style?.btnBackground,
     borderRadius: 45,
@@ -111,6 +111,15 @@ function PublicProfile() {
         return { backgroundColor: cheese?.cheese?.background };
       case "MINERAL":
         return { backgroundColor: mineral?.mineral?.background };
+      case "BLURED":
+        return {
+          background: `url(${state?.userProfile?.picture})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          filter: "blur(30px)",
+          height: "100%",
+        };
       default:
         return { backgroundColor: dark.dark?.background };
     }
@@ -121,7 +130,7 @@ function PublicProfile() {
       ?.filter((i) => i.visible)
       .sort((prev, next) => prev?.link_order - next?.link_order)
       .map((i) => (
-        <CustomButtom
+        <CustomButton
           key={i.id}
           mb={3}
           component="a"
@@ -134,7 +143,7 @@ function PublicProfile() {
           className="link_btn"
         >
           {i.title}
-        </CustomButtom>
+        </CustomButton>
       ));
     if (!links.length)
       return (
@@ -150,6 +159,7 @@ function PublicProfile() {
     <MKBox sx={getTheme(state?.userProfile?.theme)}>
       <MKBox
         width="100%"
+        className={style?.isBlur ? "unblur" : ""}
         height="100vh"
         display="flex"
         justifyContent="center"
@@ -164,14 +174,14 @@ function PublicProfile() {
               <MKAvatar variant="circular" size="xxl" src={`${state.userProfile?.picture}`} />
             </MKBox>
             <MKBox textAlign="center" mx={2}>
-              <MKTypography variant="h4" fontWeight="bold" color={style?.textColor ?? "light"}>
+              <MKTypography variant="h4" fontWeight="bold" sx={{ color: style?.textColor }}>
                 @{state.userProfile?.username}
               </MKTypography>
-              <MKTypography variant="button" color={style?.textColor ?? "light"}>
+              <MKTypography variant="button" sx={{ color: style?.textColor }}>
                 {state.userProfile?.name ?? ""}
               </MKTypography>
               <br />
-              <MKTypography variant="body2" color={style?.textColor ?? "light"}>
+              <MKTypography variant="body2" sx={{ color: style?.textColor }}>
                 {state.userProfile?.bio ?? ""}
               </MKTypography>
               {publicProfile?.active >= 1 &&

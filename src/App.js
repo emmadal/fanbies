@@ -29,6 +29,7 @@ import {
   SnowTheme,
   CheeseTheme,
   MineralTheme,
+  BluredTheme,
 } from "assets/theme";
 
 // fake data
@@ -282,6 +283,8 @@ export default function App() {
         return createTheme({ ...CheeseTheme });
       case "MINERAL":
         return createTheme({ ...MineralTheme });
+      case "BLURED":
+        return createTheme({ ...BluredTheme });
       default:
         return createTheme({ ...DarkTheme });
     }

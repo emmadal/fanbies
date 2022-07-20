@@ -27,6 +27,7 @@ import nature from "assets/theme/custom-colors/nature";
 import snow from "assets/theme/custom-colors/snow";
 import cheese from "assets/theme/custom-colors/cheese";
 import mineral from "assets/theme/custom-colors/mineral";
+import blured from "assets/theme/custom-colors/blured";
 import breakpoints from "assets/theme/base/breakpoints";
 import typography from "assets/theme/base/typography";
 import boxShadows from "assets/theme/base/boxShadows";
@@ -203,5 +204,10 @@ export const CheeseTheme = {
 
 export const MineralTheme = {
   palette: { ...mineral },
+  ...LightTheme,
+};
+
+export const BluredTheme = {
+  palette: { ...blured },
   ...LightTheme,
 };

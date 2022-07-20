@@ -7,6 +7,7 @@ import skyImage from "assets/images/fanbies/demo/sky.png";
 import darkImage from "assets/images/fanbies/demo/dark.png";
 import lightImage from "assets/images/fanbies/demo/light.png";
 import overlayImage from "assets/images/fanbies/demo/overlay.png";
+import bluredImage from "assets/images/fanbies/demo/blured.png";
 
 const appearance = [
   {
@@ -18,7 +19,6 @@ const appearance = [
     textHovered: "#000000",
     borderColor: "#000000",
     btnHovered: "#f0f2f5",
-    transparent: true,
     demo: lightImage,
   },
   {
@@ -26,11 +26,10 @@ const appearance = [
     backgroundColor: "#000000",
     btnBackground: "#222222",
     label: "Dark Mode",
-    textColor: "white",
-    textHovered: "white",
+    textColor: "#ffffff",
+    textHovered: "#ffffff",
     borderColor: "#222222",
     btnHovered: "#222222",
-    transparent: true,
     demo: darkImage,
   },
   {
@@ -42,7 +41,6 @@ const appearance = [
     textHovered: "#74b9ff",
     borderColor: "#ffffff",
     btnHovered: "#ffffff",
-    transparent: true,
     demo: skyImage,
   },
   {
@@ -50,10 +48,10 @@ const appearance = [
     label: "Image Overlay",
     btnBackground: "#000000",
     borderColor: "#000000",
+    textColor: "#ffffff",
     backgroundColor: "#000000",
     textHovered: "#ffffff",
     btnHovered: "#000000",
-    transparent: false,
     backgroundImage:
       "https://fanbiesapp.s3.eu-west-2.amazonaws.com/2019-03-13/1552479858884_209.png",
     demo: overlayImage,
@@ -67,7 +65,6 @@ const appearance = [
     textHovered: "#000000",
     borderColor: "#ccbeb5",
     btnHovered: "#ffeee2",
-    transparent: true,
     demo: sunsetImage,
   },
   {
@@ -79,7 +76,6 @@ const appearance = [
     textHovered: "#000000",
     borderColor: "#b3c8be",
     btnHovered: "#e0faee",
-    transparent: true,
     demo: natureImage,
   },
   {
@@ -87,11 +83,10 @@ const appearance = [
     backgroundColor: "#ffffff",
     btnBackground: "#000000",
     label: "SNOW Mode",
-    textColor: "#ffffff",
-    textHovered: "#ffffff",
+    textColor: "white",
+    textHovered: "white",
     borderColor: "#000000",
     btnHovered: "black",
-    transparent: true,
     demo: snowImage,
   },
   {
@@ -103,7 +98,6 @@ const appearance = [
     textHovered: "#000000",
     borderColor: "#ffffff",
     btnHovered: "#ffffff",
-    transparent: true,
     demo: cheeseImage,
   },
   {
@@ -115,8 +109,19 @@ const appearance = [
     textHovered: "#000000",
     borderColor: "#ccc6b3",
     btnHovered: "transparent",
-    transparent: true,
     demo: mineraleImage,
+  },
+  {
+    mode: "BLURED",
+    backgroundColor: "#e9eaeb",
+    btnBackground: "#ffffff",
+    label: "BLURED Mode",
+    textColor: "#000000",
+    textHovered: "#000000",
+    borderColor: "#ffffff",
+    btnHovered: "#ffffff",
+    demo: bluredImage,
+    isBlur: true,
   },
 ];
 export default appearance;
