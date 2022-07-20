@@ -9,11 +9,13 @@ import MKTypography from "components/MKTypography";
 import MKProgressAccordion from "components/MKProgressAccordion";
 import MKSpinner from "components/MKSpinner";
 import rgba from "assets/theme/functions/rgba";
+import FooterLogoTxt from "components/utils/FooterLogoTxt";
 
 // Assets colors
 import dark from "assets/theme/custom-colors/dark";
 import colors from "assets/theme/base/colors";
 import sky from "assets/theme/custom-colors/sky";
+import sunset from "assets/theme/custom-colors/sunset";
 
 // api call
 import { getUserProfile, getCookie } from "api";
@@ -67,14 +69,15 @@ function PublicProfile() {
   const CustomButtom = styled(Button)(() => ({
     color: style?.textColor,
     backgroundColor: style?.backgroundColor ?? "transparent",
-    borderRadius: 20,
+    borderRadius: 45,
+    borderWidth: 2,
     padding: 15,
     width: "50%",
-    borderColor: style?.textColor ?? style?.backgroundColor,
+    borderColor: style?.borderColor,
     "&:hover": {
-      backgroundColor: style?.textColor ?? style?.backgroundColor,
+      backgroundColor: style?.btnHovered,
       color: style?.textHovered,
-      borderColor: style?.textColor ?? style?.backgroundColor,
+      borderColor: style?.borderColor,
     },
   }));
 
@@ -95,6 +98,8 @@ function PublicProfile() {
           boxShadow: "inset 0 0 0 50vw rgba(0, 0, 0, 0.8)",
           // filter: "blur(47px)",
         };
+      case "SUNSET":
+        return { backgroundColor: sunset?.sunset?.background };
       default:
         return { backgroundColor: dark.dark?.background };
     }
@@ -168,6 +173,7 @@ function PublicProfile() {
           </>
         )}
       </MKBox>
+      <FooterLogoTxt dark={false} />
     </MKBox>
   );
 }
