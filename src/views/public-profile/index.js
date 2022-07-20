@@ -18,6 +18,7 @@ import sky from "assets/theme/custom-colors/sky";
 import sunset from "assets/theme/custom-colors/sunset";
 import nature from "assets/theme/custom-colors/nature";
 import snow from "assets/theme/custom-colors/snow";
+import cheese from "assets/theme/custom-colors/cheese";
 
 // api call
 import { getUserProfile, getCookie } from "api";
@@ -106,6 +107,8 @@ function PublicProfile() {
         return { backgroundColor: nature?.nature?.background };
       case "SNOW":
         return { backgroundColor: snow?.snow?.background };
+      case "CHEESE":
+        return { backgroundColor: cheese?.cheese?.background };
       default:
         return { backgroundColor: dark.dark?.background };
     }

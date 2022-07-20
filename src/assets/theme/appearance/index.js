@@ -76,5 +76,16 @@ const appearance = [
     btnHovered: "black",
     transparent: true,
   },
+  {
+    mode: "CHEESE",
+    backgroundColor: "#ebeef1",
+    btnBackground: "#ffffff",
+    label: "CHEESE Mode",
+    textColor: "#000000",
+    textHovered: "#000000",
+    borderColor: "#ffffff",
+    btnHovered: "#ffffff",
+    transparent: true,
+  },
 ];
 export default appearance;

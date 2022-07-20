@@ -27,6 +27,7 @@ import {
   SunsetTheme,
   NatureTheme,
   SnowTheme,
+  CheeseTheme,
 } from "assets/theme";
 
 // fake data
@@ -276,6 +277,8 @@ export default function App() {
         return createTheme({ ...NatureTheme });
       case "SNOW":
         return createTheme({ ...SnowTheme });
+      case "CHEESE":
+        return createTheme({ ...CheeseTheme });
       default:
         return createTheme({ ...DarkTheme });
     }
