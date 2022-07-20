@@ -1,25 +1,37 @@
+import snowImage from "assets/images/fanbies/demo/snow.png";
+import mineraleImage from "assets/images/fanbies/demo/mineral.png";
+import natureImage from "assets/images/fanbies/demo/nature.png";
+import sunsetImage from "assets/images/fanbies/demo/sunset.png";
+import cheeseImage from "assets/images/fanbies/demo/cheese.png";
+import skyImage from "assets/images/fanbies/demo/sky.png";
+import darkImage from "assets/images/fanbies/demo/dark.png";
+import lightImage from "assets/images/fanbies/demo/light.png";
+import overlayImage from "assets/images/fanbies/demo/overlay.png";
+
 const appearance = [
   {
     mode: "LIGHT",
     backgroundColor: "#f0f2f5",
-    btnBackground: "tansparent",
+    btnBackground: "transparent",
     label: "Light Mode",
     textColor: "#000000",
     textHovered: "#000000",
     borderColor: "#000000",
     btnHovered: "#f0f2f5",
     transparent: true,
+    demo: lightImage,
   },
   {
     mode: "DEFAULT",
     backgroundColor: "#000000",
-    btnBackground: "#000000",
+    btnBackground: "#222222",
     label: "Dark Mode",
     textColor: "white",
     textHovered: "white",
     borderColor: "#222222",
     btnHovered: "#222222",
     transparent: true,
+    demo: darkImage,
   },
   {
     mode: "SKY",
@@ -31,6 +43,7 @@ const appearance = [
     borderColor: "#ffffff",
     btnHovered: "#ffffff",
     transparent: true,
+    demo: skyImage,
   },
   {
     mode: "OVERLAY",
@@ -43,6 +56,7 @@ const appearance = [
     transparent: false,
     backgroundImage:
       "https://fanbiesapp.s3.eu-west-2.amazonaws.com/2019-03-13/1552479858884_209.png",
+    demo: overlayImage,
   },
   {
     mode: "SUNSET",
@@ -54,6 +68,7 @@ const appearance = [
     borderColor: "#ccbeb5",
     btnHovered: "#ffeee2",
     transparent: true,
+    demo: sunsetImage,
   },
   {
     mode: "NATURE",
@@ -65,6 +80,7 @@ const appearance = [
     borderColor: "#b3c8be",
     btnHovered: "#e0faee",
     transparent: true,
+    demo: natureImage,
   },
   {
     mode: "SNOW",
@@ -76,6 +92,7 @@ const appearance = [
     borderColor: "#000000",
     btnHovered: "black",
     transparent: true,
+    demo: snowImage,
   },
   {
     mode: "CHEESE",
@@ -87,6 +104,7 @@ const appearance = [
     borderColor: "#ffffff",
     btnHovered: "#ffffff",
     transparent: true,
+    demo: cheeseImage,
   },
   {
     mode: "MINERAL",
@@ -98,6 +116,7 @@ const appearance = [
     borderColor: "#ccc6b3",
     btnHovered: "transparent",
     transparent: true,
+    demo: mineraleImage,
   },
 ];
 export default appearance;

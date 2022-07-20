@@ -404,15 +404,22 @@ const Profile = () => {
             >
               <MKBox
                 sx={{
+                  // backgroundColor: item.backgroundColor ?? "transparent",
+                  // backgroundImage: `url(${item?.backgroundImage})` ?? "",
+                  // backgroundSize: "cover",
+                  // backgroundPosition: "center",
+                  // backgroundRepeat: "no-repeat",
+                  // boxShadow   !item.backgroundColor || !item?.transparent
+                  //     ? "inset 0 0 0 50vw rgba(0, 0, 0, 0.8)"
+                  //     : "inset 0 0 0 0 transparent",
+                  // borderRadius: 2,
+                  // height: 170,
+                  // width: 120,
                   backgroundColor: item.backgroundColor ?? "transparent",
-                  backgroundImage: `url(${item?.backgroundImage})` ?? "",
+                  backgroundImage: `url(${item?.demo})` ?? "",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
-                  boxShadow:
-                    !item.backgroundColor || !item?.transparent
-                      ? "inset 0 0 0 50vw rgba(0, 0, 0, 0.8)"
-                      : "inset 0 0 0 0 transparent",
                   borderRadius: 2,
                   height: 170,
                   width: 120,
