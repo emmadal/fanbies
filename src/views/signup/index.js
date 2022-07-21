@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 
 // react-router-dom component
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import Card from "@mui/material/Card";
 import MKBox from "components/MKBox";
@@ -32,12 +32,14 @@ function SignUp() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { dispatch } = useContext(AuthContext);
+  const { state } = useLocation();
+  const placeholderUsername = state?.queryUsername;
 
   const validation = useFormik({
     enableReinitialize: true,
     initialValues: {
       email: "",
-      username: "",
+      username: placeholderUsername !== "" ? placeholderUsername : "",
       password: "",
       confirm_password: "",
     },
