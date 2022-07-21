@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState, useMemo } from "react";
 
 // react-router components
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 import MKBox from "components/MKBox";
 import MKAvatar from "components/MKAvatar";
@@ -33,8 +33,9 @@ function PublicProfile() {
   const jtoken = getCookie("fanbies-token");
   const username = params?.username;
   const [isLoading, setLoading] = useState(true);
-  const [publicProfile, setPublicProfile] = useState({});
+  const [publicProfile, setPublicProfile] = useState({ theme: "LIGHT", custom_links: [] });
   const [style, setStyle] = useState({});
+  const [unknownUser, setUnknownUser] = useState(false);
 
   const getUserDetails = useCallback(async () => {
     setLoading(true);
@@ -43,6 +44,9 @@ function PublicProfile() {
       const response = res.response[0];
 
       setPublicProfile({ ...response });
+      setLoading(false);
+    } else {
+      setUnknownUser(true);
       setLoading(false);
     }
   }, []);
@@ -113,7 +117,6 @@ function PublicProfile() {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          // filter: "blur(30px)",
           height: "100%",
         };
       default:
@@ -140,14 +143,65 @@ function PublicProfile() {
           {i.title}
         </CustomButton>
       ));
-    if (!links.length)
-      return (
-        <MKTypography my={3} variant="h6" fontWeight="bold">
+    return links;
+  };
+
+  const ProfileContent = () => (
+    <>
+      <MKBox mb={1}>
+        <MKAvatar variant="circular" size="xxl" src={`${publicProfile?.picture}`} />
+      </MKBox>
+      <MKBox textAlign="center" mx={2}>
+        <MKTypography variant="h4" fontWeight="bold" sx={{ color: style?.textColor }}>
+          @{publicProfile?.username}
+        </MKTypography>
+        <MKTypography variant="button" sx={{ color: style?.textColor }}>
+          {publicProfile?.name ?? ""}
+        </MKTypography>
+        <br />
+        <MKTypography variant="body2" sx={{ color: style?.textColor }}>
+          {publicProfile?.bio ?? ""}
+        </MKTypography>
+        {publicProfile?.active >= 1 &&
+        publicProfile?.video_message_status &&
+        publicProfile?.slots >= 1
+          ? videoRequestButton()
+          : null}
+      </MKBox>
+      {publicProfile?.custom_links.length ? (
+        profileLinks(publicProfile?.custom_links)
+      ) : (
+        <MKTypography my={3} sx={{ color: style?.textColor }} variant="h6" fontWeight="bold">
           No active links at the moment.
         </MKTypography>
-      );
+      )}
+    </>
+  );
 
-    return links;
+  const UnknownContent = () => (
+    <>
+      <MKBox textAlign="center" mx={2}>
+        <MKTypography variant="p">
+          Your search <b>{username}</b> is currently not a username on Fanbies.
+        </MKTypography>
+        <MKTypography variant="h6" my={3}>
+          Want this username?{" "}
+          <Link
+            state={{
+              queryUsername: username,
+            }}
+            to="/signup"
+          >
+            Sign up on Fanbies.
+          </Link>
+        </MKTypography>
+      </MKBox>
+    </>
+  );
+
+  const pageContent = () => {
+    if (unknownUser) return <UnknownContent />;
+    return <ProfileContent />;
   };
 
   return (
@@ -161,33 +215,7 @@ function PublicProfile() {
         alignItems="center"
         flexDirection="column"
       >
-        {isLoading ? (
-          <MKSpinner color="white" size={50} />
-        ) : (
-          <>
-            <MKBox mb={1}>
-              <MKAvatar variant="circular" size="xxl" src={`${publicProfile?.picture}`} />
-            </MKBox>
-            <MKBox textAlign="center" mx={2}>
-              <MKTypography variant="h4" fontWeight="bold" sx={{ color: style?.textColor }}>
-                @{publicProfile?.username}
-              </MKTypography>
-              <MKTypography variant="button" sx={{ color: style?.textColor }}>
-                {publicProfile?.name ?? ""}
-              </MKTypography>
-              <br />
-              <MKTypography variant="body2" sx={{ color: style?.textColor }}>
-                {publicProfile?.bio ?? ""}
-              </MKTypography>
-              {publicProfile?.active >= 1 &&
-              publicProfile?.video_message_status &&
-              publicProfile?.slots >= 1
-                ? videoRequestButton()
-                : null}
-            </MKBox>
-            {profileLinks(publicProfile?.custom_links)}
-          </>
-        )}
+        {isLoading ? <MKSpinner color="white" size={50} /> : pageContent()}
         <FooterLogoTxt dark={false} />
       </MKBox>
     </MKBox>
